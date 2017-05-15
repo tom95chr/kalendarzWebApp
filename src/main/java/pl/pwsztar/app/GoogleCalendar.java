@@ -1,4 +1,4 @@
-package app;
+package pl.pwsztar.app;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -48,6 +48,8 @@ public class GoogleCalendar {
     private static final List<String> SCOPES =
             Arrays.asList(CalendarScopes.CALENDAR);
 
+    private com.google.api.services.calendar.Calendar service;
+
     static {
         try {
             HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -56,6 +58,13 @@ public class GoogleCalendar {
             t.printStackTrace();
             System.exit(1);
         }
+    }
+
+    GoogleCalendar() throws IOException {
+        // Build a new authorized API client service.
+        // Note: Do not confuse this class with the
+        //   com.google.api.services.calendar.model.Calendar class.
+        service = getCalendarService();
     }
 
     /**
@@ -100,10 +109,7 @@ public class GoogleCalendar {
     }
 
     public List<Event> getAllUpcomingEvents() throws IOException {
-        // Build a new authorized API client service.
-        // Note: Do not confuse this class with the
-        //   com.google.api.services.calendar.model.Calendar class.
-        com.google.api.services.calendar.Calendar service = getCalendarService();
+
 
         // List all upcoming events from the primary calendar.
         DateTime now = new DateTime(System.currentTimeMillis());
@@ -113,104 +119,115 @@ public class GoogleCalendar {
                 .setSingleEvents(true)
                 .execute();
         List<Event> items = events.getItems();
-
         return items;
     }
 
     public void printAllUpcomingEvents(List<Event> items){
 
-        if (items.size() == 0) {
-            System.out.println("No upcoming events found.");
-        } else {
-            System.out.println("Upcoming events");
-            for (Event event : items) {
-                DateTime start = event.getStart().getDateTime();
-                if (start == null) {
-                    start = event.getStart().getDate();
-                }
+        try{
+            if (items.size() == 0) {
+                System.out.println("No upcoming events found.");
+            } else {
+                System.out.println("Upcoming events");
+                for (Event event : items) {
+                    DateTime start = event.getStart().getDateTime();
+                    if (start == null) {
+                        start = event.getStart().getDate();
+                    }
 
-                System.out.printf("eventID: "+event.getId()+"  event: "+event.getSummary() + " start "+start+ " status "+event.getStatus()+ " colour" +
-                        " "+event.getColorId()+ " location  "+event.getLocation()+ " locked? "+event.getLocked()+
-                        " visibility "+event.getVisibility()+ " transparency: " + event.getTransparency()+
-                        " timezone: "+event.getStart().getTimeZone()+"\n");
+                    System.out.printf("eventID: "+event.getId()+"  event: "+event.getSummary() +
+                            " start "+start+ "" + " status "+event.getStatus()+ " colour" + " "+event.getColorId()+
+                            " location  " +event.getLocation()+ " locked? "+event.getLocked()+ " visibility "
+                            +event.getVisibility()+ " transparency: " + event.getTransparency()+
+                            " timezone: "+event.getStart().getTimeZone()+"\n");
+                }
             }
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
-    public void createEvent(String summary, Boolean busy, String startDateTime, String endDateTime)
+    public void createEvent(String summary, String availability, String startDateTime, String endDateTime)
             throws IOException {
 
-        // Build a new authorized API client service.
-        // Note: Do not confuse this class with the
-        //   com.google.api.services.calendar.model.Calendar class.
-        com.google.api.services.calendar.Calendar service = getCalendarService();
+        try{
+            Event event = new Event()
+                    .setSummary(summary)
+                    .setLocation("Tarnów, Polska")// Tarnów, Polska
+                    .setVisibility("public"); //public
 
-        Event event = new Event()
-                .setSummary(summary)
-                .setLocation("Tarnów, Polska")// Tarnów, Polska
-                .setVisibility("public"); //public
+            //busy or free
+            event = setAvailability(event,availability);
 
-        if (busy){
-            event.setColorId("11");//10 green 11 red
-            event.setTransparency(null); // transparent or null
+            DateTime startDT = new DateTime(startDateTime);
+            EventDateTime start = new EventDateTime()
+                    .setDateTime(startDT);
+            event.setStart(start);
+
+            DateTime endDT = new DateTime(endDateTime);
+            EventDateTime end = new EventDateTime()
+                    .setDateTime(endDT);
+            event.setEnd(end);
+
+            String calendarId = "primary";
+            event = service.events().insert(calendarId, event).execute();
+            System.out.printf("Free event created: %s\n", event.getHtmlLink());
+        } catch (WrongAvailabilityException e) {
+            e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
         }
-        else{
-            event.setColorId("10");//10 green
-            event.setTransparency("transparent"); // transparent or null
-        }
-
-        DateTime startDT = new DateTime(startDateTime);
-        EventDateTime start = new EventDateTime()
-                .setDateTime(startDT);
-        event.setStart(start);
-
-        DateTime endDT = new DateTime(endDateTime);
-        EventDateTime end = new EventDateTime()
-                .setDateTime(endDT);
-        event.setEnd(end);
-
-        String calendarId = "primary";
-        event = service.events().insert(calendarId, event).execute();
-        System.out.printf("Free event created: %s\n", event.getHtmlLink());
     }
 
-/*    public void setBusy(String eventId, boolean busy) throws IOException {
+    public void updateEvent(String eventId, String availability) throws IOException {
 
-        List<Event> eventList = getAllUpcomingEvents();
+        try{
+            // Retrieve the event from the API
+            Event event = service.events().get("primary", eventId).execute();
 
-        if (eventList.size() == 0) {
-            System.out.println("No upcoming events found.");
-        } else {
-            for (Event event : eventList) {
-                if (event.getId().equals(eventId)){
+            // Here make changes
+            event = setAvailability(event,availability);
 
-                    event.setColorId(null);
-                    //event has to be busy
-*//*                    if (busy){
-                        event.setColorId("11");//10 green 11 red
-                        event.setTransparency(null); // transparent or null
-                        System.out.println("jestem w ifie");
-                    }
-                    //event has to be free
-                    else{
-                        event.setColorId("10");//10 green
-                        event.setTransparency("transparent"); // transparent or null
-                        System.out.println("jestem w elsie");
-                    }*//*
+            // Update the event
+            Event updatedEvent = service.events().update("primary", event.getId(), event).execute();
+
+            System.out.println("Event updated: "+updatedEvent);
+        } catch (WrongAvailabilityException e) {
+            e.printStackTrace();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public Event setAvailability(Event event, String availability) throws WrongAvailabilityException {
+
+        try{
+            if (availability.equalsIgnoreCase("busy")) {
+                event.setColorId("11");//10 green 11 red
+                event.setTransparency(null); // transparent or null
+                return event;
+            } else {
+                if (availability.equalsIgnoreCase("free")) {
+                    event.setColorId("10");//10 green
+                    event.setTransparency("transparent"); // transparent or null
+                    return event;
+                } else {
+                    throw new WrongAvailabilityException();
                 }
             }
+        }catch( Exception e){
+            e.printStackTrace();
+            return event;
         }
-    }*/
+    }
 
     public static void main(String[] args) throws IOException {
         GoogleCalendar gk = new GoogleCalendar();
-        gk.printAllUpcomingEvents(gk.getAllUpcomingEvents());
-        //gk.setBusy("8sq3cqqv1inh7mt3aib30i48vo",false);
-
-        //gk.createEvent("niedostepny termin 1",true,"2017-05-17T13:30:00.000+02:00","2017-05-17T14:33:00.000+02:00");
-
-
-
+        //gk.printAllUpcomingEvents(gk.getAllUpcomingEvents());
+        gk.updateEvent("fo2hlhocr6026iocj7cdov67cs","busy");
+        //gk.createEvent("dostepny termin 2 ","free","2017-05-19T13:31:20.000+02:00","2017-05-19T14:33:59.000+02:00");
     }
 
 }
