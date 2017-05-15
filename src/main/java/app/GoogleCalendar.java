@@ -1,4 +1,4 @@
-package demo;
+package app;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -24,18 +24,18 @@ import java.util.List;
 public class GoogleCalendar {
     /** Application name. */
     private static final String APPLICATION_NAME =
-        "Google Calendar API Java GoogleCalendar";
+            "Google Calendar API Java GoogleCalendar";
 
     /** Directory to store user credentials for this application. */
     private static final java.io.File DATA_STORE_DIR = new java.io.File(
-        System.getProperty("user.home"), ".credentials/calendar-java-quickstart");
+            System.getProperty("user.home"), ".credentials/calendar-java-quickstart");
 
     /** Global instance of the {@link FileDataStoreFactory}. */
     private static FileDataStoreFactory DATA_STORE_FACTORY;
 
     /** Global instance of the JSON factory. */
     private static final JsonFactory JSON_FACTORY =
-        JacksonFactory.getDefaultInstance();
+            JacksonFactory.getDefaultInstance();
 
     /** Global instance of the HTTP transport. */
     private static HttpTransport HTTP_TRANSPORT;
@@ -46,7 +46,7 @@ public class GoogleCalendar {
      * at ~/.credentials/calendar-java-quickstart
      */
     private static final List<String> SCOPES =
-        Arrays.asList(CalendarScopes.CALENDAR);
+            Arrays.asList(CalendarScopes.CALENDAR);
 
     static {
         try {
@@ -63,22 +63,23 @@ public class GoogleCalendar {
      * @return an authorized Credential object.
      * @throws IOException
      */
+
     public static Credential authorize() throws IOException {
         // Load client secrets.
         InputStream in =
-            GoogleCalendar.class.getResourceAsStream("/client_secret.json");
+                GoogleCalendar.class.getResourceAsStream("/client_secret.json");
         GoogleClientSecrets clientSecrets =
-            GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+                GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow =
                 new GoogleAuthorizationCodeFlow.Builder(
                         HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-                .setDataStoreFactory(DATA_STORE_FACTORY)
-                .setAccessType("offline")
-                .build();
+                        .setDataStoreFactory(DATA_STORE_FACTORY)
+                        .setAccessType("offline")
+                        .build();
         Credential credential = new AuthorizationCodeInstalledApp(
-            flow, new LocalServerReceiver()).authorize("user");
+                flow, new LocalServerReceiver()).authorize("user");
         System.out.println(
                 "Credentials saved to " + DATA_STORE_DIR.getAbsolutePath());
         return credential;
@@ -90,7 +91,7 @@ public class GoogleCalendar {
      * @throws IOException
      */
     public static com.google.api.services.calendar.Calendar
-        getCalendarService() throws IOException {
+    getCalendarService() throws IOException {
         Credential credential = authorize();
         return new com.google.api.services.calendar.Calendar.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, credential)
@@ -98,13 +99,13 @@ public class GoogleCalendar {
                 .build();
     }
 
-    public void printEvents() throws IOException {
+    public List<Event> getAllUpcomingEvents() throws IOException {
         // Build a new authorized API client service.
         // Note: Do not confuse this class with the
         //   com.google.api.services.calendar.model.Calendar class.
-        com.google.api.services.calendar.Calendar service =
-                getCalendarService();
-        // List the next 10 events from the primary calendar.
+        com.google.api.services.calendar.Calendar service = getCalendarService();
+
+        // List all upcoming events from the primary calendar.
         DateTime now = new DateTime(System.currentTimeMillis());
         Events events = service.events().list("primary")
                 .setTimeMin(now)
@@ -112,6 +113,12 @@ public class GoogleCalendar {
                 .setSingleEvents(true)
                 .execute();
         List<Event> items = events.getItems();
+
+        return items;
+    }
+
+    public void printAllUpcomingEvents(List<Event> items){
+
         if (items.size() == 0) {
             System.out.println("No upcoming events found.");
         } else {
@@ -122,69 +129,85 @@ public class GoogleCalendar {
                     start = event.getStart().getDate();
                 }
 
-                System.out.printf("event: "+event.getSummary() + " start "+start+ " status "+event.getStatus()+ " colour" +
+                System.out.printf("eventID: "+event.getId()+"  event: "+event.getSummary() + " start "+start+ " status "+event.getStatus()+ " colour" +
                         " "+event.getColorId()+ " location  "+event.getLocation()+ " locked? "+event.getLocked()+
-                        " visibility "+event.getVisibility()+ " transparency: " + event.getTransparency()+"\n");
+                        " visibility "+event.getVisibility()+ " transparency: " + event.getTransparency()+
+                        " timezone: "+event.getStart().getTimeZone()+"\n");
             }
         }
     }
 
-    public void createEvent(String startDate, String endDate,
-                            String summary, String location, String colour,
-                            String visibility, String transparency) throws IOException {
+    public void createEvent(String summary, Boolean busy, String startDateTime, String endDateTime)
+            throws IOException {
 
-        com.google.api.services.calendar.Calendar service =
-                getCalendarService();
+        // Build a new authorized API client service.
+        // Note: Do not confuse this class with the
+        //   com.google.api.services.calendar.model.Calendar class.
+        com.google.api.services.calendar.Calendar service = getCalendarService();
+
         Event event = new Event()
                 .setSummary(summary)
-                .setLocation(location)// Tarnów, Polska
-                //.setDescription(description) // opis
-                .setColorId(colour)//10 zielony 11 czerwony
-                .setVisibility(visibility) //public
-                .setTransparency(transparency); // transparent or null
+                .setLocation("Tarnów, Polska")// Tarnów, Polska
+                .setVisibility("public"); //public
 
+        if (busy){
+            event.setColorId("11");//10 green 11 red
+            event.setTransparency(null); // transparent or null
+        }
+        else{
+            event.setColorId("10");//10 green
+            event.setTransparency("transparent"); // transparent or null
+        }
 
-
-        DateTime startDateTime = new DateTime(startDate);
+        DateTime startDT = new DateTime(startDateTime);
         EventDateTime start = new EventDateTime()
-                .setDateTime(startDateTime)
-                .setTimeZone(location);
+                .setDateTime(startDT);
         event.setStart(start);
 
-        DateTime endDateTime = new DateTime(endDate);
+        DateTime endDT = new DateTime(endDateTime);
         EventDateTime end = new EventDateTime()
-                .setDateTime(endDateTime)
-                .setTimeZone(location);
+                .setDateTime(endDT);
         event.setEnd(end);
-/*
-        String[] recurrence = new String[] {"RRULE:FREQ=DAILY;COUNT=2"};
-        event.setRecurrence(Arrays.asList(recurrence));
-
-        EventAttendee[] attendees = new EventAttendee[] {
-                new EventAttendee().setEmail("lpage@example.com"),
-                new EventAttendee().setEmail("sbrin@example.com"),
-        };
-        event.setAttendees(Arrays.asList(attendees));
-
-       EventReminder[] reminderOverrides = new EventReminder[] {
-                new EventReminder().setMethod("email").setMinutes(24 * 60),
-                new EventReminder().setMethod("popup").setMinutes(10),
-        };
-        Event.Reminders reminders = new Event.Reminders()
-                .setUseDefault(false)
-                .setOverrides(Arrays.asList(reminderOverrides));
-        event.setReminders(reminders);*/
 
         String calendarId = "primary";
         event = service.events().insert(calendarId, event).execute();
-        System.out.printf("Event created: %s\n", event.getHtmlLink());
+        System.out.printf("Free event created: %s\n", event.getHtmlLink());
     }
+
+/*    public void setBusy(String eventId, boolean busy) throws IOException {
+
+        List<Event> eventList = getAllUpcomingEvents();
+
+        if (eventList.size() == 0) {
+            System.out.println("No upcoming events found.");
+        } else {
+            for (Event event : eventList) {
+                if (event.getId().equals(eventId)){
+
+                    event.setColorId(null);
+                    //event has to be busy
+*//*                    if (busy){
+                        event.setColorId("11");//10 green 11 red
+                        event.setTransparency(null); // transparent or null
+                        System.out.println("jestem w ifie");
+                    }
+                    //event has to be free
+                    else{
+                        event.setColorId("10");//10 green
+                        event.setTransparency("transparent"); // transparent or null
+                        System.out.println("jestem w elsie");
+                    }*//*
+                }
+            }
+        }
+    }*/
 
     public static void main(String[] args) throws IOException {
         GoogleCalendar gk = new GoogleCalendar();
-        gk.printEvents();
-        gk.createEvent("2017-06-16T22:30:00.000+02:00","2017-06-16T23:35:00.000+02:00", "dostepny termin",
-                "America/Los_Angeles", "10", "public", "transparent");
+        gk.printAllUpcomingEvents(gk.getAllUpcomingEvents());
+        //gk.setBusy("8sq3cqqv1inh7mt3aib30i48vo",false);
+
+        //gk.createEvent("niedostepny termin 1",true,"2017-05-17T13:30:00.000+02:00","2017-05-17T14:33:00.000+02:00");
 
 
 
