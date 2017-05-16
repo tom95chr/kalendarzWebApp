@@ -6,6 +6,7 @@ import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.json.JsonFactory;
@@ -261,8 +262,30 @@ public class GoogleCalendar {
         return getCalendars().get(googleCallendarName);
     }
 
+    public void createCalendar(String calendarSummary) throws IOException {
+
+            // Create a new calendar
+            com.google.api.services.calendar.model.Calendar calendar = new com.google.api.services.calendar.model.Calendar();
+            calendar.setSummary(calendarSummary);
+            calendar.setTimeZone("Europe/Warsaw");
+
+            // Insert the new calendar
+            com.google.api.services.calendar.model.Calendar createdCalendar = service.calendars().insert(calendar).execute();
+
+            System.out.println(createdCalendar.getId());
+
+    }
+
+    public void deleteCalendar(String calendarId) throws IOException {
+        // Delete a calendar
+        service.calendars().delete(calendarId).execute();
+        System.out.println("calendar "+calendarId+" removed");
+    }
+
     public static void main(String[] args) throws IOException {
         GoogleCalendar gk = new GoogleCalendar();
+        //gk.deleteCalendar("c6ttuf6f9btk6rd9a6eaivqb2k@group.calendar.google.com");
+        //gk.createCalendar("nowy");
         //gk.getGoogleCalendarId("terapeuta1");
         //gk.printAllCalendars(gk.getCalendars());
         //gk.printAllUpcomingEvents(gk.getAllUpcomingEvents(gk.getGoogleCalendarId("terapeuta2")));
