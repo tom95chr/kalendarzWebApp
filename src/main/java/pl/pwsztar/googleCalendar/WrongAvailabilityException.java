@@ -1,4 +1,4 @@
-package pl.pwsztar.app;
+package pl.pwsztar.googleCalendar;
 
 /**
  * Created by Lapek on 15.05.2017.

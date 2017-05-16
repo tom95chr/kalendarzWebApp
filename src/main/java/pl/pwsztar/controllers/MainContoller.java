@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Created by Lapek on 07.05.2017.
  */
 @Controller
-public class KotyContoller {
+public class MainContoller {
 
     @RequestMapping(value = "/")
     public String homePage() {

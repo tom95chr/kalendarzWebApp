@@ -1,4 +1,4 @@
-package pl.pwsztar.app;
+package pl.pwsztar.googleCalendar;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -12,14 +12,14 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.client.util.DateTime;
 
-import com.google.api.services.calendar.CalendarScopes;
+import com.google.api.services.calendar.*;
+import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.*;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class GoogleCalendar {
     /** Application name. */
@@ -59,6 +59,7 @@ public class GoogleCalendar {
             System.exit(1);
         }
     }
+
 
     GoogleCalendar() throws IOException {
         // Build a new authorized API client service.
@@ -108,12 +109,11 @@ public class GoogleCalendar {
                 .build();
     }
 
-    public List<Event> getAllUpcomingEvents() throws IOException {
+    public List<Event> getAllUpcomingEvents(String calendarId) throws IOException {
 
-
-        // List all upcoming events from the primary calendar.
+        // List all upcoming events from the selected calendar.
         DateTime now = new DateTime(System.currentTimeMillis());
-        Events events = service.events().list("primary")
+        Events events = service.events().list(calendarId)
                 .setTimeMin(now)
                 .setOrderBy("startTime")
                 .setSingleEvents(true)
@@ -135,9 +135,9 @@ public class GoogleCalendar {
                         start = event.getStart().getDate();
                     }
 
-                    System.out.printf("eventID: "+event.getId()+"  event: "+event.getSummary() +
+                    System.out.printf("eventID: "+event.getId()+"  summary: "+event.getSummary() +
                             " start "+start+ "" + " status "+event.getStatus()+ " colour" + " "+event.getColorId()+
-                            " location  " +event.getLocation()+ " locked? "+event.getLocked()+ " visibility "
+                            "\n\t\t location  " +event.getLocation()+ " locked? "+event.getLocked()+ " visibility "
                             +event.getVisibility()+ " transparency: " + event.getTransparency()+
                             " timezone: "+event.getStart().getTimeZone()+"\n");
                 }
@@ -180,17 +180,17 @@ public class GoogleCalendar {
         }
     }
 
-    public void updateEvent(String eventId, String availability) throws IOException {
+    public void updateEvent(String calendarId, String eventId, String availability) throws IOException {
 
         try{
             // Retrieve the event from the API
-            Event event = service.events().get("primary", eventId).execute();
+            Event event = service.events().get(calendarId, eventId).execute();
 
             // Here make changes
             event = setAvailability(event,availability);
 
             // Update the event
-            Event updatedEvent = service.events().update("primary", event.getId(), event).execute();
+            Event updatedEvent = service.events().update(calendarId, event.getId(), event).execute();
 
             System.out.println("Event updated: "+updatedEvent);
         } catch (WrongAvailabilityException e) {
@@ -223,11 +223,50 @@ public class GoogleCalendar {
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        GoogleCalendar gk = new GoogleCalendar();
-        //gk.printAllUpcomingEvents(gk.getAllUpcomingEvents());
-        gk.updateEvent("fo2hlhocr6026iocj7cdov67cs","busy");
-        //gk.createEvent("dostepny termin 2 ","free","2017-05-19T13:31:20.000+02:00","2017-05-19T14:33:59.000+02:00");
+    public HashMap<String, String> getCalendars() throws IOException {
+        HashMap<String,String> therapeutistsCalendars = new HashMap<String, String>();
+
+        // Iterate through entries in calendar list
+        String pageToken = null;
+        do {
+            CalendarList calendarList = service.calendarList().list().setPageToken(pageToken).execute();
+            List<CalendarListEntry> items = calendarList.getItems();
+
+            for (CalendarListEntry calendarListEntry : items) {
+                therapeutistsCalendars.put(calendarListEntry.getSummary(),calendarListEntry.getId());
+            }
+            pageToken = calendarList.getNextPageToken();
+        } while (pageToken != null);
+
+        return therapeutistsCalendars;
     }
 
+    public void printAllCalendars(HashMap therapeutistsCalendars){
+        Set set = therapeutistsCalendars.entrySet();
+
+        // Get an iterator
+        Iterator i = set.iterator();
+
+        System.out.println("\nAll calendars printed : ");
+        // Display elements
+        while(i.hasNext()) {
+            Map.Entry me = (Map.Entry)i.next();
+            System.out.print(me.getKey() + ": ");
+            System.out.println(me.getValue());
+        }
+    }
+
+    public String getGoogleCalendarId(String googleCallendarName) throws IOException {
+        System.out.println("\n"+googleCallendarName+" ID =  "+getCalendars().get(googleCallendarName));
+        return getCalendars().get(googleCallendarName);
+    }
+
+    public static void main(String[] args) throws IOException {
+        GoogleCalendar gk = new GoogleCalendar();
+        //gk.getGoogleCalendarId("terapeuta1");
+        //gk.printAllCalendars(gk.getCalendars());
+        //gk.printAllUpcomingEvents(gk.getAllUpcomingEvents(gk.getGoogleCalendarId("terapeuta2")));
+        //gk.updateEvent(gk.getGoogleCalendarId("terapeuta2"),"0djm9hj9344qbqgbacndeoouhk","free");
+        //gk.createEvent("dostepny termin 2 ","free","2017-05-19T13:31:20.000+02:00","2017-05-19T14:33:59.000+02:00");
+    }
 }
