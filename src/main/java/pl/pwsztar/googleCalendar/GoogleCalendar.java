@@ -199,7 +199,6 @@ public class GoogleCalendar {
         } catch(Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public Event setAvailability(Event event, String availability) throws WrongAvailabilityException {
@@ -273,7 +272,6 @@ public class GoogleCalendar {
             com.google.api.services.calendar.model.Calendar createdCalendar = service.calendars().insert(calendar).execute();
 
             System.out.println(createdCalendar.getId());
-
     }
 
     public void deleteCalendar(String calendarId) throws IOException {
@@ -288,7 +286,7 @@ public class GoogleCalendar {
         //gk.createCalendar("nowy");
         //gk.getGoogleCalendarId("terapeuta1");
         //gk.printAllCalendars(gk.getCalendars());
-        //gk.printAllUpcomingEvents(gk.getAllUpcomingEvents(gk.getGoogleCalendarId("terapeuta2")));
+        //gk.printAllUpcomingEvents(gk.getAllUpcomingEvents(gk.getGoogleCalendarId("terapeuta1")));
         //gk.updateEvent(gk.getGoogleCalendarId("terapeuta2"),"0djm9hj9344qbqgbacndeoouhk","free");
         //gk.createEvent("dostepny termin 2 ","free","2017-05-19T13:31:20.000+02:00","2017-05-19T14:33:59.000+02:00");
     }

@@ -11,9 +11,9 @@ public class Therapist {
     private String lastName;
     private String email;
     private String specialization;
+    private String description;
     private String googleCalendarId;
-    private Float visitLenght;
-    private Float pauseLenght;
+
 
     public Long getId() {
         return Id;
@@ -63,19 +63,11 @@ public class Therapist {
         this.googleCalendarId = googleCalendarId;
     }
 
-    public Float getVisitLenght() {
-        return visitLenght;
+    public String getDescription() {
+        return description;
     }
 
-    public void setVisitLenght(Float visitLenght) {
-        this.visitLenght = visitLenght;
-    }
-
-    public Float getPauseLenght() {
-        return pauseLenght;
-    }
-
-    public void setPauseLenght(Float pauseLenght) {
-        this.pauseLenght = pauseLenght;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
