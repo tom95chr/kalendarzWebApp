@@ -6,21 +6,22 @@ package pl.pwsztar.therapists;
  */
 public class Therapist {
 
-    private Long Id;
+    private Integer therapistId;
     private String firstName;
     private String lastName;
     private String email;
     private String specialization;
     private String description;
     private String googleCalendarId;
+    private String telephone;
 
 
-    public Long getId() {
-        return Id;
+    public Integer getTherapistId() {
+        return therapistId;
     }
 
-    public void setId(Long id) {
-        Id = id;
+    public void setTherapistId(Integer therapistId) {
+        this.therapistId = therapistId;
     }
 
     public String getFirstName() {
@@ -69,5 +70,13 @@ public class Therapist {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 }
