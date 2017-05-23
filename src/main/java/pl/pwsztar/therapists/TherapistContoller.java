@@ -1,23 +1,87 @@
 package pl.pwsztar.therapists;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.pwsztar.services.googleCalendar.GoogleCalendar;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.io.IOException;
 
 
 @Controller
 public class TherapistContoller {
 
+    @Autowired
+    TherapistDAO therapistDAO;
 
-    @RequestMapping(value = "/therapist1")
-    public String therapist1() {
-        return "therapist1";
-    }
+    @Autowired
+    GoogleCalendar googleCalendar;
 
-    @RequestMapping("/therapists")
-    public String therapistList(Model model) {
-        //model.addAttribute("therapists", kotDAO.findAll());
+    @RequestMapping("/")
+    public String therapistsList(Model model) {
+        model.addAttribute("therapists", therapistDAO.findAll());
         return "therapists";
     }
 
+    @RequestMapping("/therapist-{therapistId}")
+    public String szczegolyKota(HttpServletRequest request, @PathVariable("therapistId") String therapistId,
+                                Model model) {
+        model.addAttribute("therapist", therapistDAO.findByTherapistId(therapistId));
+
+        return "therapist";
+    }
+
+    @RequestMapping("therapists/add")
+    public String addTherapist(HttpServletRequest request, @ModelAttribute("therapistDto") @Valid TherapistDTO therapistDto,
+                               BindingResult result) {
+
+        if (request.getMethod().equalsIgnoreCase("post") && !result.hasErrors()) {
+            Therapist therapist = new Therapist();
+
+            therapist.setTherapistId(therapistDto.getTherapistId());
+            therapist.setFirstName(therapistDto.getFirstName());
+            therapist.setLastName(therapistDto.getLastName());
+            therapist.setSpecialization(therapistDto.getSpecialization());
+            therapist.setEmail(therapistDto.getEmail());
+            therapist.setTelephone(therapistDto.getTelephone());
+            therapist.setDescription(therapistDto.getDescription());
+
+            String googleCalendarId = "";
+
+            try {
+                if (googleCalendar.checkCalendarNameAvailability(therapist.getTherapistId())){
+                    googleCalendarId = googleCalendar.createCalendar(therapist.getTherapistId());
+                    System.out.println("New calendar created");
+                }
+                else {
+                    System.out.println("This login is already existing");
+                    return "redirect:/therapists/add";
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            therapist.setGoogleCalendarId(googleCalendarId);
+
+            System.out.println("ID: "+therapist.getTherapistId()
+                    +"\nname: "+therapist.getLastName()
+                    +"\nlast name: "+therapist.getSpecialization()
+                    +"\nemail: "+therapist.getEmail()
+                    +"\ntelephone: "+therapist.getTelephone()
+                    +"\ndescription: "+therapist.getDescription()
+                    +"\ngoogleCalendarId: "+therapist.getGoogleCalendarId()
+            );
+
+            therapistDAO.save(therapist);
+
+            return "redirect:/";
+        }
+        return "add";
+    }
 }

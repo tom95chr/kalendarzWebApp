@@ -81,5 +81,8 @@
     <orderEntry type="library" name="Maven: javax.mail:javax.mail-api:1.6.0-rc1" level="project" />
     <orderEntry type="library" name="Maven: com.sun.mail:javax.mail:1.6.0-rc1" level="project" />
     <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
+    <orderEntry type="library" name="Maven: javax.servlet:jstl:1.2" level="project" />
+    <orderEntry type="library" name="Maven: org.hibernate.validator:hibernate-validator:6.0.0.Alpha2" level="project" />
+    <orderEntry type="library" name="Maven: javax.validation:validation-api:2.0.0.Alpha2" level="project" />
   </component>
 </module>

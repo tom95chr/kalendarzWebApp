@@ -1,4 +1,4 @@
-package pl.pwsztar.googleCalendar;
+package pl.pwsztar.services.googleCalendar;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -6,7 +6,6 @@ import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.json.JsonFactory;
@@ -14,14 +13,15 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.client.util.DateTime;
 
 import com.google.api.services.calendar.*;
-import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.*;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
 
+@Service
 public class GoogleCalendar {
     /** Application name. */
     private static final String APPLICATION_NAME =
@@ -62,7 +62,7 @@ public class GoogleCalendar {
     }
 
 
-    GoogleCalendar() throws IOException {
+    public GoogleCalendar() throws IOException {
         // Build a new authorized API client service.
         // Note: Do not confuse this class with the
         //   com.google.api.services.calendar.model.Calendar class.
@@ -240,6 +240,22 @@ public class GoogleCalendar {
         return therapeutistsCalendars;
     }
 
+    public Boolean checkCalendarNameAvailability(String newCalendarName) throws IOException {
+        HashMap<String, String> hashMap = this.getCalendars();
+        Set set = hashMap.entrySet();
+
+        // Get an iterator
+        Iterator i = set.iterator();
+
+        while(i.hasNext()) {
+            Map.Entry me = (Map.Entry)i.next();
+            if (me.getKey().equals(newCalendarName)){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void printAllCalendars(HashMap therapeutistsCalendars){
         Set set = therapeutistsCalendars.entrySet();
 
@@ -260,7 +276,7 @@ public class GoogleCalendar {
         return getCalendars().get(googleCallendarName);
     }
 
-    public void createCalendar(String calendarSummary) throws IOException {
+    public String createCalendar(String calendarSummary) throws IOException {
 
             // Create a new calendar
             com.google.api.services.calendar.model.Calendar calendar = new com.google.api.services.calendar.model.Calendar();
@@ -271,6 +287,8 @@ public class GoogleCalendar {
             com.google.api.services.calendar.model.Calendar createdCalendar = service.calendars().insert(calendar).execute();
 
             System.out.println(createdCalendar.getId());
+
+            return createdCalendar.getId();
     }
 
     public void deleteCalendar(String calendarId) throws IOException {
@@ -285,8 +303,9 @@ public class GoogleCalendar {
         //gk.createCalendar("nowy");
         //gk.getGoogleCalendarId("terapeuta1");
         //gk.printAllCalendars(gk.getCalendars());
-        gk.printAllUpcomingEvents(gk.getAllUpcomingEvents(gk.getGoogleCalendarId("terapeuta1")));
+        //gk.printAllUpcomingEvents(gk.getAllUpcomingEvents(gk.getGoogleCalendarId("terapeuta1")));
         //gk.updateEvent(gk.getGoogleCalendarId("terapeuta2"),"0djm9hj9344qbqgbacndeoouhk","free");
         //gk.createEvent(gk.getGoogleCalendarId("terapeuta1"),"dostepny termin ","free","2017-05-26T13:31:20.000+02:00","2017-05-26T14:33:59.000+02:00");
+        //System.out.println(gk.checkCalendarNameAvailability("mojlogin2"));
     }
 }

@@ -23,7 +23,7 @@ public class EmailService {
 
 /*    public static void main(String[] args) {
         EmailService emailService = new EmailService();
-        emailService.sendEmail("nerq95@gmail.com","Temat maila", "Tresc miala");
+        emailService.sendEmail("nerq95@gmail.com","Temat maila2", "Tresc miala2");
 
     }*/
 

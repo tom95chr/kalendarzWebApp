@@ -1,18 +1,16 @@
 package pl.pwsztar.therapists;
 
-
 import pl.pwsztar.event.Event;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Entity
 @Table(name = "therapist")
 public class Therapist {
 
-    private Integer therapistId;
+    private String therapistId;
     private String firstName;
     private String lastName;
     private String email;
@@ -23,12 +21,12 @@ public class Therapist {
     private List<Event> events = new ArrayList<Event>();
 
     @Id
-    @Column
-    public Integer getTherapistId() {
+    @Column(name = "THERAPIST_ID")
+    public String getTherapistId() {
         return therapistId;
     }
 
-    public void setTherapistId(Integer therapistId) {
+    public void setTherapistId(String therapistId) {
         this.therapistId = therapistId;
     }
     @Column(name = "FIRST_NAME")
