@@ -50,6 +50,16 @@
             <artifactId>spring-data-jpa</artifactId>
             <version>1.11.3.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>javax.mail-api</artifactId>
+            <version>1.6.0-rc1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.0-rc1</version>
+        </dependency>
     </dependencies>
 
 </project>
