@@ -1,9 +1,15 @@
 package pl.pwsztar.therapists;
 
 
-/**
- * Created by Lapek on 16.05.2017.
- */
+import pl.pwsztar.event.Event;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+
+@Entity
+@Table(name = "therapist")
 public class Therapist {
 
     private Integer therapistId;
@@ -14,8 +20,10 @@ public class Therapist {
     private String description;
     private String googleCalendarId;
     private String telephone;
+    private List<Event> events = new ArrayList<Event>();
 
-
+    @Id
+    @Column
     public Integer getTherapistId() {
         return therapistId;
     }
@@ -23,7 +31,7 @@ public class Therapist {
     public void setTherapistId(Integer therapistId) {
         this.therapistId = therapistId;
     }
-
+    @Column(name = "FIRST_NAME")
     public String getFirstName() {
         return firstName;
     }
@@ -31,7 +39,7 @@ public class Therapist {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-
+    @Column(name = "SECOND_NAME")
     public String getLastName() {
         return lastName;
     }
@@ -55,7 +63,7 @@ public class Therapist {
     public void setSpecialization(String specialization) {
         this.specialization = specialization;
     }
-
+    @Column(name = "GOOGLE_CALENDAR_ID")
     public String getGoogleCalendarId() {
         return googleCalendarId;
     }
@@ -78,5 +86,14 @@ public class Therapist {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "therapist")
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 }

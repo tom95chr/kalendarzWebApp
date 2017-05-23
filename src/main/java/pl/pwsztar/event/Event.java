@@ -16,7 +16,10 @@ public class Event {
     private String eventId;
     private Date startDateTime;
     private Date endDateTime;
+    private String room;
+    private Boolean confirmed;
     private Client client;
+    private Therapist therapist;
 
     @Id
     @Column(name = "EVENT_ID")
@@ -52,5 +55,31 @@ public class Event {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "THERAPIST_ID", nullable = false)
+    public Therapist getTherapist() {
+        return therapist;
+    }
+
+    public void setTherapist(Therapist therapist) {
+        this.therapist = therapist;
+    }
+
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
+    }
+
+    public Boolean getConfirmed() {
+        return confirmed;
+    }
+
+    public void setConfirmed(Boolean confirmed) {
+        this.confirmed = confirmed;
     }
 }
