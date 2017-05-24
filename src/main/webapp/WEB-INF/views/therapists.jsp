@@ -32,7 +32,6 @@
     </c:forEach>
     </tbody>
 </table>
-<br />
-<hr />
+
 </body>
 </html>

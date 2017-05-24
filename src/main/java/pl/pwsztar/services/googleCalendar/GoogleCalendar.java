@@ -23,6 +23,7 @@ import java.util.*;
 
 @Service
 public class GoogleCalendar {
+
     /** Application name. */
     private static final String APPLICATION_NAME =
             "Google Calendar API Java GoogleCalendar";
@@ -60,7 +61,6 @@ public class GoogleCalendar {
             System.exit(1);
         }
     }
-
 
     public GoogleCalendar() throws IOException {
         // Build a new authorized API client service.
@@ -101,6 +101,7 @@ public class GoogleCalendar {
      * @return an authorized Calendar client service
      * @throws IOException
      */
+
     public static com.google.api.services.calendar.Calendar
     getCalendarService() throws IOException {
         Credential credential = authorize();
@@ -149,8 +150,8 @@ public class GoogleCalendar {
         }
     }
 
-    public void createEvent(String calendarId, String summary, String availability, String startDateTime, String endDateTime)
-            throws IOException {
+    public void createEvent(String calendarId, String summary, String availability, String startDateTime,
+                            String endDateTime) throws IOException {
 
         try{
             Event event = new Event()
@@ -278,17 +279,24 @@ public class GoogleCalendar {
 
     public String createCalendar(String calendarSummary) throws IOException {
 
-            // Create a new calendar
-            com.google.api.services.calendar.model.Calendar calendar = new com.google.api.services.calendar.model.Calendar();
-            calendar.setSummary(calendarSummary);
-            calendar.setTimeZone("Europe/Warsaw");
+        // Create a new calendar
+        com.google.api.services.calendar.model.Calendar calendar = new com.google.api.services.calendar.model.Calendar();
+        calendar.setSummary(calendarSummary);
+        calendar.setTimeZone("Europe/Warsaw");
 
-            // Insert the new calendar
-            com.google.api.services.calendar.model.Calendar createdCalendar = service.calendars().insert(calendar).execute();
+        // Insert the new calendar
+        com.google.api.services.calendar.model.Calendar createdCalendar = service.calendars().insert(calendar).execute();
 
-            System.out.println(createdCalendar.getId());
+        // Create access rule with associated scope
+        AclRule rule = new AclRule();
+        AclRule.Scope scope = new AclRule.Scope();
+        scope.setType("default").setValue("default");
+        rule.setScope(scope).setRole("freeBusyReader");
 
-            return createdCalendar.getId();
+        // Insert new access rule
+        AclRule createdRule = service.acl().insert(createdCalendar.getId(), rule).execute();
+
+        return createdCalendar.getId();
     }
 
     public void deleteCalendar(String calendarId) throws IOException {
@@ -297,15 +305,15 @@ public class GoogleCalendar {
         System.out.println("calendar "+calendarId+" removed");
     }
 
-    public static void main(String[] args) throws IOException {
+/*    public static void main(String[] args) throws IOException {
         GoogleCalendar gk = new GoogleCalendar();
-        //gk.deleteCalendar("c6ttuf6f9btk6rd9a6eaivqb2k@group.calendar.google.com");
-        //gk.createCalendar("nowy");
+        //gk.deleteCalendar(gk.getGoogleCalendarId("jankowalski"));
+        //gk.createCalendar("nowy2");
         //gk.getGoogleCalendarId("terapeuta1");
         //gk.printAllCalendars(gk.getCalendars());
         //gk.printAllUpcomingEvents(gk.getAllUpcomingEvents(gk.getGoogleCalendarId("terapeuta1")));
         //gk.updateEvent(gk.getGoogleCalendarId("terapeuta2"),"0djm9hj9344qbqgbacndeoouhk","free");
-        //gk.createEvent(gk.getGoogleCalendarId("terapeuta1"),"dostepny termin ","free","2017-05-26T13:31:20.000+02:00","2017-05-26T14:33:59.000+02:00");
+        gk.createEvent(gk.getGoogleCalendarId("marylarodowicz"),"termin ","busy","2017-05-25T15:31:20.000+02:00","2017-05-25T16:33:59.000+02:00");
         //System.out.println(gk.checkCalendarNameAvailability("mojlogin2"));
-    }
+    }*/
 }

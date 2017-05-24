@@ -25,6 +25,7 @@ public class TherapistDTO {
     @NotBlank(message = "Podaj specjalizacje")
     private String specialization;
 
+    @NotBlank(message = "podaj email")
     @Email(message = "nieprawidlowy email")
     private String email;
 

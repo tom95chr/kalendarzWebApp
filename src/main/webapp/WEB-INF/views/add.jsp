@@ -50,12 +50,16 @@
                 <form:errors path="telephone" /></c:if></td>
         </tr>
         <tr>
+            <th>Dodatkowy opis</th>
+            <td><form:input type="text" path="description" /><c:if test="${pageContext.request.method=='POST'}">
+                <form:errors path="description" /></c:if></td>
+        </tr>
+        <tr>
             <td colspan="2" align="right"><input type="submit" value="Dodaj" /></td>
         </tr>
         </tbody>
     </table>
 </form:form>
-<br />
-<hr />
+
 </body>
 </html>
