@@ -30,7 +30,7 @@ public class TherapistContoller {
     }
 
     @RequestMapping("/therapist-{therapistId}")
-    public String szczegolyKota(HttpServletRequest request, @PathVariable("therapistId") String therapistId,
+    public String therapistData(@PathVariable("therapistId") String therapistId,
                                 Model model) {
         model.addAttribute("therapist", therapistDAO.findByTherapistId(therapistId));
 
@@ -83,5 +83,16 @@ public class TherapistContoller {
             return "redirect:/";
         }
         return "add";
+    }
+
+    @RequestMapping("/therapist-{therapistId}/drop")
+    public String dropTherapist(@PathVariable("therapistId") String therapistId){
+        try {
+            googleCalendar.deleteCalendar(googleCalendar.getGoogleCalendarId(therapistId));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        therapistDAO.delete(therapistId);
+        return "redirect:/";
     }
 }

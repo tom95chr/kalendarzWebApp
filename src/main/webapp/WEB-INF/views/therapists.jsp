@@ -18,6 +18,7 @@
         <th>Nazwisko</th>
         <th>Specjalizacja</th>
         <th>Wybierz</th>
+        <th>Usun</th>
     </tr>
     </thead>
     <tbody>
@@ -28,6 +29,7 @@
             <td>${therapist.lastName}</td>
             <td>${therapist.specialization}</td>
             <td><a href="<c:url value="therapist-${therapist.therapistId}" />">Wybierz mnie</a></td>
+            <td><a href="<c:url value="therapist-${therapist.therapistId}/drop" />">Usun</a></td>
         </tr>
     </c:forEach>
     </tbody>
