@@ -55,7 +55,7 @@ public class EventController {
             System.out.print("asdasdasd1231232131232421");
 System.out.print(eventDTO.getTyp() + "asdadsadasdasdasd");
 
-            return "redirect:/home";
+            return "redirect:/home2";
         }
 
         return "addEvent";

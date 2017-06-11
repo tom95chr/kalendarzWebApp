@@ -18,13 +18,13 @@ public class ClientController {
     @Autowired
     Type_EventDAO type_eventDAO;
 
-    @RequestMapping("/home")
+    @RequestMapping("/home2")
     public String home(Model model) {
         model.addAttribute("therapists", "asdada");
         model.addAttribute("event", eventDAO.findAll());
         model.addAttribute("typem", type_eventDAO.findAll());
 
 
-        return "home";
+        return "home2";
     }
 }
