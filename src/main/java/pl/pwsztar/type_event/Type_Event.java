@@ -13,7 +13,7 @@ import java.util.List;
 @Table(name = "type_event")
 public class Type_Event {
 
-    private String type_event_id;
+    private String typeEventId;
     private Integer max_seats;
     private String type;
     private List<Event> events = new ArrayList<Event>();
@@ -21,8 +21,8 @@ public class Type_Event {
 
     @Id
     @Column(name = "type_event_id")
-    public String getId_type_event() {
-        return type_event_id;
+    public String getTypeEventId() {
+        return typeEventId;
     }
 
     @OneToMany(mappedBy = "type_event")
@@ -37,15 +37,15 @@ public class Type_Event {
  //   }
 
 
-    public void setId_type_event(String id_type_event) {
-        this.type_event_id = id_type_event;
+    public void setTypeEventId(String idTypeEvent) {
+        this.typeEventId = idTypeEvent;
     }
     @Column(name ="max_seats")
-            public Integer getMax_seats() {
+            public Integer getMaxSeats() {
         return max_seats;
     }
 
-    public void setMax_seats(Integer max_seats) {
+    public void setMaxSeats(Integer max_seats) {
         this.max_seats = max_seats;
     }
     @Column(name ="type")
