@@ -37,7 +37,7 @@ public class Therapist {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-    @Column(name = "SECOND_NAME")
+    @Column(name = "LAST_NAME")
     public String getLastName() {
         return lastName;
     }
