@@ -2,9 +2,12 @@ package pl.pwsztar.event;
 
 import pl.pwsztar.client.Client;
 import pl.pwsztar.therapists.Therapist;
+import pl.pwsztar.type_event.Type_Event;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Lapek on 22.05.2017.
@@ -18,8 +21,9 @@ public class Event {
     private Date endDateTime;
     private String room;
     private Boolean confirmed;
-    private Client client;
     private Therapist therapist;
+    private List<Client> clients = new ArrayList<Client>();
+    private Type_Event type_event;
 
     @Id
     @Column(name = "EVENT_ID")
@@ -48,14 +52,15 @@ public class Event {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "EMAIL", nullable = false)
-    public Client getClient() {
-        return client;
+    @JoinColumn(name = "type_event_id", nullable = false)
+    public Type_Event getType_Event() {
+        return type_event;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setType_Event(Type_Event type_event) {
+        this.type_event = type_event;
     }
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "THERAPIST_ID", nullable = false)
@@ -66,6 +71,15 @@ public class Event {
     public void setTherapist(Therapist therapist) {
         this.therapist = therapist;
     }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
+     public List<Client> getClients() {
+        return clients;
+      }
+
+    public void setClients(List<Client> events) {
+             this.clients = clients;
+           }
 
     public String getRoom() {
         return room;
@@ -82,4 +96,6 @@ public class Event {
     public void setConfirmed(Boolean confirmed) {
         this.confirmed = confirmed;
     }
+
+
 }

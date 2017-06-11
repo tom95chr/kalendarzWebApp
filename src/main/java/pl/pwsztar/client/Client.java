@@ -16,7 +16,9 @@ public class Client {
 
     private String email;
     private String telephone;
-    private List<Event> events = new ArrayList<Event>();
+    private Event event; // <--
+
+    private List<Event> events = new ArrayList<Event>(); //niepotrzebne
 
     @Id
     public String getEmail() {
@@ -35,12 +37,22 @@ public class Client {
         this.telephone = telephone;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
-    public List<Event> getEvents() {
-        return events;
+ //   @OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
+   // public List<Event> getEvents() {
+    //    return events;
+  //  }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "EVENT_ID", nullable = false)
+    public Event getEvent() {
+        return event;
     }
 
-    public void setEvents(List<Event> events) {
-        this.events = events;
+
+    public void setEvent(Event event) {
+        this.event = event;
     }
+  //  public void setEvents(List<Event> events) {
+  //      this.events = events;
+ //   }
 }
