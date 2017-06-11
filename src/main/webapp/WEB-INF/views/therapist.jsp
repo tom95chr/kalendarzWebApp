@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Strona terapeuty</title>
+    <title>Terapeuta</title>
 </head>
 <body>
 <table border="1">
