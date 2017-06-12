@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import pl.pwsztar.services.googleCalendar.GoogleCalendar;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,11 +27,19 @@ public class TherapistContoller {
     @RequestMapping("/")
     public String therapistsList(Model model) {
         model.addAttribute("therapists", therapistDAO.findAll());
+
         model.addAttribute("gog", therapistDAO.findByTherapistId("qwe"));
+
+        return "home";
+    }
+    @RequestMapping("/admin/therapists")
+    public String therapistsListAdmin(Model model) {
+        model.addAttribute("therapists", therapistDAO.findAll());
+
         return "therapists";
     }
 
-    @RequestMapping("/therapist-{therapistId}")
+    @RequestMapping(value = { "/therapist-{therapistId}", "/admin/therapist-{therapistId}"}, method = RequestMethod.GET)
     public String therapistData(@PathVariable("therapistId") String therapistId,
                                 Model model) {
         model.addAttribute("therapist", therapistDAO.findByTherapistId(therapistId));
@@ -38,7 +47,7 @@ public class TherapistContoller {
         return "therapist";
     }
 
-    @RequestMapping("therapists/add")
+    @RequestMapping("admin/therapists/add")
     public String addTherapist(HttpServletRequest request, @ModelAttribute("therapistDto") @Valid TherapistDTO therapistDto,
                                BindingResult result) {
 
@@ -81,12 +90,12 @@ public class TherapistContoller {
 
             therapistDAO.save(therapist);
 
-            return "redirect:/";
+            return "redirect:/admin/therapists";
         }
         return "add";
     }
 
-    @RequestMapping("/therapist-{therapistId}/drop")
+    @RequestMapping("admin/therapist-{therapistId}/drop")
     public String dropTherapist(@PathVariable("therapistId") String therapistId){
         try {
             googleCalendar.deleteCalendar(googleCalendar.getGoogleCalendarId(therapistId));
