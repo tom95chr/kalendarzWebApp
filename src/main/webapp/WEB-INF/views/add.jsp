@@ -19,6 +19,11 @@
 <form:form method="POST" modelAttribute="therapistDto">
     <table border="1">
         <tbody>
+
+
+
+
+
         <tr>
             <th>Login</th>
             <td><form:input type="text" path="therapistId" /><c:if test="${pageContext.request.method=='POST'}">

@@ -305,7 +305,7 @@ public class GoogleCalendar {
         System.out.println("calendar "+calendarId+" removed");
     }
 
-/*    public static void main(String[] args) throws IOException {
+  /* public static void main(String[] args) throws IOException {
         GoogleCalendar gk = new GoogleCalendar();
         //gk.deleteCalendar(gk.getGoogleCalendarId("jankowalski"));
         //gk.createCalendar("nowy2");
@@ -313,7 +313,7 @@ public class GoogleCalendar {
         //gk.printAllCalendars(gk.getCalendars());
         //gk.printAllUpcomingEvents(gk.getAllUpcomingEvents(gk.getGoogleCalendarId("terapeuta1")));
         //gk.updateEvent(gk.getGoogleCalendarId("terapeuta2"),"0djm9hj9344qbqgbacndeoouhk","free");
-        gk.createEvent(gk.getGoogleCalendarId("marylarodowicz"),"termin ","busy","2017-05-25T15:31:20.000+02:00","2017-05-25T16:33:59.000+02:00");
+        gk.createEvent(gk.getGoogleCalendarId("qwe"),"miauuuu ","busy","2017-06-11T15:31:20.000+02:00","2017-06-11T16:33:59.000+02:00");
         //System.out.println(gk.checkCalendarNameAvailability("mojlogin2"));
-    }*/
+    } */
 }

@@ -27,11 +27,15 @@ public class TherapistContoller {
     @RequestMapping("/")
     public String therapistsList(Model model) {
         model.addAttribute("therapists", therapistDAO.findAll());
+
+        model.addAttribute("gog", therapistDAO.findByTherapistId("qwe"));
+
         return "home";
     }
     @RequestMapping("/admin/therapists")
     public String therapistsListAdmin(Model model) {
         model.addAttribute("therapists", therapistDAO.findAll());
+
         return "therapists";
     }
 
