@@ -1,5 +1,6 @@
 package pl.pwsztar.event;
 
+import org.hibernate.annotations.GenericGenerator;
 import pl.pwsztar.client.Client;
 import pl.pwsztar.therapists.Therapist;
 import pl.pwsztar.type_event.Type_Event;

@@ -18,20 +18,21 @@ import java.util.List;
  */
 public class EventDTO {
     private String eventId;
-    @NotEmpty
+    @NotBlank(message = "Wprowadz date")
     @DateTimeFormat(pattern = "dd-MM-yyyy' 'HH:mm")
     private Date startDateTime;
-    @NotEmpty
+
+    @NotBlank(message = "Wprowadz date")
     @DateTimeFormat(pattern = "dd-MM-yyyy' 'HH:mm")
     private Date endDateTime;
     private String room;
     private Boolean confirmed;
     private Therapist therapist;
     private Type_Event type_event;
-    @NotEmpty
+    @NotBlank(message = "Wprowadz nazwę ")
     private String name;
     @NotEmpty
-    private String typ;
+    private String typ; //do povierania id type, zeby wsadzic do jsp
 
 
     public String getEventId() {

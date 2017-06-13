@@ -10,4 +10,6 @@ import java.util.List;
 public interface EventDAO extends CrudRepository< Event, String> {
     Event findByEventId(String eventId);
     List<Event> findAll();
+    <S extends Event> S save(S s);
+    List<Event> findByRoom(String room);
 }

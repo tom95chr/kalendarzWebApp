@@ -16,12 +16,7 @@
 
 <a href="/event/addEvent">Dodaj terapeute</a><br />
 
-<c:forEach items="${event}" var="event" varStatus="status">
-    <tr>
-        <td>${status.index + 1}</td>
 
-    </tr>
-</c:forEach>
 <c:forEach items="${typem}" var="typem" varStatus="status">
     <tr>
         <td>${status.index + 1}</td>

@@ -18,12 +18,16 @@
 <form:form method="POST" modelAttribute="eventad">
 
 
-    asd
-    <td><form:select path="typ">
-        <form:option value="poj" label="poj" />
-        <form:option value="gru" label="gru" />
 
+    <td><form:select path="typ">
+        <c:forEach items="${typee}" var="event" varStatus="status">
+            <tr>
+                <form:option value= "${event.typeEventId}" label="${event.type}" />
+            </tr>
+        </c:forEach>
     </form:select>
+
+
     </td>
     <td><c:if test="${pageContext.request.method=='POST'}">
         <form:errors path="name" /></c:if></td>
@@ -42,8 +46,19 @@
     <tr>
         <th>Data zakończenia</th>
         <td><form:input type="text" path="endDateTime" /><c:if test="${pageContext.request.method=='POST'}"><form:errors path="endDateTime" /></c:if></td>
+
+    <tr>
+        <th>Sala:</th>
+        <td><form:input type="text" path="room" /><c:if test="${pageContext.request.method=='POST'}">
+            <form:errors path="room" /></c:if></td>
     </tr>
-        <td colspan="2" align="right"><input type="submit" value="Dodaj" /></td>
+
+
+
+
+
+    </tr>
+    <td colspan="2" align="right"><input type="submit" value="Dodaj" /></td>
     </tr>
 
 

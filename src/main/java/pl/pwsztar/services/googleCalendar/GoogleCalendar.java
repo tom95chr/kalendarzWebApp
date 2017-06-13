@@ -24,6 +24,7 @@ import java.util.*;
 @Service
 public class GoogleCalendar {
 
+
     /** Application name. */
     private static final String APPLICATION_NAME =
             "Google Calendar API Java GoogleCalendar";
@@ -304,6 +305,8 @@ public class GoogleCalendar {
         service.calendars().delete(calendarId).execute();
         System.out.println("calendar "+calendarId+" removed");
     }
+
+
 
   /* public static void main(String[] args) throws IOException {
         GoogleCalendar gk = new GoogleCalendar();
