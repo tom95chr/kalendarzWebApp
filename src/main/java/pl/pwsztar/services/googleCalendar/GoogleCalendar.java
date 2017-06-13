@@ -24,6 +24,7 @@ import java.util.*;
 @Service
 public class GoogleCalendar {
 
+
     /** Application name. */
     private static final String APPLICATION_NAME =
             "Google Calendar API Java GoogleCalendar";
@@ -150,7 +151,7 @@ public class GoogleCalendar {
         }
     }
 
-    public void createEvent(String calendarId, String summary, String availability, String startDateTime,
+    public String createEvent(String calendarId, String summary, String availability, String startDateTime,
                             String endDateTime) throws IOException {
 
         try{
@@ -174,11 +175,13 @@ public class GoogleCalendar {
 
             event = service.events().insert(calendarId, event).execute();
             System.out.printf("Free event created: %s\n", event.getHtmlLink());
+            return event.getId();
         } catch (WrongAvailabilityException e) {
             e.printStackTrace();
         } catch (Exception e){
             e.printStackTrace();
         }
+        return null;
     }
 
     public void updateEvent(String calendarId, String eventId, String availability) throws IOException {
@@ -304,6 +307,8 @@ public class GoogleCalendar {
         service.calendars().delete(calendarId).execute();
         System.out.println("calendar "+calendarId+" removed");
     }
+
+
 
   /* public static void main(String[] args) throws IOException {
         GoogleCalendar gk = new GoogleCalendar();
