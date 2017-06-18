@@ -17,6 +17,9 @@
 <body>
 <form:form method="POST" modelAttribute="eventad">
 
+${kolidacjapocz}
+${kolidacjakon}
+    ${kolidacjakto}
 
 
     <td><form:select path="typ">

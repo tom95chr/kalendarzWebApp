@@ -19,10 +19,7 @@ import java.io.IOException;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Agnieszka on 2017-06-11.
@@ -41,62 +38,65 @@ public class EventController {
 
 
     @RequestMapping("/event/addEvent")
-    public String formularz(Model model, HttpServletRequest request, @ModelAttribute("eventad") @Valid EventDTO eventDTO, BindingResult result) throws IOException {
+    public String formularz(Model model, HttpServletRequest request, @ModelAttribute("eventad") @Valid EventDTO eventDTO, BindingResult result) throws IOException, ParseException {
 
         model.addAttribute("typee", type_eventDAO.findAll());
         if (request.getMethod().equalsIgnoreCase("post") && !result.hasErrors()) {
 
-        /*     List<Event> eventList = new ArrayList<Event>();
+            List<Event> eventList = new ArrayList<Event>();
             eventList = eventDAO.findByRoom(eventDTO.getRoom());
 
-            Calendar calEvent = Calendar.getInstance();
-            calEvent.setTime(eventDTO.getStartDateTime());
-
             for (Event eve : eventList) {
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(eve.getStartDateTime());
-                if (eventDTO.getStartDateTime().before(eve.getStartDateTime()) && eventDTO.getEndDateTime().after(eve.getStartDateTime())) {
-                    System.out.print("kolidacja");
-                } else {
-                    System.out.print("jest ok");
+
+                if (!((eve.getStartDateTime().before(eventDTO.getStartDateTime()) && (eve.getEndDateTime().before(eventDTO.getStartDateTime()) || eve.getEndDateTime().compareTo(eventDTO.getStartDateTime()) == 0)) || ((eve.getStartDateTime().after(eventDTO.getEndDateTime()) || eve.getStartDateTime().compareTo(eventDTO.getEndDateTime()) == 0) && eve.getEndDateTime().after(eventDTO.getEndDateTime())))) {
+
+
+                    System.out.print("koliduje z kimś innym ");
+                    model.addAttribute("kolidacjapocz", eve.getStartDateTime());
+                    model.addAttribute("kolidacjakon", eve.getEndDateTime());
+                    model.addAttribute("kolidacjakto", eve.getTherapist().getTherapistId());
+
+                    return "addEvent";
+
                 }
-*/
-                //   if ((cal.get(Calendar.YEAR) == calEvent.get(Calendar.YEAR))  && (cal.get(Calendar.MONTH) == calEvent.get(Calendar.MONTH)) && (cal.get(Calendar.DAY_OF_MONTH) == calEvent.get(Calendar.DAY_OF_MONTH))){
-/*
+            }
+             System.out.print("jestt gites");
+
+
                 Date date = eventDTO.getStartDateTime();
+                Date date2 = eventDTO.getEndDateTime();
                 Format formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"); //zmiana formatu daty, zeby pasowała do daty od googla
                 String dat = formatter.format(date);
-                Date date2 = eventDTO.getEndDateTime();
-                Format formatter2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-                String dat2 = formatter.format(date);
+                String dat2 = formatter.format(date2);
                 //qwe terapeute zmienić jak będzie logowanie zrobione
-                  googleCalendar.createEvent(googleCalendar.getGoogleCalendarId("asd"),eventDTO.getName(),"busy",dat+":59.000+02:00",dat2+":59.000+02:00");
+                 String idEvent =  googleCalendar.createEvent(googleCalendar.getGoogleCalendarId("zxczc"),eventDTO.getName(),"busy",dat+":59.000+02:00",dat2+":59.000+02:00");
 
 
                 Event event = new Event();
-
-
+                event.setEventId(idEvent);
                 event.setName(eventDTO.getName());
                 event.setStartDateTime(eventDTO.getStartDateTime());
                 event.setEndDateTime(eventDTO.getEndDateTime());
                 event.setRoom(eventDTO.getRoom());
-                System.out.print(eventDTO.getTyp() + "asdasads");
+
                 event.setType_Event(type_eventDAO.findByTypeEventId(eventDTO.getTyp()));
 
-                event.setTherapist(therapistDAO.findByTherapistId("asd"));
+                event.setTherapist(therapistDAO.findByTherapistId("qweqweq"));
                 event.setConfirmed(true);
 
 
                 eventDAO.save(event);
-*/
-
                 return "redirect:/home2";
-            } }
 
-            return "addEvent";
-        }
+                }
 
-    }
+                return "addEvent";
+            }
+
+
+}
+
+
 
 
 
