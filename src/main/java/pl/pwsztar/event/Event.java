@@ -26,6 +26,7 @@ public class Event {
     private List<Client> clients = new ArrayList<Client>();
     private Type_Event type_event;
     private String name;
+    private String typ;
 
     @Id
     @Column(name = "EVENT_ID")
@@ -53,7 +54,7 @@ public class Event {
         this.endDateTime = endDateTime;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "type_event_id", nullable = false)
     public Type_Event getType_Event() {
         return type_event;

@@ -10,4 +10,6 @@ import java.util.List;
 public interface Type_EventDAO extends CrudRepository<Type_Event, String> {
     Type_Event findByTypeEventId(String type_event_id);
     List<Type_Event> findAll();
+    List<Type_Event> findAllByTypeEventId(String type_event_id);
+
 }
