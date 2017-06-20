@@ -86,7 +86,7 @@ public class Therapist {
         this.telephone = telephone;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "therapist")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "therapist")
     public List<Event> getEvents() {
         return events;
     }

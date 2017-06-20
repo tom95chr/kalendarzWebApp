@@ -184,6 +184,28 @@ public class GoogleCalendar {
         return null;
     }
 
+    public void editEventGoogle(pl.pwsztar.event.Event eventDTO)throws IOException{
+        try{
+
+            Event event = service.events().get(eventDTO.getTherapist().getGoogleCalendarId(), eventDTO.getEventId()).execute();
+            DateTime startDT = new DateTime(eventDTO.getStartDateTime());
+            EventDateTime start = new EventDateTime()
+                    .setDateTime(startDT);
+            event.setStart(start);
+
+            DateTime endDT = new DateTime(eventDTO.getEndDateTime());
+            EventDateTime end = new EventDateTime()
+                    .setDateTime(endDT);
+            event.setEnd(end);
+
+            event.setSummary(eventDTO.getName());;
+            Event updatedEvent = service.events().update(eventDTO.getTherapist().getGoogleCalendarId(), event.getId(), event).execute();
+            System.out.println("Event updated: "+updatedEvent);
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
     public void updateEvent(String calendarId, String eventId, String availability) throws IOException {
 
         try{

@@ -14,9 +14,11 @@
 <sec:authorize url="/admin">
     <a href="/admin">Admin</a><br><br>
 </sec:authorize>
+
 <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
     <a href="/therapistEvents">Terapeuta</a><br><br>
 </sec:authorize>
+
 <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
     <a href="/logout">Wyloguj</a><br><br>
 </sec:authorize>
@@ -39,7 +41,7 @@
             <td>${therapist.firstName}</td>
             <td>${therapist.lastName}</td>
             <td>${therapist.specialization}</td>
-            <td><a href="<c:url value="therapist-${therapist.therapistId}" />">Wybierz</a></td>
+            <td><a href="<c:url value="choose-${therapist.therapistId}" />">Wybierz</a></td>
         </tr>
     </c:forEach>
     </tbody>

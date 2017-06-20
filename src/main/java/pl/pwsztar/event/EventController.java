@@ -6,7 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.pwsztar.client.ClientService;
 import pl.pwsztar.services.googleCalendar.GoogleCalendar;
 import pl.pwsztar.therapists.Therapist;
 import pl.pwsztar.therapists.TherapistDAO;
@@ -27,8 +29,7 @@ import java.util.*;
 
 @Controller
 public class EventController {
-    @Autowired
-    GoogleCalendar googleCalendar;
+
     @Autowired
     EventDAO eventDAO;
     @Autowired
@@ -36,54 +37,71 @@ public class EventController {
     @Autowired
     TherapistDAO therapistDAO;
 
+
     @Autowired
     EventService eventService;
+    @Autowired
+    ClientService clientService;
 
-
-    @RequestMapping("/event/addEvent")
-    public String formularz(Model model, HttpServletRequest request, @ModelAttribute("eventad") @Valid EventDTO eventDTO, BindingResult result) throws IOException, ParseException {
+    @RequestMapping("/event/addEvent-{user}")
+    public String formularz(Model model, HttpServletRequest request, @ModelAttribute("eventad") @Valid EventDTO eventDTO, BindingResult result, @PathVariable("user") String user) throws IOException, ParseException {
 
         model.addAttribute("typee", type_eventDAO.findAll());
         if (request.getMethod().equalsIgnoreCase("post") && !result.hasErrors()) {
-
 
             Event eve = eventService.checkDates(eventDTO);
             if (eve != null) {
                 model.addAttribute("kolidacjapocz", eve);
                 return "addEvent";
             } else {
-
-                Date date = eventDTO.getStartDateTime();
-                Date date2 = eventDTO.getEndDateTime();
-                Format formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"); //zmiana formatu daty, zeby pasowała do daty od googla
-                String dat = formatter.format(date);
-                String dat2 = formatter.format(date2);
-                //qwe terapeute zmienić jak będzie logowanie zrobione
-                String idEvent = googleCalendar.createEvent(googleCalendar.getGoogleCalendarId("zxczc"), eventDTO.getName(), "busy", dat + ":59.000+02:00", dat2 + ":59.000+02:00");
-
-
-                Event event = new Event();
-                event.setEventId(idEvent);
-                event.setName(eventDTO.getName());
-                event.setStartDateTime(eventDTO.getStartDateTime());
-                event.setEndDateTime(eventDTO.getEndDateTime());
-                event.setRoom(eventDTO.getRoom());
-                event.setType_Event(type_eventDAO.findByTypeEventId(eventDTO.getTyp()));
-                event.setTherapist(therapistDAO.findByTherapistId("zxczc"));
-                event.setConfirmed(true);
-
-
-                eventDAO.save(event);
-                return "redirect:/home2";
+                eventService.addNewEvent(eventDTO, user);
+                return "redirect:/";
 
             }
-
 
         }
         return "addEvent";
 
     }
+
+
+    @RequestMapping("/event/eventList-{user}")
+    public String eventList(Model model,  @PathVariable("user") String user)  {
+        model.addAttribute("events", clientService.getSortDates(eventDAO.findByTherapist_TherapistId(user)));
+        model.addAttribute("therapist", therapistDAO.findByTherapistId(user));
+        return "eventList";
+    }
+
+
+    @RequestMapping("/event/editEvent-{eve.eventId}")
+    public String editEvent( HttpServletRequest request, @ModelAttribute("eventadd") @Valid EventDTO eventDTO, BindingResult result, Model model,  @PathVariable("eve.eventId") String eventId) throws IOException {
+        model.addAttribute("typee", type_eventDAO.findAll());
+        model.addAttribute("event", eventDAO.findByEventId(eventId));
+        Event event =   eventDAO.findByEventId(eventId);
+        Format formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm"); //zmiana formatu daty, zeby pasowała do daty od googla
+        model.addAttribute("datSt", formatter.format(event.getStartDateTime()));
+        model.addAttribute("datEn",  formatter.format(event.getEndDateTime()));
+
+        if (request.getMethod().equalsIgnoreCase("post") && !result.hasErrors()) {
+
+            Event eve = eventService.checkDates(eventDTO);
+            if (eve != null) {
+                model.addAttribute("kolidacjapocz", eve);
+                return "editEvent";
+            } else {
+                System.out.print(eventDTO.getName());
+                eventService.editEvent(eventDTO, eventId);
+                return "redirect:/";
+
+            }
+
+
+        }
+        return "editEvent";
+    }
 }
+
+
 
 
 
