@@ -36,6 +36,9 @@ public class EventController {
     @Autowired
     TherapistDAO therapistDAO;
 
+    @Autowired
+    EventService eventService;
+
 
     @RequestMapping("/event/addEvent")
     public String formularz(Model model, HttpServletRequest request, @ModelAttribute("eventad") @Valid EventDTO eventDTO, BindingResult result) throws IOException, ParseException {
@@ -43,25 +46,12 @@ public class EventController {
         model.addAttribute("typee", type_eventDAO.findAll());
         if (request.getMethod().equalsIgnoreCase("post") && !result.hasErrors()) {
 
-            List<Event> eventList = new ArrayList<Event>();
-            eventList = eventDAO.findByRoom(eventDTO.getRoom());
 
-            for (Event eve : eventList) {
-
-                if (!((eve.getStartDateTime().before(eventDTO.getStartDateTime()) && (eve.getEndDateTime().before(eventDTO.getStartDateTime()) || eve.getEndDateTime().compareTo(eventDTO.getStartDateTime()) == 0)) || ((eve.getStartDateTime().after(eventDTO.getEndDateTime()) || eve.getStartDateTime().compareTo(eventDTO.getEndDateTime()) == 0) && eve.getEndDateTime().after(eventDTO.getEndDateTime())))) {
-
-
-                    System.out.print("koliduje z kimś innym ");
-                    model.addAttribute("kolidacjapocz", eve.getStartDateTime());
-                    model.addAttribute("kolidacjakon", eve.getEndDateTime());
-                    model.addAttribute("kolidacjakto", eve.getTherapist().getTherapistId());
-
-                    return "addEvent";
-
-                }
-            }
-             System.out.print("jestt gites");
-
+            Event eve = eventService.checkDates(eventDTO);
+            if (eve != null) {
+                model.addAttribute("kolidacjapocz", eve);
+                return "addEvent";
+            } else {
 
                 Date date = eventDTO.getStartDateTime();
                 Date date2 = eventDTO.getEndDateTime();
@@ -69,7 +59,7 @@ public class EventController {
                 String dat = formatter.format(date);
                 String dat2 = formatter.format(date2);
                 //qwe terapeute zmienić jak będzie logowanie zrobione
-                 String idEvent =  googleCalendar.createEvent(googleCalendar.getGoogleCalendarId("zxczc"),eventDTO.getName(),"busy",dat+":59.000+02:00",dat2+":59.000+02:00");
+                String idEvent = googleCalendar.createEvent(googleCalendar.getGoogleCalendarId("zxczc"), eventDTO.getName(), "busy", dat + ":59.000+02:00", dat2 + ":59.000+02:00");
 
 
                 Event event = new Event();
@@ -78,22 +68,21 @@ public class EventController {
                 event.setStartDateTime(eventDTO.getStartDateTime());
                 event.setEndDateTime(eventDTO.getEndDateTime());
                 event.setRoom(eventDTO.getRoom());
-
                 event.setType_Event(type_eventDAO.findByTypeEventId(eventDTO.getTyp()));
-
-                event.setTherapist(therapistDAO.findByTherapistId("qweqweq"));
+                event.setTherapist(therapistDAO.findByTherapistId("zxczc"));
                 event.setConfirmed(true);
 
 
                 eventDAO.save(event);
                 return "redirect:/home2";
 
-                }
-
-                return "addEvent";
             }
 
 
+        }
+        return "addEvent";
+
+    }
 }
 
 
