@@ -69,7 +69,7 @@ public class EventController {
                 event.setEndDateTime(eventDTO.getEndDateTime());
                 event.setRoom(eventDTO.getRoom());
                 event.setType_Event(type_eventDAO.findByTypeEventId(eventDTO.getTyp()));
-                event.setTherapist(therapistDAO.findByTherapistId("qweqweq"));
+                event.setTherapist(therapistDAO.findByTherapistId("zxczc"));
                 event.setConfirmed(true);
 
 

@@ -1,6 +1,7 @@
 package pl.pwsztar.event;
 
 import org.springframework.data.repository.CrudRepository;
+import pl.pwsztar.client.Client;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ public interface EventDAO extends CrudRepository< Event, String> {
     List<Event> findAll();
     <S extends Event> S save(S s);
     List<Event> findByRoom(String room);
-    List<Event> findByTherapist_TherapistId(String therapistId);
+    List<Event> findByTherapist_TherapistIdAndConfirmedIsTrue(String therapistId);
+
 
 }

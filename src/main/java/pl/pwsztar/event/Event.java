@@ -65,7 +65,7 @@ public class Event {
     }
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "THERAPIST_ID", nullable = false)
     public Therapist getTherapist() {
         return therapist;
