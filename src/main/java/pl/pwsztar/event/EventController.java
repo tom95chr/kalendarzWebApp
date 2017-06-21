@@ -6,7 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.pwsztar.client.ClientService;
 import pl.pwsztar.services.googleCalendar.GoogleCalendar;
 import pl.pwsztar.therapists.Therapist;
 import pl.pwsztar.therapists.TherapistDAO;
@@ -27,8 +29,7 @@ import java.util.*;
 
 @Controller
 public class EventController {
-    @Autowired
-    GoogleCalendar googleCalendar;
+
     @Autowired
     EventDAO eventDAO;
     @Autowired
@@ -37,64 +38,79 @@ public class EventController {
     TherapistDAO therapistDAO;
 
 
-    @RequestMapping("/event/addEvent")
-    public String formularz(Model model, HttpServletRequest request, @ModelAttribute("eventad") @Valid EventDTO eventDTO, BindingResult result) throws IOException, ParseException {
+    @Autowired
+    EventService eventService;
+    @Autowired
+    ClientService clientService;
+
+    @RequestMapping("/event/addEvent-{user}")
+    public String formularz(Model model, HttpServletRequest request, @ModelAttribute("eventad") @Valid EventDTO eventDTO, BindingResult result, @PathVariable("user") String user) throws IOException, ParseException, InstantiationException, IllegalAccessException {
 
         model.addAttribute("typee", type_eventDAO.findAll());
         if (request.getMethod().equalsIgnoreCase("post") && !result.hasErrors()) {
 
-            List<Event> eventList = new ArrayList<Event>();
-            eventList = eventDAO.findByRoom(eventDTO.getRoom());
-
-            for (Event eve : eventList) {
-
-                if (!((eve.getStartDateTime().before(eventDTO.getStartDateTime()) && (eve.getEndDateTime().before(eventDTO.getStartDateTime()) || eve.getEndDateTime().compareTo(eventDTO.getStartDateTime()) == 0)) || ((eve.getStartDateTime().after(eventDTO.getEndDateTime()) || eve.getStartDateTime().compareTo(eventDTO.getEndDateTime()) == 0) && eve.getEndDateTime().after(eventDTO.getEndDateTime())))) {
-
-
-                    System.out.print("koliduje z kimś innym ");
-                    model.addAttribute("kolidacjapocz", eve.getStartDateTime());
-                    model.addAttribute("kolidacjakon", eve.getEndDateTime());
-                    model.addAttribute("kolidacjakto", eve.getTherapist().getTherapistId());
-
-                    return "addEvent";
-
-                }
+            Event eve =  eventService.addNewEvent(eventDTO, user);
+            if(eve == null){
+                return "redirect:/";
             }
-             System.out.print("jestt gites");
+            else{
+                model.addAttribute("kolidacjapocz", eve);
+            }
+
+        }
+        return "addEvent";
+
+    }
 
 
-                Date date = eventDTO.getStartDateTime();
-                Date date2 = eventDTO.getEndDateTime();
-                Format formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"); //zmiana formatu daty, zeby pasowała do daty od googla
-                String dat = formatter.format(date);
-                String dat2 = formatter.format(date2);
-                //qwe terapeute zmienić jak będzie logowanie zrobione
-                 String idEvent =  googleCalendar.createEvent(googleCalendar.getGoogleCalendarId("zxczc"),eventDTO.getName(),"busy",dat+":59.000+02:00",dat2+":59.000+02:00");
+    @RequestMapping("/event/eventList-{user}")
+    public String eventList(Model model,  @PathVariable("user") String user)  {
+        model.addAttribute("events", clientService.getSortDates(eventDAO.findByTherapist_TherapistId(user)));
+        model.addAttribute("therapist", therapistDAO.findByTherapistId(user));
+        return "eventList";
+    }
 
 
-                Event event = new Event();
-                event.setEventId(idEvent);
-                event.setName(eventDTO.getName());
-                event.setStartDateTime(eventDTO.getStartDateTime());
-                event.setEndDateTime(eventDTO.getEndDateTime());
-                event.setRoom(eventDTO.getRoom());
+    @RequestMapping("/event/editEvent-{eve.eventId}")
+    public String editEvent( HttpServletRequest request, @ModelAttribute("eventadd") @Valid EventDTO eventDTO, BindingResult result, Model model,  @PathVariable("eve.eventId") String eventId) throws IOException {
+        model.addAttribute("typee", type_eventDAO.findAll());
+        model.addAttribute("event", eventDAO.findByEventId(eventId));
+        Event event =   eventDAO.findByEventId(eventId);
+        Format formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm"); //zmiana formatu daty, zeby pasowała do daty od googla
+        model.addAttribute("datSt", formatter.format(event.getStartDateTime()));
+        model.addAttribute("datEn",  formatter.format(event.getEndDateTime()));
 
-                event.setType_Event(type_eventDAO.findByTypeEventId(eventDTO.getTyp()));
+        if (request.getMethod().equalsIgnoreCase("post") && !result.hasErrors()) {
 
-                event.setTherapist(therapistDAO.findByTherapistId("qweqweq"));
-                event.setConfirmed(true);
+            Event eve = eventService.checkDates(eventDTO);
+            if (eve != null) {
+                model.addAttribute("kolidacjapocz", eve);
+                return "editEvent";
+            } else {
+                System.out.print(eventDTO.getName());
+                eventService.editEvent(eventDTO, eventId);
+                return "redirect:/";
 
-
-                eventDAO.save(event);
-                return "redirect:/home2";
-
-                }
-
-                return "addEvent";
             }
 
 
+        }
+        return "editEvent";
+    }
+
+
+
+    @RequestMapping("event/delEvent-{eve.eventId}")
+    public String eventDel(Model model,  @PathVariable("eve.eventId") String eventId) throws IOException {
+        model.addAttribute("event", eventDAO.findByEventId(eventId));
+        model.addAttribute("user", eventDAO.findByEventId(eventId).getTherapist().getTherapistId());
+        eventService.delEvent(eventId);
+
+        return "delEvent";
+    }
 }
+
+
 
 
 

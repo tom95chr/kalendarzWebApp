@@ -28,7 +28,7 @@ public class TherapistContoller {
     public String therapistsList(Model model) {
         model.addAttribute("therapists", therapistDAO.findAll());
 
-        model.addAttribute("gog", therapistDAO.findByTherapistId("qwe"));
+
 
         return "home";
     }
@@ -104,5 +104,13 @@ public class TherapistContoller {
         }
         therapistDAO.delete(therapistId);
         return "redirect:/";
+    }
+
+
+    @RequestMapping("/therapistEvents")
+    public String therapistsEvents(Model model) {
+        model.addAttribute("therapists", therapistDAO.findAll());
+
+        return "therapists";
     }
 }

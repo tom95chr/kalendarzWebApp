@@ -21,6 +21,7 @@
             <user-service>
                 <user name="admin" password="root123" authorities="ROLE_ADMIN" />
                 <user name="terapeuta" password="tera123" authorities="ROLE_DBA" />
+                <user name="asd" password="asd123" authorities="ROLE_DBA" />
             </user-service>
         </authentication-provider>
     </authentication-manager>
