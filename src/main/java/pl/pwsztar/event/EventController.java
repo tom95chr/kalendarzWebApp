@@ -97,6 +97,17 @@ public class EventController {
         }
         return "editEvent";
     }
+
+
+
+    @RequestMapping("event/delEvent-{eve.eventId}")
+    public String eventDel(Model model,  @PathVariable("eve.eventId") String eventId) throws IOException {
+        model.addAttribute("event", eventDAO.findByEventId(eventId));
+        model.addAttribute("user", eventDAO.findByEventId(eventId).getTherapist().getTherapistId());
+        eventService.delEvent(eventId);
+
+        return "delEvent";
+    }
 }
 
 

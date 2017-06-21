@@ -31,8 +31,7 @@ public class ClientController {
 
     @Autowired
     EventDAO eventDAO;
-    @Autowired
-    ClientDAO clientDAO;
+
 
     @Autowired
     ClientService clientService;
@@ -64,7 +63,7 @@ public class ClientController {
             String info = clientService.addClient(clientDTO, eventId);
             if (info == "zapisany") {
 
-                return "redirect:/home";
+                return "redirect:/";
             }
         model.addAttribute("info", info);
         }

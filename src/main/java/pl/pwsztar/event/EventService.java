@@ -3,6 +3,9 @@ package pl.pwsztar.event;
 import javafx.event.EventTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import pl.pwsztar.client.Client;
+import pl.pwsztar.client.ClientDAO;
 import pl.pwsztar.services.googleCalendar.GoogleCalendar;
 import pl.pwsztar.therapists.TherapistDAO;
 import pl.pwsztar.type_event.Type_EventDAO;
@@ -30,6 +33,8 @@ public class EventService {
     Type_EventDAO type_eventDAO;
     @Autowired
     TherapistDAO therapistDAO;
+    @Autowired
+    ClientDAO clientDAO;
 
     public Event checkDates(EventDTO eventDTO) {
 
@@ -132,5 +137,11 @@ public class EventService {
         googleCalendar.editEventGoogle(event);
 
 
+    }
+
+    public void delEvent(String eventId) throws IOException {
+        googleCalendar.deleteEvent(eventDAO.findByEventId(eventId).getTherapist().getGoogleCalendarId(), eventId);
+        clientDAO.deleteAllByEvent(eventDAO.findByEventId(eventId));
+       eventDAO.deleteByEventId(eventId);
     }
 }

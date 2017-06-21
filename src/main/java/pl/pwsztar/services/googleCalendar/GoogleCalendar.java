@@ -226,6 +226,11 @@ public class GoogleCalendar {
         }
     }
 
+    public  void deleteEvent(String calendarId, String eventId) throws IOException {
+
+        service.events().delete(calendarId, eventId).execute();
+    }
+
     public Event setAvailability(Event event, String availability) throws WrongAvailabilityException {
 
         try{

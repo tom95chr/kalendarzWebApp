@@ -28,11 +28,17 @@ public class ClientService {
                     dateSort.put(clients.get(i).getStartDateTime(), clients.get(i).getEventId());
                 }
                 else{
-                    Date dat =  clients.get(i).getStartDateTime();
+
+                    Date dat = clients.get(i).getStartDateTime();
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(dat);
                     cal.add(Calendar.SECOND, 10);
-
+                    System.out.println(dateSort.get(dat));
+                    while(dateSort.get(cal.getTime()) != null) {
+                      //  cal.setTime(dat);
+                        System.out.println(dateSort.get(dat));
+                        cal.add(Calendar.SECOND, 10);
+                    }
                     dateSort.put(cal.getTime(), clients.get(i).getEventId());
                 }
             }
