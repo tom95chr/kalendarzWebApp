@@ -46,7 +46,9 @@ public class EventService {
                 return eve;
             }
 
+
         }
+
         return null;
     }
     public void addEvent(EventDTO eventDTO, String user)  throws IOException, ParseException{
@@ -75,8 +77,16 @@ public class EventService {
         eventDAO.save(event);
     }
 
+    public void addOneWeek(EventDTO eventDTO){
+        Long datt = (eventDTO.getStartDateTime().getTime() + (7 * 24 * 3600 * 1000));
+        Long datt2 = (eventDTO.getEndDateTime().getTime() + (7 * 24 * 3600 * 1000));
+        eventDTO.setStartDateTime(new Date(datt));
+        eventDTO.setEndDateTime(new Date(datt2));
 
-    public Event addNewEvent(EventDTO eventDTO, String user) throws IOException, ParseException {
+    }
+
+
+    public Event addNewEvent(EventDTO eventDTO, String user) throws IOException, ParseException, IllegalAccessException, InstantiationException {
 
 
         if(eventDTO.getCykli().equals("nie")) {
@@ -92,31 +102,33 @@ public class EventService {
 
         }
         else{
-                 List<EventDTO> eventsDate = new ArrayList<EventDTO>();
+                 List<Date> StartDate = new ArrayList<Date>();
+                    List<Date> EndDate = new ArrayList<Date>();
                  int i =0;
+
                 while(eventDTO.getStartDateTime().before(eventDTO.getEndDateCykl())){
                     Event eve = checkDates(eventDTO);
                     if(eve==null) {
-                       // addEvent(eventDTO, user);
-                        Long datt = (eventDTO.getStartDateTime().getTime() + (7 * 24 * 3600 * 1000));
-                        Long datt2 = (eventDTO.getEndDateTime().getTime() + (7 * 24 * 3600 * 1000));
-                        eventDTO.setStartDateTime(new Date(datt));
-                        eventDTO.setEndDateTime(new Date(datt2));
-                        eventsDate.add(i, eventDTO);
-                        i++;
+                       StartDate.add(i, eventDTO.getStartDateTime());
+                       EndDate.add(i,eventDTO.getEndDateTime());
+                       addOneWeek(eventDTO);
                     }
                     else{
                         return eve;
                     }
 
-
                 }
-            for(EventDTO eventDTO1 : eventsDate){
-                addEvent(eventDTO,user);
+            for(int j =0; j< StartDate.size();j++) {
+
+                eventDTO.setStartDateTime(StartDate.get(j));
+                eventDTO.setEndDateTime(EndDate.get(j));
+               addEvent(eventDTO,user);
+            }
+
             }
                 return null;
         }
-    }
+
 
 
     public void editEvent(EventDTO eventDTO, String eventId) throws IOException {

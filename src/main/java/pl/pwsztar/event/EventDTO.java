@@ -38,6 +38,9 @@ public class EventDTO {
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date endDateCykl;
 
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
     public String getEventId() {
         return eventId;
     }

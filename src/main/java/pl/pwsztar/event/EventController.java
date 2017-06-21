@@ -44,7 +44,7 @@ public class EventController {
     ClientService clientService;
 
     @RequestMapping("/event/addEvent-{user}")
-    public String formularz(Model model, HttpServletRequest request, @ModelAttribute("eventad") @Valid EventDTO eventDTO, BindingResult result, @PathVariable("user") String user) throws IOException, ParseException {
+    public String formularz(Model model, HttpServletRequest request, @ModelAttribute("eventad") @Valid EventDTO eventDTO, BindingResult result, @PathVariable("user") String user) throws IOException, ParseException, InstantiationException, IllegalAccessException {
 
         model.addAttribute("typee", type_eventDAO.findAll());
         if (request.getMethod().equalsIgnoreCase("post") && !result.hasErrors()) {

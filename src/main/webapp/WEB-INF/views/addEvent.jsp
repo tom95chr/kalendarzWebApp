@@ -65,7 +65,7 @@
 
     Nie <form:radiobutton   path="cykli" checked="checked" name ="cykl" value="nie" />
     Tak <form:radiobutton   path="cykli" name ="cykl" value="tak" />
-
+    <br/>
     <tr>
         <th>Data zakończenia zajęć cyklicznych </th>
         <td><form:input type="text" path="endDateCykl" /><c:if test="${pageContext.request.method=='POST'}"><form:errors path="endDateCykl" /></c:if></td>
