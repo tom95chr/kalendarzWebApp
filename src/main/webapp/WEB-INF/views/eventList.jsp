@@ -39,8 +39,8 @@
             <td>${eve.type_Event.type}</td>
             <td>${eve.startDateTime}</td>
             <td>${eve.endDateTime}</td>
-            <td><a href="<c:url value="editEvent-${eve.eventId}" />">Wybierz</a></td>
-            <td><a href="<c:url value="delEvent-${eve.eventId}" />">Wybierz</a></td>
+            <td><a href="<c:url value="editEvent-${eve.eventId}" />">Edytuj</a></td>
+            <td><a href="<c:url value="delEvent-${eve.eventId}" />">Usuń</a></td>
         </tr>
     </c:forEach>
     </tbody>

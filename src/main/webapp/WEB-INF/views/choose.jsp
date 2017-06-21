@@ -16,14 +16,6 @@
 <body>
 
 
-
-${events[1].name}
-${events[2].name}
-${events[3].name}
-
-
-
-
 <table border="1">
     <tbody>
     <tr>

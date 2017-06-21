@@ -55,6 +55,7 @@
             </props>
         </property>
     </bean>
+
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">

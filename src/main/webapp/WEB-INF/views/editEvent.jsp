@@ -13,7 +13,7 @@
     <title>Title</title>
 </head>
 <body>
-g${kolidacjapocz}
+${kolidacjapocz}
 <form:form method="POST" modelAttribute="eventadd">
     <table border="1">
         <tbody>

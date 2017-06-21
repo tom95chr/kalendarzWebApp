@@ -64,9 +64,12 @@ public class ClientController {
             String info = clientService.addClient(clientDTO, eventId);
             if (info == "zapisany") {
 
-                return "redirect:/home2";
+                return "redirect:/home";
             }
         model.addAttribute("info", info);
+        }
+        else{
+            System.out.print("COS ZSIE ZEL WPISALIII");
         }
         return "choice";
     }

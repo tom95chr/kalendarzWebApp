@@ -49,14 +49,12 @@ public class EventController {
         model.addAttribute("typee", type_eventDAO.findAll());
         if (request.getMethod().equalsIgnoreCase("post") && !result.hasErrors()) {
 
-            Event eve = eventService.checkDates(eventDTO);
-            if (eve != null) {
-                model.addAttribute("kolidacjapocz", eve);
-                return "addEvent";
-            } else {
-                eventService.addNewEvent(eventDTO, user);
+            Event eve =  eventService.addNewEvent(eventDTO, user);
+            if(eve == null){
                 return "redirect:/";
-
+            }
+            else{
+                model.addAttribute("kolidacjapocz", eve);
             }
 
         }

@@ -6,6 +6,7 @@ import pl.pwsztar.type_event.Type_Event;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.swing.text.StyledEditorKit;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
@@ -33,7 +34,9 @@ public class EventDTO {
     private String name;
     @NotEmpty
     private String typ; //do povierania id type, zeby wsadzic do jsp
-
+    private String cykli;
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private Date endDateCykl;
 
     public String getEventId() {
         return eventId;
@@ -108,4 +111,19 @@ public class EventDTO {
     }
 
 
+    public String getCykli() {
+        return cykli;
+    }
+
+    public void setCykli(String cykli) {
+        this.cykli = cykli;
+    }
+
+    public Date getEndDateCykl() {
+        return endDateCykl;
+    }
+
+    public void setEndDateCykl(Date endDateCykl) {
+        this.endDateCykl = endDateCykl;
+    }
 }

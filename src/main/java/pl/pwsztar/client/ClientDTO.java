@@ -10,13 +10,13 @@ import javax.validation.constraints.NotNull;
  */
 public class ClientDTO {
 
-    @NotEmpty(message = "podaj email")
-    @Email(message = "nieprawidlowy email")
+
     private String email;
 
     private String telephone;
 
-
+    @NotBlank(message = "podaj email")
+    @Email(message = "nieprawidlowy email")
     public String getEmail() {
         return email;
     }
