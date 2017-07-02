@@ -6,7 +6,7 @@
 	<title>Strona terapeuty</title>
 </head>
 <body>
-	Dear <strong>${user}</strong>, Strona terapeuty do obslugi dodawania/usuwania/blokowania terminow
+	Dear <strong>${users}</strong>, Strona terapeuty do obslugi dodawania/usuwania/blokowania terminow
 	<a href="<c:url value="/logout" />">Logout</a>
 </body>
 </html>

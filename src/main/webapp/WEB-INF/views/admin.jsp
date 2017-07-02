@@ -6,7 +6,7 @@
 	<title>Admin page</title>
 </head>
 <body>
-	Dear <strong>${user}</strong>, Welcome to Admin Page.<br />
+	Dear <strong>${users}</strong>, Welcome to Admin Page.<br />
 	<a href="<c:url value="/admin/therapists" />">Terapeuci</a><br />
 	<a href="<c:url value="/" />">Home</a><br />
 

@@ -1,6 +1,7 @@
 package pl.pwsztar.therapists;
 
 import pl.pwsztar.event.Event;
+import pl.pwsztar.login.LoginDetails;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class Therapist {
     private String googleCalendarId;
     private String telephone;
     private List<Event> events = new ArrayList<Event>();
+    private LoginDetails loginDetails;
 
     @Id
     @Column(name = "THERAPIST_ID")
@@ -46,6 +48,7 @@ public class Therapist {
         this.lastName = lastName;
     }
 
+    @Column(name = "EMAIL")
     public String getEmail() {
         return email;
     }
@@ -93,5 +96,14 @@ public class Therapist {
 
     public void setEvents(List<Event> events) {
         this.events = events;
+    }
+
+    @OneToOne(mappedBy = "therapist")
+   public LoginDetails getLoginDetails() {
+        return loginDetails;
+    }
+
+    public void setLoginDetails(LoginDetails loginDetails) {
+        this.loginDetails = loginDetails;
     }
 }

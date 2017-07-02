@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import pl.pwsztar.login.LoginDetails;
+import pl.pwsztar.login.LoginDetailsDAO;
 import pl.pwsztar.services.googleCalendar.GoogleCalendar;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +25,9 @@ public class TherapistContoller {
 
     @Autowired
     GoogleCalendar googleCalendar;
+
+    @Autowired
+    LoginDetailsDAO loginDetailsDAO;
 
     @RequestMapping("/")
     public String therapistsList(Model model) {
@@ -90,6 +95,13 @@ public class TherapistContoller {
 
             therapistDAO.save(therapist);
 
+            LoginDetails user = new LoginDetails();
+            user.setEmail(therapistDto.getEmail());
+            user.setPassword("ęąć");
+            user.setEnabled(Boolean.TRUE);
+            System.out.println("Enabled: "+ user.getEnabled());
+            user.setUserRole("ROLE_DBA");
+            loginDetailsDAO.save(user);
             return "redirect:/admin/therapists";
         }
         return "add";

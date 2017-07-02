@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<a href="/event/addEvent">Dodaj terapeute</a><br />
+<a href="/event/addEvent">Dodaj event</a><br />
 
 
 <c:forEach items="${typem}" var="typem" varStatus="status">

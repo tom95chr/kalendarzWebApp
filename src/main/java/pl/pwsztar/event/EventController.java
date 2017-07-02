@@ -91,7 +91,7 @@ public class EventController {
 */
 
                 return "redirect:/home2";
-            } }
+            }
 
             return "addEvent";
         }
