@@ -14,6 +14,7 @@ public class LoginDetails {
 
     private String email;
     private String password;
+    private String passwordConfirmed;
     private Boolean enabled;
     private String userRole;
     private Therapist therapist;
@@ -61,5 +62,14 @@ public class LoginDetails {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    @Column(name = "password_confirmed")
+    public String getPasswordConfirmed() {
+        return passwordConfirmed;
+    }
+
+    public void setPasswordConfirmed(String passwordConfirmed) {
+        this.passwordConfirmed = passwordConfirmed;
     }
 }
