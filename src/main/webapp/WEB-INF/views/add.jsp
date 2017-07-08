@@ -16,7 +16,7 @@
 </head>
 <body>
 <a href="/">Powrot do strony glownej</a><br />
-<form:form method="POST" modelAttribute="therapistDto">
+<form:form method="POST" modelAttribute="therapistDto" >
     <table border="1">
         <tbody>
 
@@ -25,14 +25,14 @@
             <td><form:input type="text" path="therapistId" /><c:if test="${pageContext.request.method=='POST'}">
                 <form:errors path="therapistId" /></c:if></td>
         </tr>
-<%--        <th>Haslo</th>
-        <td><form:input type="text" path="password" /><c:if test="${pageContext.request.method=='POST'}">
-            <form:errors path="password" /></c:if></td>
-        </tr>
         <th>Haslo</th>
         <td><form:input type="text" path="password" /><c:if test="${pageContext.request.method=='POST'}">
             <form:errors path="password" /></c:if></td>
-        </tr>--%>
+        </tr>
+        <th>Powtorz haslo</th>
+        <td><form:input type="text" path="password_confirmed" /><c:if test="${pageContext.request.method=='POST'}">
+            <form:errors path="password" /></c:if></td>
+        </tr>
         <tr>
             <th>Imię</th>
             <td><form:input type="text" path="firstName" /><c:if test="${pageContext.request.method=='POST'}">

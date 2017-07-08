@@ -1,3 +1,4 @@
+/*
 package pl.pwsztar.event;
 
 import com.google.api.client.util.DateTime;
@@ -15,6 +16,7 @@ import pl.pwsztar.type_event.Type_EventDAO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
 import java.io.IOException;
 import java.text.Format;
 import java.text.ParseException;
@@ -24,9 +26,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+*/
 /**
  * Created by Agnieszka on 2017-06-11.
- */
+ *//*
+
 
 @Controller
 public class EventController {
@@ -46,7 +50,8 @@ public class EventController {
         model.addAttribute("typee", type_eventDAO.findAll());
         if (request.getMethod().equalsIgnoreCase("post") && !result.hasErrors()) {
 
-        /*     List<Event> eventList = new ArrayList<Event>();
+        */
+/*     List<Event> eventList = new ArrayList<Event>();
             eventList = eventDAO.findByRoom(eventDTO.getRoom());
 
             Calendar calEvent = Calendar.getInstance();
@@ -60,8 +65,10 @@ public class EventController {
                 } else {
                     System.out.print("jest ok");
                 }
-*/
+*//*
+
                 //   if ((cal.get(Calendar.YEAR) == calEvent.get(Calendar.YEAR))  && (cal.get(Calendar.MONTH) == calEvent.get(Calendar.MONTH)) && (cal.get(Calendar.DAY_OF_MONTH) == calEvent.get(Calendar.DAY_OF_MONTH))){
+*/
 /*
                 Date date = eventDTO.getStartDateTime();
                 Format formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"); //zmiana formatu daty, zeby pasowała do daty od googla
@@ -88,7 +95,8 @@ public class EventController {
 
 
                 eventDAO.save(event);
-*/
+*//*
+
 
                 return "redirect:/home2";
             }
@@ -100,3 +108,4 @@ public class EventController {
 
 
 
+*/

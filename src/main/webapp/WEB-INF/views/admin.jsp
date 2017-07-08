@@ -9,6 +9,6 @@
 	Dear <strong>${users}</strong>, Welcome to Admin Page.<br />
 	<a href="<c:url value="/admin/therapists" />">Terapeuci</a><br />
 	<a href="<c:url value="/" />">Home</a><br />
-
+	<a href="<c:url value="/admin/registration" />">Registrations</a><br />
 </body>
 </html>

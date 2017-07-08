@@ -51,61 +51,61 @@ public class TherapistContoller {
 
         return "therapist";
     }
+    /*
+        @RequestMapping("admin/therapists/add")
+        public String addTherapist(HttpServletRequest request, @ModelAttribute("therapistDto") @Valid TherapistDTO therapistDto,
+                                   BindingResult result) {
 
-    @RequestMapping("admin/therapists/add")
-    public String addTherapist(HttpServletRequest request, @ModelAttribute("therapistDto") @Valid TherapistDTO therapistDto,
-                               BindingResult result) {
+            if (request.getMethod().equalsIgnoreCase("post") && !result.hasErrors()) {
+                Therapist therapist = new Therapist();
 
-        if (request.getMethod().equalsIgnoreCase("post") && !result.hasErrors()) {
-            Therapist therapist = new Therapist();
+                therapist.setTherapistId(therapistDto.getTherapistId());
+                therapist.setFirstName(therapistDto.getFirstName());
+                therapist.setLastName(therapistDto.getLastName());
+                therapist.setSpecialization(therapistDto.getSpecialization());
+                therapist.setEmail(therapistDto.getEmail());
+                therapist.setTelephone(therapistDto.getTelephone());
+                therapist.setDescription(therapistDto.getDescription());
 
-            therapist.setTherapistId(therapistDto.getTherapistId());
-            therapist.setFirstName(therapistDto.getFirstName());
-            therapist.setLastName(therapistDto.getLastName());
-            therapist.setSpecialization(therapistDto.getSpecialization());
-            therapist.setEmail(therapistDto.getEmail());
-            therapist.setTelephone(therapistDto.getTelephone());
-            therapist.setDescription(therapistDto.getDescription());
+                String googleCalendarId = "";
 
-            String googleCalendarId = "";
-
-            try {
-                if (googleCalendar.checkCalendarNameAvailability(therapist.getTherapistId())){
-                    googleCalendarId = googleCalendar.createCalendar(therapist.getTherapistId());
-                    System.out.println("New calendar created");
+                try {
+                    if (googleCalendar.checkCalendarNameAvailability(therapist.getTherapistId())){
+                        googleCalendarId = googleCalendar.createCalendar(therapist.getTherapistId());
+                        System.out.println("New calendar created");
+                    }
+                    else {
+                        System.out.println("This login is already existing");
+                        return "redirect:/therapists/add";
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                else {
-                    System.out.println("This login is already existing");
-                    return "redirect:/therapists/add";
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+
+                therapist.setGoogleCalendarId(googleCalendarId);
+
+                System.out.println("ID: "+therapist.getTherapistId()
+                        +"\nname: "+therapist.getLastName()
+                        +"\nlast name: "+therapist.getSpecialization()
+                        +"\nemail: "+therapist.getEmail()
+                        +"\ntelephone: "+therapist.getTelephone()
+                        +"\ndescription: "+therapist.getDescription()
+                        +"\ngoogleCalendarId: "+therapist.getGoogleCalendarId()
+                );
+
+                therapistDAO.save(therapist);
+
+                LoginDetails user = new LoginDetails();
+                user.setEmail(therapistDto.getEmail());
+                user.setPassword("ęąć");
+                user.setEnabled(Boolean.TRUE);
+                System.out.println("Enabled: "+ user.getEnabled());
+                user.setUserRole("ROLE_DBA");
+                loginDetailsDAO.save(user);
+                return "redirect:/admin/therapists";
             }
-
-            therapist.setGoogleCalendarId(googleCalendarId);
-
-            System.out.println("ID: "+therapist.getTherapistId()
-                    +"\nname: "+therapist.getLastName()
-                    +"\nlast name: "+therapist.getSpecialization()
-                    +"\nemail: "+therapist.getEmail()
-                    +"\ntelephone: "+therapist.getTelephone()
-                    +"\ndescription: "+therapist.getDescription()
-                    +"\ngoogleCalendarId: "+therapist.getGoogleCalendarId()
-            );
-
-            therapistDAO.save(therapist);
-
-            LoginDetails user = new LoginDetails();
-            user.setEmail(therapistDto.getEmail());
-            user.setPassword("ęąć");
-            user.setEnabled(Boolean.TRUE);
-            System.out.println("Enabled: "+ user.getEnabled());
-            user.setUserRole("ROLE_DBA");
-            loginDetailsDAO.save(user);
-            return "redirect:/admin/therapists";
+            return "add";
         }
-        return "add";
-    }
 
     @RequestMapping("admin/therapist-{therapistId}/drop")
     public String dropTherapist(@PathVariable("therapistId") String therapistId){
@@ -117,4 +117,5 @@ public class TherapistContoller {
         therapistDAO.delete(therapistId);
         return "redirect:/";
     }
+    */
 }

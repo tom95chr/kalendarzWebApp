@@ -14,7 +14,7 @@ public class LoginDetails {
 
     private String email;
     private String password;
-    private String passwordConfirmed;
+    private String passwordConfirm;
     private Boolean enabled;
     private String userRole;
     private Therapist therapist;
@@ -64,12 +64,12 @@ public class LoginDetails {
         this.enabled = enabled;
     }
 
-    @Column(name = "password_confirmed")
-    public String getPasswordConfirmed() {
-        return passwordConfirmed;
+    @Transient
+    public String getPasswordConfirm() {
+        return passwordConfirm;
     }
 
-    public void setPasswordConfirmed(String passwordConfirmed) {
-        this.passwordConfirmed = passwordConfirmed;
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
     }
 }

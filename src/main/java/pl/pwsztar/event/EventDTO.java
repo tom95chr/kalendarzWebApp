@@ -1,3 +1,4 @@
+/*
 package pl.pwsztar.event;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,9 +14,8 @@ import java.util.Date;
 import java.util.List;
 
 
-/**
- * Created by Agnieszka on 2017-06-11.
- */
+
+
 public class EventDTO {
     private String eventId;
     @NotBlank(message = "Wprowadz date")
@@ -23,7 +23,7 @@ public class EventDTO {
     private Date startDateTime;
 
     @NotBlank(message = "Wprowadz date")
-    @DateTimeFormat(pattern = "dd-MM-yyyy' 'HH:mm")
+    @DateTimeFormat(pattern = "dd-MM-ayyyy' 'HH:mm")
     private Date endDateTime;
     private String room;
     private Boolean confirmed;
@@ -109,3 +109,4 @@ public class EventDTO {
 
 
 }
+*/

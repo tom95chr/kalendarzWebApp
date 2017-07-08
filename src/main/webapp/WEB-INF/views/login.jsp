@@ -27,8 +27,8 @@
 						</div>
 					</c:if>
 					<div class="input-group input-sm">
-						<label class="input-group-addon" for="username"><i class="fa fa-users"></i></label>
-						<input type="text" class="form-control" id="username" name="ssoId" placeholder="Wprowadz login" required>
+						<label class="input-group-addon" for="email"><i class="fa fa-users"></i></label>
+						<input type="text" class="form-control" id="email" name="ssoId" placeholder="Wprowadz login" required>
 					</div>
 					<div class="input-group input-sm">
 						<label class="input-group-addon" for="password"><i class="fa fa-lock"></i></label>

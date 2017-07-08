@@ -1,8 +1,8 @@
+/*
 package pl.pwsztar.therapists;
 
-/**
- * Created by Lapek on 23.05.2017.
- */
+
+
 
 import org.springframework.format.annotation.NumberFormat;
 
@@ -15,6 +15,8 @@ public class TherapistDTO {
     @NotBlank(message = "Podaj login")
     @Pattern(regexp = "^[a-z0-9_-]{3,20}$", message = "Login musi miec od 4 do 20 znakow. Dopuszczalne znaki a-z 0-9 i podkreslniki. ")
     private String therapistId;
+
+
 
     @NotBlank(message = "Wprowadz imie")
     private String firstName;
@@ -89,3 +91,4 @@ public class TherapistDTO {
         this.therapistId = therapistId;
     }
 }
+*/
