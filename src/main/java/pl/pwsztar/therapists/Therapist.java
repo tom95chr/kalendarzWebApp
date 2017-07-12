@@ -98,8 +98,9 @@ public class Therapist {
         this.events = events;
     }
 
+
     @OneToOne(mappedBy = "therapist")
-   public LoginDetails getLoginDetails() {
+    public LoginDetails getLoginDetails() {
         return loginDetails;
     }
 
