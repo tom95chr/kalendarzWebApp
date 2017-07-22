@@ -11,6 +11,7 @@
     <title>Title</title>
 </head>
 <body>
-Fail
+Account creation failed. Please try again later.
+<a href="/">Home page</a><br><br>
 </body>
 </html>

@@ -35,8 +35,5 @@ public class TherapistValidator implements Validator {
         if (t.getTelephone().length() < 9) {
             errors.rejectValue("telephone", "Size.therapist.telephone");
         }
-/*        if (t.getTelephone().matches("[0-9]+") ) {
-            errors.rejectValue("telephone", "Letters.therapist.telephone");
-        }*/
     }
 }

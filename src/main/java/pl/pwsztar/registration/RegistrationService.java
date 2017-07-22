@@ -15,12 +15,10 @@ public class RegistrationService {
     @Autowired
     GoogleCalendar googleCalendar;
 
-    public Boolean checkGoogleCalendarNameAvailability(String googleCalendarId) {
+    public Boolean checkAvailability(String googleCalendarId) {
 
         try {
             if (googleCalendar.checkCalendarNameAvailability(googleCalendarId)) {
-                googleCalendar.createCalendar(googleCalendarId);
-                System.out.println("New calendar created");
                 return Boolean.TRUE;
             }
         } catch (IOException e) {

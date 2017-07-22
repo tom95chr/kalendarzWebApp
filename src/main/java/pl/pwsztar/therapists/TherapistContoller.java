@@ -33,8 +33,6 @@ public class TherapistContoller {
     public String therapistsList(Model model) {
         model.addAttribute("therapists", therapistDAO.findAll());
 
-        model.addAttribute("gog", therapistDAO.findByTherapistId("qwe"));
-
         return "home";
     }
     @RequestMapping("/admin/therapists")
@@ -44,7 +42,7 @@ public class TherapistContoller {
         return "therapists";
     }
 
-    @RequestMapping(value = { "/therapist-{therapistId}", "/admin/therapist-{therapistId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = { "/therapist-{therapistId}/", "/admin/therapist-{therapistId}/"}, method = RequestMethod.GET)
     public String therapistData(@PathVariable("therapistId") String therapistId,
                                 Model model) {
         model.addAttribute("therapist", therapistDAO.findByTherapistId(therapistId));

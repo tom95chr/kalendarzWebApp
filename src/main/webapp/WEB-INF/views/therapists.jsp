@@ -33,7 +33,7 @@
             <td>${therapist.firstName}</td>
             <td>${therapist.lastName}</td>
             <td>${therapist.specialization}</td>
-            <td><a href="<c:url value="therapist-${therapist.therapistId}" />">Wybierz</a></td>
+            <td><a href="<c:url value="therapist-${therapist.therapistId}/" />">Wybierz</a></td>
             <td><a href="<c:url value="therapist-${therapist.therapistId}/drop" />">Usun</a></td>
         </tr>
     </c:forEach>

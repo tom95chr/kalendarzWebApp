@@ -23,14 +23,6 @@ public class UserValidator implements Validator {
     public void validate(Object o, Errors errors) {
         LoginDetails user = (LoginDetails) o;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty");
-        if (user.getEmail().length() < 6 || user.getEmail().length() > 32) {
-            errors.rejectValue("email", "Size.userForm.username");
-        }
-        if (loginDetailsDAO.findByEmail(user.getEmail()) != null) {
-            errors.rejectValue("email", "Duplicate.userForm.username");
-        }
-
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
         if (user.getPassword().length() < 8 || user.getPassword().length() > 32) {
             errors.rejectValue("password", "Size.userForm.password");

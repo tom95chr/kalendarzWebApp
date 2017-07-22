@@ -11,6 +11,8 @@
     <title>Title</title>
 </head>
 <body>
-SUccess
+Your account has been created succesfully
+<a href="/">Home page</a><br><br>
+<a href="/admin/therapists">Therapists</a><br><br>
 </body>
 </html>

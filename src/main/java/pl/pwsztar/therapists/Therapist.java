@@ -99,7 +99,7 @@ public class Therapist {
     }
 
 
-    @OneToOne(mappedBy = "therapist")
+    @OneToOne(mappedBy = "therapist", fetch = FetchType.EAGER, orphanRemoval = true)
     public LoginDetails getLoginDetails() {
         return loginDetails;
     }

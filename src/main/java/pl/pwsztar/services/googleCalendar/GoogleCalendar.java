@@ -274,7 +274,7 @@ public class GoogleCalendar {
     }
 
     public String getGoogleCalendarId(String googleCallendarName) throws IOException {
-        System.out.println("\n"+googleCallendarName+" ID =  "+getCalendars().get(googleCallendarName));
+        //System.out.println("\n"+googleCallendarName+" ID =  "+getCalendars().get(googleCallendarName));
         return getCalendars().get(googleCallendarName);
     }
 
@@ -296,27 +296,23 @@ public class GoogleCalendar {
 
         // Insert new access rule
         AclRule createdRule = service.acl().insert(createdCalendar.getId(), rule).execute();
-
         return createdCalendar.getId();
     }
 
     public void deleteCalendar(String calendarId) throws IOException {
         // Delete a calendar
         service.calendars().delete(calendarId).execute();
-        System.out.println("calendar "+calendarId+" removed");
     }
 
-
-
-  /* public static void main(String[] args) throws IOException {
+   public static void main(String[] args) throws IOException {
         GoogleCalendar gk = new GoogleCalendar();
         //gk.deleteCalendar(gk.getGoogleCalendarId("jankowalski"));
-        //gk.createCalendar("nowy2");
+        gk.createCalendar("nowy2");
         //gk.getGoogleCalendarId("terapeuta1");
         //gk.printAllCalendars(gk.getCalendars());
         //gk.printAllUpcomingEvents(gk.getAllUpcomingEvents(gk.getGoogleCalendarId("terapeuta1")));
         //gk.updateEvent(gk.getGoogleCalendarId("terapeuta2"),"0djm9hj9344qbqgbacndeoouhk","free");
-        gk.createEvent(gk.getGoogleCalendarId("qwe"),"miauuuu ","busy","2017-06-11T15:31:20.000+02:00","2017-06-11T16:33:59.000+02:00");
+        //gk.createEvent(gk.getGoogleCalendarId("qwe"),"miauuuu ","busy","2017-06-11T15:31:20.000+02:00","2017-06-11T16:33:59.000+02:00");
         //System.out.println(gk.checkCalendarNameAvailability("mojlogin2"));
-    } */
+    }
 }
