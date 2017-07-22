@@ -71,6 +71,10 @@ public class RegistrationController {
     @RequestMapping(value = "/admin/registration", method = RequestMethod.POST)
     public ModelAndView personalData(@ModelAttribute("therapist")Therapist therapist, BindingResult bindingResult,
                                      Model model) throws IOException {
+        therapist.setTherapistId(therapist.getFirstName()+therapist.getLastName());
+        if(therapistDAO.findByTherapistId(therapist.getTherapistId())!=null){
+            therapist.setTherapistId(therapist.getFirstName()+therapist.getLastName()+"1");
+        }
         therapistValidator.validate(therapist, bindingResult);
 
         if (bindingResult.hasErrors()) {
@@ -83,7 +87,7 @@ public class RegistrationController {
             return new ModelAndView("redirect:/admin/registration/fail");
         }
 
-        therapist.setTherapistId(therapist.getEmail());
+
         therapistDAO.save(therapist);
 
         String email = therapist.getEmail();

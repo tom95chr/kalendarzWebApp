@@ -13,7 +13,7 @@
 </head>
 <body>
 <a href="<c:url value="/" />">Home</a><br />
-<a href="/admin/therapists/add">Dodaj terapeute</a><br />
+<a href="<c:url value="/admin/registration" />">Create account</a><br />
 
 <table border="1">
     <thead>
