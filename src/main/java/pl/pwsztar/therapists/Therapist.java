@@ -19,6 +19,7 @@ public class Therapist {
     private String description;
     private String googleCalendarId;
     private String telephone;
+    private String colour;
     private List<Event> events = new ArrayList<Event>();
     private LoginDetails loginDetails;
 
@@ -89,7 +90,7 @@ public class Therapist {
         this.telephone = telephone;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "therapist")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "therapist")
     public List<Event> getEvents() {
         return events;
     }
@@ -106,5 +107,13 @@ public class Therapist {
 
     public void setLoginDetails(LoginDetails loginDetails) {
         this.loginDetails = loginDetails;
+    }
+
+    public String getColour() {
+        return colour;
+    }
+
+    public void setColour(String colour) {
+        this.colour = colour;
     }
 }

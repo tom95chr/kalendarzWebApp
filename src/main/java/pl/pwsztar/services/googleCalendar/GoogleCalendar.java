@@ -151,8 +151,8 @@ public class GoogleCalendar {
         }
     }
 
-    public void createEvent(String calendarId, String summary, String availability, String startDateTime,
-                            String endDateTime) throws IOException {
+    public String createEvent(String calendarId, String summary, String availability, String startDateTime,
+                              String endDateTime) throws IOException {
 
         try{
             Event event = new Event()
@@ -175,13 +175,37 @@ public class GoogleCalendar {
 
             event = service.events().insert(calendarId, event).execute();
             System.out.printf("Free event created: %s\n", event.getHtmlLink());
+            return event.getId();
         } catch (WrongAvailabilityException e) {
             e.printStackTrace();
         } catch (Exception e){
             e.printStackTrace();
         }
+        return null;
     }
 
+    public void editEventGoogle(pl.pwsztar.event.Event eventDTO)throws IOException{
+        try{
+
+            Event event = service.events().get(eventDTO.getTherapist().getGoogleCalendarId(), eventDTO.getEventId()).execute();
+            DateTime startDT = new DateTime(eventDTO.getStartDateTime());
+            EventDateTime start = new EventDateTime()
+                    .setDateTime(startDT);
+            event.setStart(start);
+
+            DateTime endDT = new DateTime(eventDTO.getEndDateTime());
+            EventDateTime end = new EventDateTime()
+                    .setDateTime(endDT);
+            event.setEnd(end);
+
+            event.setSummary(eventDTO.getName());;
+            Event updatedEvent = service.events().update(eventDTO.getTherapist().getGoogleCalendarId(), event.getId(), event).execute();
+            System.out.println("Event updated: "+updatedEvent);
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
     public void updateEvent(String calendarId, String eventId, String availability) throws IOException {
 
         try{
@@ -200,6 +224,11 @@ public class GoogleCalendar {
         } catch(Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public  void deleteEvent(String calendarId, String eventId) throws IOException {
+
+        service.events().delete(calendarId, eventId).execute();
     }
 
     public Event setAvailability(Event event, String availability) throws WrongAvailabilityException {
@@ -274,7 +303,7 @@ public class GoogleCalendar {
     }
 
     public String getGoogleCalendarId(String googleCallendarName) throws IOException {
-        //System.out.println("\n"+googleCallendarName+" ID =  "+getCalendars().get(googleCallendarName));
+        System.out.println("\n"+googleCallendarName+" ID =  "+getCalendars().get(googleCallendarName));
         return getCalendars().get(googleCallendarName);
     }
 
@@ -302,17 +331,20 @@ public class GoogleCalendar {
     public void deleteCalendar(String calendarId) throws IOException {
         // Delete a calendar
         service.calendars().delete(calendarId).execute();
+        System.out.println("calendar "+calendarId+" removed");
     }
 
-   public static void main(String[] args) throws IOException {
+
+
+  /* public static void main(String[] args) throws IOException {
         GoogleCalendar gk = new GoogleCalendar();
         //gk.deleteCalendar(gk.getGoogleCalendarId("jankowalski"));
-        gk.createCalendar("nowy2");
+        //gk.createCalendar("nowy2");
         //gk.getGoogleCalendarId("terapeuta1");
         //gk.printAllCalendars(gk.getCalendars());
         //gk.printAllUpcomingEvents(gk.getAllUpcomingEvents(gk.getGoogleCalendarId("terapeuta1")));
         //gk.updateEvent(gk.getGoogleCalendarId("terapeuta2"),"0djm9hj9344qbqgbacndeoouhk","free");
-        //gk.createEvent(gk.getGoogleCalendarId("qwe"),"miauuuu ","busy","2017-06-11T15:31:20.000+02:00","2017-06-11T16:33:59.000+02:00");
+        gk.createEvent(gk.getGoogleCalendarId("qwe"),"miauuuu ","busy","2017-06-11T15:31:20.000+02:00","2017-06-11T16:33:59.000+02:00");
         //System.out.println(gk.checkCalendarNameAvailability("mojlogin2"));
-    }
+    } */
 }

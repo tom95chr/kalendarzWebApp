@@ -1,29 +1,115 @@
+package pl.pwsztar.event;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.constraints.NotNull;
+import java.util.Date;
+
+public class EventDTO {
+    @NotEmpty(message = "Wprowadz nazwę ")
+    private String name;
+    //@NotBlank(message = "Wprowadz date rozpoczecia")
+    //@NotEmpty
+    @NotNull
+    @DateTimeFormat(pattern = "dd-MM-yyyy' 'HH:mm")
+    private Date startDateTime;
+    //@NotBlank(message = "Wprowadz date zakonczenia")
+    @NotNull
+    @DateTimeFormat(pattern = "dd-MM-yyyy' 'HH:mm")
+    private Date endDateTime;
+    @NotEmpty
+    private String room;
+    @NotEmpty
+    private String eventType;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Date getStartDateTime() {
+        return startDateTime;
+    }
+
+    public void setStartDateTime(Date startDateTime) {
+        this.startDateTime = startDateTime;
+    }
+
+    public Date getEndDateTime() {
+        return endDateTime;
+    }
+
+    public void setEndDateTime(Date endDateTime) {
+        this.endDateTime = endDateTime;
+    }
+
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
+    }
+
+    public String getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 package pl.pwsztar.event;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.pwsztar.therapists.Therapist;
 import pl.pwsztar.type_event.Type_Event;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
 import java.util.Date;
-import java.util.List;
 
 
-
+*/
+/**
+ * Created by Agnieszka on 2017-06-11.
+ *//*
 
 public class EventDTO {
     private String eventId;
-    @NotBlank(message = "Wprowadz date")
+    //@NotBlank(message = "Wprowadz date")
     @DateTimeFormat(pattern = "dd-MM-yyyy' 'HH:mm")
     private Date startDateTime;
 
-    @NotBlank(message = "Wprowadz date")
-    @DateTimeFormat(pattern = "dd-MM-ayyyy' 'HH:mm")
+    //@NotBlank(message = "Wprowadz date")
+    @DateTimeFormat(pattern = "dd-MM-yyyy' 'HH:mm")
     private Date endDateTime;
     private String room;
     private Boolean confirmed;
@@ -33,8 +119,13 @@ public class EventDTO {
     private String name;
     @NotEmpty
     private String typ; //do povierania id type, zeby wsadzic do jsp
+    private String cykli;
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private Date endDateCykl;
 
-
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
     public String getEventId() {
         return eventId;
     }
@@ -108,5 +199,20 @@ public class EventDTO {
     }
 
 
+    public String getCykli() {
+        return cykli;
+    }
+
+    public void setCykli(String cykli) {
+        this.cykli = cykli;
+    }
+
+    public Date getEndDateCykl() {
+        return endDateCykl;
+    }
+
+    public void setEndDateCykl(Date endDateCykl) {
+        this.endDateCykl = endDateCykl;
+    }
 }
 */

@@ -4,6 +4,8 @@
   Date: 2017-06-11
   Time: 18:30
   To change this template use File | Settings | File Templates.
+
+  NIEPOTZREBENENENE !
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -14,16 +16,30 @@
 </head>
 <body>
 
-<a href="/event/addEvent">Dodaj event</a><br />
 
 
-<c:forEach items="${typem}" var="typem" varStatus="status">
+<table border="1">
+    <thead>
     <tr>
-        <td>${status.index + 1}</td>
-        <td>${typem.type}</td>
-
+        <th>#</th>
+        <th>Imie</th>
+        <th>Nazwisko</th>
+        <th>Specjalizacja</th>
+        <th>Wybierz</th>
     </tr>
-</c:forEach>
+    </thead>
+    <tbody>
+    <c:forEach items="${therapists}" var="therapist" varStatus="status">
+        <tr>
+            <td>${status.index + 1}</td>
+            <td>${therapist.firstName}</td>
+            <td>${therapist.lastName}</td>
+            <td>${therapist.specialization}</td>
+            <td><a href="<c:url value="choose-${therapist.therapistId}" />">Wybierz</a></td>
+        </tr>
+    </c:forEach>
+    </tbody>
+</table>
 
 
 </body>

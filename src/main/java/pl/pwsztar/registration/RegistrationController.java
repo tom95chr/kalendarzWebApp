@@ -87,6 +87,7 @@ public class RegistrationController {
             return new ModelAndView("redirect:/admin/registration/fail");
         }
 
+        therapist.setColour(registrationService.getRandomColour());
 
         therapistDAO.save(therapist);
 

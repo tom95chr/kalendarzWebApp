@@ -10,10 +10,12 @@
 </head>
 
 <body>
+
 <div id="mainWrapper">
 	<div class="login-container">
 		<div class="login-card">
 			<div class="login-form">
+				<a href="<c:url value="/" />">Home</a><br />
 				<c:url var="loginUrl" value="/login" />
 				<form action="${loginUrl}" method="post" class="form-horizontal">
 					<c:if test="${param.error != null}">

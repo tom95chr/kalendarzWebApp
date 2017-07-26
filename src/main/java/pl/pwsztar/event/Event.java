@@ -1,6 +1,5 @@
 package pl.pwsztar.event;
 
-import org.hibernate.annotations.GenericGenerator;
 import pl.pwsztar.client.Client;
 import pl.pwsztar.therapists.Therapist;
 import pl.pwsztar.type_event.Type_Event;
@@ -53,7 +52,7 @@ public class Event {
         this.endDateTime = endDateTime;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "type_event_id", nullable = false)
     public Type_Event getType_Event() {
         return type_event;
@@ -64,7 +63,7 @@ public class Event {
     }
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "THERAPIST_ID", nullable = false)
     public Therapist getTherapist() {
         return therapist;

@@ -16,6 +16,13 @@
 </head>
 <body>
 <form:form method="POST" modelAttribute="eventad">
+    <c:if test="${kolidacjapocz != null}">
+        Zajęcia kolicują z zajęciami: <br/>
+        Prowadzący: ${kolidacjapocz.therapist.firstName} ${kolidacjapocz.therapist.lastName} <br/>
+        Data rozpoczęcia: ${kolidacjapocz.startDateTime} <br/>
+        Data zakończenia: ${kolidacjapocz.endDateTime} <br/>
+    </c:if>
+
 
 
 
@@ -27,34 +34,43 @@
         </c:forEach>
     </form:select>
 
-
+        <br/>
     </td>
     <td><c:if test="${pageContext.request.method=='POST'}">
         <form:errors path="name" /></c:if></td>
-
+    <br/>
     <tr>
         <th>Nazwa:</th>
         <td><form:input type="text" path="name" /><c:if test="${pageContext.request.method=='POST'}">
             <form:errors path="name" /></c:if></td>
     </tr>
-
+    <br/>
     <tr>
         <th>Data rozpoczęcia</th>
         <td><form:input type="text" path="startDateTime" /><c:if test="${pageContext.request.method=='POST'}"><form:errors path="startDateTime" /></c:if></td>
     </tr>
-
+    <br/>
     <tr>
         <th>Data zakończenia</th>
         <td><form:input type="text" path="endDateTime" /><c:if test="${pageContext.request.method=='POST'}"><form:errors path="endDateTime" /></c:if></td>
-
+        <br/>
     <tr>
         <th>Sala:</th>
         <td><form:input type="text" path="room" /><c:if test="${pageContext.request.method=='POST'}">
             <form:errors path="room" /></c:if></td>
     </tr>
+    <br />
 
+    Cykliczny:
 
-
+    Nie <form:radiobutton   path="cykli" checked="checked" name ="cykl" value="nie" />
+    Tak <form:radiobutton   path="cykli" name ="cykl" value="tak" />
+    <br/>
+    <tr>
+        <th>Data zakończenia zajęć cyklicznych </th>
+        <td><form:input type="text" path="endDateCykl" /><c:if test="${pageContext.request.method=='POST'}"><form:errors path="endDateCykl" /></c:if></td>
+        <br/>
+    <tr>
 
 
     </tr>

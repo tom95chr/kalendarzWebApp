@@ -1,7 +1,5 @@
 package pl.pwsztar.type_event;
 
-import pl.pwsztar.event.Event;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +14,7 @@ public class Type_Event {
     private String typeEventId;
     private Integer max_seats;
     private String type;
-    private List<Event> events = new ArrayList<Event>();
+    private List<pl.pwsztar.event.Event> events = new ArrayList<pl.pwsztar.event.Event>();
 
 
     @Id
@@ -24,17 +22,16 @@ public class Type_Event {
     public String getTypeEventId() {
         return typeEventId;
     }
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "type_event")
+   java.awt.List Event;
+//  @OneToMany(fetch = FetchType.LAZY, mappedBy = "type_event")
+//   public List<Event> getEvents() {
+   //  return events;
+ // }
 
-    @OneToMany(mappedBy = "type_event")
-    java.awt.List Event;
-  //  @OneToMany(fetch = FetchType.LAZY, mappedBy = "type_event")
-    //public List<Event> getEvents() {
-//        return events;
+ //   public void setEvents(List<Event> events) {
+   //     this.events = events;
   //  }
-
-    //public void setEvents(List<Event> events) {
-      //  this.events = events;
- //   }
 
 
     public void setTypeEventId(String idTypeEvent) {
