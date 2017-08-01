@@ -13,9 +13,7 @@ public class Type_Event {
 
     private String typeEventId;
     private Integer max_seats;
-    private String type;
     private List<pl.pwsztar.event.Event> events = new ArrayList<pl.pwsztar.event.Event>();
-
 
     @Id
     @Column(name = "type_event_id")
@@ -45,12 +43,5 @@ public class Type_Event {
     public void setMaxSeats(Integer max_seats) {
         this.max_seats = max_seats;
     }
-    @Column(name ="type")
-            public String getType() {
-        return type;
-    }
 
-    public void setType(String type) {
-        this.type = type;
-    }
 }

@@ -34,13 +34,10 @@ public class EventController {
     Type_EventDAO type_eventDAO;
     @Autowired
     TherapistDAO therapistDAO;
-
-
     @Autowired
     EventService eventService;
     @Autowired
     ClientService clientService;
-
     @Autowired
     GoogleCalendar googleCalendar;
 
@@ -65,11 +62,25 @@ public class EventController {
             System.out.println(startDate + ":59.000+02:00");
             System.out.println(endDate + ":59.000+02:00");
 
-
             try {
                 String eventId = googleCalendar.createEvent(therapistDAO.findByEmail(user).getGoogleCalendarId(),
-                        eventDTO.getName(), "free", startDate + ":59.000+02:00", endDate + ":59.000+02:00");
-                System.out.println("pomyslnie utworzono event o id: " + eventId);
+                        eventDTO.getName(), "free", startDate + ":59.000+02:00",
+                        endDate + ":59.000+02:00");
+                System.out.println("Utworzono w kalendarzu google id eventu: " + eventId);
+
+                Event event = new Event();
+                event.setEventId(eventId);
+                event.setName(eventDTO.getName());
+                event.setStartDateTime(eventDTO.getStartDateTime());
+                event.setEndDateTime(eventDTO.getEndDateTime());
+                event.setTherapist(therapistDAO.findByEmail(user));
+                event.setRoom(eventDTO.getRoom());
+                event.setConfirmed(false);
+                event.setType_Event(type_eventDAO.findByTypeEventId(eventDTO.getEventType()));
+
+                eventDAO.save(event);
+
+                System.out.println("Utworzono w bazie danych o id: "+ eventDAO.findByEventId(eventId).getEventId());
             } catch (IOException e) {
                 System.out.println("nie utworzono eventu");
                 e.printStackTrace();

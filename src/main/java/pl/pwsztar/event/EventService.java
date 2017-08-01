@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.pwsztar.client.ClientDAO;
 import pl.pwsztar.services.googleCalendar.GoogleCalendar;
+import pl.pwsztar.therapists.Therapist;
 import pl.pwsztar.therapists.TherapistDAO;
 import pl.pwsztar.type_event.Type_EventDAO;
 
@@ -31,17 +32,49 @@ public class EventService {
     TherapistDAO therapistDAO;
     @Autowired
     ClientDAO clientDAO;
+
+    //returns true if colissions found
+    public Boolean detectColisionsByTherapist(EventDTO eventDTO, String therapistId){
+
+        List<Event> events = eventDAO.findByTherapist_TherapistId(therapistId);
+
+        for (Event event : events) {
+            if ((event.getStartDateTime().after(eventDTO.getStartDateTime())) && (event.getStartDateTime().before(eventDTO.getEndDateTime())) ){
+                return Boolean.TRUE;
+            }
+            else{
+                if ( (event.getEndDateTime().after(eventDTO.getStartDateTime())) && (event.getEndDateTime().before(eventDTO.getEndDateTime())) ){
+                    return Boolean.TRUE;
+                }
+            }
+        }
+        return Boolean.FALSE;
+    }
 /*
+    public Boolean detectColisionsByRoom(EventDTO eventDTO){
+        List<Event> events = eventDAO.findByRoom(eventDTO.getRoom());
+
+        for (Event event : events) {
+
+        }
+    }*/
+/*
+
     public Event checkDates(EventDTO eventDTO) {
 
         List<Event> eventList = eventDAO.findByRoom(eventDTO.getRoom());
 
         for (Event eve : eventList) {
 
-            if (!((eve.getStartDateTime().before(eventDTO.getStartDateTime()) && (eve.getEndDateTime().before(eventDTO.getStartDateTime()) || eve.getEndDateTime().compareTo(eventDTO.getStartDateTime()) == 0)) || ((eve.getStartDateTime().after(eventDTO.getEndDateTime()) || eve.getStartDateTime().compareTo(eventDTO.getEndDateTime()) == 0) && eve.getEndDateTime().after(eventDTO.getEndDateTime())))) {
+            if (!((eve.getStartDateTime().before(eventDTO.getStartDateTime()) &&
+                    (eve.getEndDateTime().before(eventDTO.getStartDateTime()) ||
+                            eve.getEndDateTime().compareTo(eventDTO.getStartDateTime()) == 0)) ||
+                    ((eve.getStartDateTime().after(eventDTO.getEndDateTime()) ||
+                            eve.getStartDateTime().compareTo(eventDTO.getEndDateTime()) == 0) &&
+                            eve.getEndDateTime().after(eventDTO.getEndDateTime())))) {
                 return eve;
             }
-
+(!((e.s przed d.s)&&e.e przed d.s) ||
 
         }
 

@@ -19,7 +19,7 @@
     <td><form:select path="eventType">
         <c:forEach items="${eventTypes}" var="event" varStatus="status">
             <tr>
-                <form:option value= "${event.typeEventId}" label="${event.type}" />
+                <form:option value= "${event.typeEventId}" label="${event.typeEventId}" />
             </tr>
         </c:forEach>
     </form:select>
