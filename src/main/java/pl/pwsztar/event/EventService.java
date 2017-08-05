@@ -34,21 +34,28 @@ public class EventService {
     ClientDAO clientDAO;
 
     //returns true if colissions found
-    public Boolean detectColisionsByTherapist(EventDTO eventDTO, String therapistId){
-
-        List<Event> events = eventDAO.findByTherapist_TherapistId(therapistId);
+    public Event detectColisionsByTherapist(EventDTO eventDTO, String therapistEmail){
+        List<Event> events = eventDAO.findByTherapist_Email(therapistEmail);
+        System.out.println("therapistId : "+therapistEmail);
+        System.out.println("list size: : "+events.size());
 
         for (Event event : events) {
-            if ((event.getStartDateTime().after(eventDTO.getStartDateTime())) && (event.getStartDateTime().before(eventDTO.getEndDateTime())) ){
-                return Boolean.TRUE;
-            }
-            else{
-                if ( (event.getEndDateTime().after(eventDTO.getStartDateTime())) && (event.getEndDateTime().before(eventDTO.getEndDateTime())) ){
-                    return Boolean.TRUE;
-                }
+            System.out.println("\neventId: "+event.getEventId());
+            System.out.println("compare startToStart: "+(event.getStartDateTime().compareTo(eventDTO.getStartDateTime())));
+            System.out.println("compare endToStart: "+(event.getEndDateTime().compareTo(eventDTO.getStartDateTime())));
+            System.out.println("after :"+(eventDTO.getStartDateTime().after(event.getStartDateTime())));
+            System.out.println("before: "+ (eventDTO.getStartDateTime().before(event.getEndDateTime())));
+
+            if (       (event.getStartDateTime().compareTo(eventDTO.getStartDateTime()) == 0)
+                    || (event.getEndDateTime().compareTo(eventDTO.getStartDateTime()) == 0)
+                    || ( (eventDTO.getStartDateTime().after(event.getStartDateTime()))
+                          && (eventDTO.getStartDateTime().before(event.getEndDateTime())) )
+                    ){
+
+                return event;
             }
         }
-        return Boolean.FALSE;
+        return null;
     }
 /*
     public Boolean detectColisionsByRoom(EventDTO eventDTO){

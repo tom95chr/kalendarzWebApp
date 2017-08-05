@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.pwsztar.client.ClientService;
 import pl.pwsztar.services.googleCalendar.GoogleCalendar;
-import pl.pwsztar.therapists.Therapist;
 import pl.pwsztar.therapists.TherapistDAO;
 import pl.pwsztar.type_event.Type_EventDAO;
 
@@ -17,9 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.text.Format;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by Agnieszka on 2017-06-11.
@@ -62,11 +59,21 @@ public class EventController {
             System.out.println(startDate + ":59.000+02:00");
             System.out.println(endDate + ":59.000+02:00");
 
+            Event collidedEvent = eventService.detectColisionsByTherapist(eventDTO,user);
+
+            if (collidedEvent != null){
+                model.addAttribute("collidedEvent",collidedEvent);
+                System.out.println("colision!!!");
+                return "event/createEvent";
+            }
+            else {
+                System.out.println("colision free");
+            }
+
             try {
                 String eventId = googleCalendar.createEvent(therapistDAO.findByEmail(user).getGoogleCalendarId(),
                         eventDTO.getName(), "free", startDate + ":59.000+02:00",
                         endDate + ":59.000+02:00");
-                System.out.println("Utworzono w kalendarzu google id eventu: " + eventId);
 
                 Event event = new Event();
                 event.setEventId(eventId);
@@ -80,13 +87,13 @@ public class EventController {
 
                 eventDAO.save(event);
 
-                System.out.println("Utworzono w bazie danych o id: "+ eventDAO.findByEventId(eventId).getEventId());
             } catch (IOException e) {
-                System.out.println("nie utworzono eventu");
+                System.out.println("event creation failed");
+                model.addAttribute("error","Event creation failed");
                 e.printStackTrace();
             }
         }
-        return "createEvent";
+        return "event/createEvent";
     }
 
 /*

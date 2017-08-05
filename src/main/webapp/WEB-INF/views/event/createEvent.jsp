@@ -52,6 +52,13 @@
 
 </form:form>
 
+<h2>${error}</h2>
+<c:if test="${collidedEvent != null}">
+    <h2>Upppps... this term is not available.</h2>
+    <h2>This room is occupied by ${collidedEvent.therapist.firstName} ${collidedEvent.therapist.lastName}
+        from: ${collidedEvent.startDateTime.toString()} to: ${collidedEvent.endDateTime.toString()} </h2>
+</c:if>
+
 <h2>Wszystkie w jednym</h2>
 <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showPrint=0&amp;showTabs=0&amp;
 showTz=0&amp;mode=WEEK&amp;height=600&amp;wkst=2&amp;hl=pl&amp;bgcolor=%23c0c0c0&amp;

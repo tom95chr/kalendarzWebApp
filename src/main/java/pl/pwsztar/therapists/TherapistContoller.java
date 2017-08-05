@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import pl.pwsztar.event.Event;
+import pl.pwsztar.event.EventDAO;
 import pl.pwsztar.login.LoginDetails;
 import pl.pwsztar.login.LoginDetailsDAO;
 import pl.pwsztar.services.googleCalendar.GoogleCalendar;
@@ -33,10 +35,12 @@ public class TherapistContoller {
     @Autowired
     LoginDetailsDAO loginDetailsDAO;
 
+    @Autowired
+    EventDAO eventDAO;
+
     @RequestMapping("/")
     public String therapistsList(Model model) {
         model.addAttribute("therapists", therapistDAO.findAll());
-
         return "home";
     }
     @RequestMapping("/admin/therapists")
