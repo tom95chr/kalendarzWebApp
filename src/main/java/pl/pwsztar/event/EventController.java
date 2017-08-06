@@ -89,9 +89,28 @@ public class EventController {
                 System.out.println("event creation failed");
                 model.addAttribute("error","Event creation failed");
                 e.printStackTrace();
+                return "event/createEvent";
+            }
+            catch (Exception e){
+                System.out.println("event creation failed");
+                model.addAttribute("error","Event creation failed");
+                e.printStackTrace();
+                return "event/createEvent";
             }
         }
         return "event/createEvent";
+    }
+    @RequestMapping("/event-{eventId}/drop")
+    public String dropEvent(Model model,  @PathVariable("eventId") String eventId){
+        String user = eventDAO.findByEventId(eventId).getTherapist().getTherapistId();
+        try {
+            googleCalendar.deleteEvent(eventDAO.findByEventId(eventId).getTherapist().getGoogleCalendarId(), eventId);
+            eventDAO.delete(eventId);
+            return "redirect:/therapistEvents";
+
+        } catch (IOException e) {
+            return "redirect:/therapistEvents";
+        }
     }
 
 /*

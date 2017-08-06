@@ -71,31 +71,5 @@ src=${therapist.googleCalendarId}&amp;color=${therapist.colour}&amp;
 </c:forEach>
 ctz=Europe%2FWarsaw" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
 
-<%--<table border="1">
-    <thead>
-    <tr>
-        <th>#</th>
-        <th>Nazwa</th>
-        <th>Początek</th>
-        <th>Koniec</th>
-        <th>Sala</th>
-        <th>Email klienta</th>
-        <th>Potwierdzony</th>
-        <th>Usuń</th>
-    </tr>
-    </thead>
-    <tbody>
-    <c:forEach items="${events}" var="therapist" varStatus="status">
-        <tr>
-            <td>${status.index + 1}</td>
-            <td>${therapist.firstName}</td>
-            <td>${therapist.lastName}</td>
-            <td>${therapist.specialization}</td>
-            <td><a href="<c:url value="therapist-${therapist.therapistId}/" />">Wybierz</a></td>
-
-        </tr>
-    </c:forEach>
-    </tbody>
-</table>--%>
 </body>
 </html>

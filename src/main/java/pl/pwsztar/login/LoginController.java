@@ -30,12 +30,6 @@ public class LoginController {
         return "admin";
     }
 
-    @RequestMapping(value = "/therapistEvents", method = RequestMethod.GET)
-    public String dbaPage(ModelMap model) {
-        model.addAttribute("user", getPrincipal());
-        return "therapistEvents";
-    }
-
     @RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
     public String accessDeniedPage(ModelMap model) {
         model.addAttribute("user", getPrincipal());
