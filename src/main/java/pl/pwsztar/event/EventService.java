@@ -45,11 +45,14 @@ public class EventService {
             System.out.println("compare endToStart: "+(event.getEndDateTime().compareTo(eventDTO.getStartDateTime())));
             System.out.println("after :"+(eventDTO.getStartDateTime().after(event.getStartDateTime())));
             System.out.println("before: "+ (eventDTO.getStartDateTime().before(event.getEndDateTime())));
+            System.out.println("room: "+event.getRoom().equals(eventDTO.getRoom()));
 
-            if (       (event.getStartDateTime().compareTo(eventDTO.getStartDateTime()) == 0)
-                    || (event.getEndDateTime().compareTo(eventDTO.getStartDateTime()) == 0)
-                    || ( (eventDTO.getStartDateTime().after(event.getStartDateTime()))
-                          && (eventDTO.getStartDateTime().before(event.getEndDateTime())) )
+            if (    event.getRoom().equals(eventDTO.getRoom())
+                    && (
+                        (event.getStartDateTime().compareTo(eventDTO.getStartDateTime()) == 0)
+                        || (event.getEndDateTime().compareTo(eventDTO.getStartDateTime()) == 0)
+                        || ( (eventDTO.getStartDateTime().after(event.getStartDateTime()))
+                            && (eventDTO.getStartDateTime().before(event.getEndDateTime())) ) )
                     ){
 
                 return event;

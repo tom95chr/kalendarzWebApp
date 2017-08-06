@@ -58,6 +58,9 @@
     <h2>This room is occupied by ${collidedEvent.therapist.firstName} ${collidedEvent.therapist.lastName}
         from: ${collidedEvent.startDateTime.toString()} to: ${collidedEvent.endDateTime.toString()} </h2>
 </c:if>
+<c:if test="${collidedEvent == null}">
+    <h2>${eventCreated}</h2>
+</c:if>
 
 <h2>Wszystkie w jednym</h2>
 <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showPrint=0&amp;showTabs=0&amp;

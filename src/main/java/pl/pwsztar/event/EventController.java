@@ -67,6 +67,7 @@ public class EventController {
                 return "event/createEvent";
             }
             else {
+                model.addAttribute("eventCreated","New event created succesfully !");
                 System.out.println("colision free");
             }
 
