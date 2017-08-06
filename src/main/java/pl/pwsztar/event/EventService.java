@@ -34,9 +34,9 @@ public class EventService {
     ClientDAO clientDAO;
 
     //returns true if colissions found
-    public Event detectColisionsByTherapist(EventDTO eventDTO, String therapistEmail){
-        List<Event> events = eventDAO.findByTherapist_Email(therapistEmail);
-        System.out.println("therapistId : "+therapistEmail);
+    public Event detectColisionsByTherapist(EventDTO eventDTO){
+        List<Event> events = eventDAO.findAll();
+        //System.out.println("therapistId : "+therapistEmail);
         System.out.println("list size: : "+events.size());
 
         for (Event event : events) {

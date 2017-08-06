@@ -11,8 +11,11 @@ import pl.pwsztar.login.LoginDetailsDAO;
 import pl.pwsztar.services.googleCalendar.GoogleCalendar;
 import pl.pwsztar.therapists.Therapist;
 import pl.pwsztar.therapists.TherapistDAO;
+import pl.pwsztar.therapists.colour.TherapistColour;
+import pl.pwsztar.therapists.colour.TherapistColourDAO;
 
 import java.io.IOException;
+import java.util.List;
 
 
 /**
@@ -40,6 +43,9 @@ public class RegistrationController {
     @Autowired
     private RegistrationService registrationService;
 
+    @Autowired
+    private TherapistColourDAO therapistColourDAO;
+
     @RequestMapping(value = "/admin/registration/login-details", method = RequestMethod.GET)
     public String registration(Model model){
         model.addAttribute("userForm", new LoginDetails());
@@ -64,7 +70,8 @@ public class RegistrationController {
     @RequestMapping(value = "/admin/registration", method = RequestMethod.GET)
     public String personalData(Model model) {
         model.addAttribute("therapist", new Therapist());
-
+        List<TherapistColour> colours = therapistColourDAO.findAllByTaken(false);
+        model.addAttribute("colours",colours);
         return "registration/therapistData";
     }
 
@@ -87,9 +94,12 @@ public class RegistrationController {
             return new ModelAndView("redirect:/admin/registration/fail");
         }
 
-        therapist.setColour(registrationService.getRandomColour());
-
         therapistDAO.save(therapist);
+
+        //therapist colour
+        TherapistColour therapistColour = therapistColourDAO.findByColourCode(therapist.getColour());
+        therapistColour.setTaken(true);
+        therapistColourDAO.save(therapistColour);
 
         String email = therapist.getEmail();
         ModelAndView modelAndView = new ModelAndView("redirect:/admin/registration/login-details");
@@ -111,12 +121,18 @@ public class RegistrationController {
 
     @RequestMapping("admin/therapist-{therapistId}/drop")
     public String dropTherapist(@PathVariable("therapistId") String therapistId){
+        Therapist t = therapistDAO.findByTherapistId(therapistId);
         try {
-            googleCalendar.deleteCalendar(googleCalendar.getGoogleCalendarId(therapistId));
+            googleCalendar.deleteCalendar(t.getGoogleCalendarId());
         } catch (IOException e) {
             e.printStackTrace();
         }
         therapistDAO.delete(therapistId);
+        loginDetailsDAO.delete(t.getEmail());
+
+        TherapistColour therapistColour = therapistColourDAO.findByColourCode(t.getColour());
+        therapistColour.setTaken(false);
+        therapistColourDAO.save(therapistColour);
         return "redirect:/admin/therapists";
     }
 }

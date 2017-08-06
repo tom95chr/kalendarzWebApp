@@ -44,10 +44,6 @@ public class EventController {
         model.addAttribute("eventTypes", type_eventDAO.findAll());
         model.addAttribute("therapists",therapistDAO.findAll());
 
-  /*      System.out.println("user:  "+user);
-        System.out.println(therapistDAO.findByTherapistId(user).getGoogleCalendarId());
-        googleCalendar.createEvent(therapistDAO.findByTherapistId(user).getGoogleCalendarId()
-                ,eventDTO.getName(),"free",);*/
         if (request.getMethod().equalsIgnoreCase("post") && !result.hasErrors()) {
 
             Format formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"); //zmiana formatu daty, zeby pasowała do daty od googla
@@ -59,7 +55,7 @@ public class EventController {
             System.out.println(startDate + ":59.000+02:00");
             System.out.println(endDate + ":59.000+02:00");
 
-            Event collidedEvent = eventService.detectColisionsByTherapist(eventDTO,user);
+            Event collidedEvent = eventService.detectColisionsByTherapist(eventDTO);
 
             if (collidedEvent != null){
                 model.addAttribute("collidedEvent",collidedEvent);
@@ -87,6 +83,7 @@ public class EventController {
                 event.setType_Event(type_eventDAO.findByTypeEventId(eventDTO.getEventType()));
 
                 eventDAO.save(event);
+
 
             } catch (IOException e) {
                 System.out.println("event creation failed");

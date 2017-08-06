@@ -90,7 +90,7 @@ public class Therapist {
         this.telephone = telephone;
     }
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "therapist")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "therapist", orphanRemoval = true)
     public List<Event> getEvents() {
         return events;
     }
@@ -98,7 +98,6 @@ public class Therapist {
     public void setEvents(List<Event> events) {
         this.events = events;
     }
-
 
     @OneToOne(mappedBy = "therapist", fetch = FetchType.EAGER, orphanRemoval = true)
     public LoginDetails getLoginDetails() {

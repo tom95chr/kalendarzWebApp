@@ -75,6 +75,16 @@
             </div>
         </spring:bind>
 
+        <spring:bind path="colour">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <select id="colour" name="colour" >
+                    <c:forEach items="${colours}" var="colour" varStatus="status">
+                        <option value="${colour.colourCode}">${colour.colourId}</option>
+                    </c:forEach>
+                </select>
+            </div>
+        </spring:bind>
+
         <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
     </form:form>
 
