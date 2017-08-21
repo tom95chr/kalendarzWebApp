@@ -8,7 +8,8 @@
 </head>
 <body>
 Dear <strong>${user}</strong>, Manage your events <br/> <br/>
-<td><a href="<c:url value="/event/createEvent-${user}/" />">Dodaj event</a></td> <br/> <br/>
+<td><a href="<c:url value="/event/createEvent-${user}/" />">Create event</a></td> <br/>
+<a href="<c:url value="/therapistEvents/settings" />">Settings</a><br/> <br/>
 <a href="<c:url value="/logout" />">Logout</a>
 
 <table border="1">

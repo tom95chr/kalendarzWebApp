@@ -1,8 +1,8 @@
 package pl.pwsztar.event;
 
 import pl.pwsztar.client.Client;
+import pl.pwsztar.event.eventType.EventType;
 import pl.pwsztar.therapists.Therapist;
-import pl.pwsztar.type_event.Type_Event;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class Event {
     private Boolean confirmed;
     private Therapist therapist;
     private List<Client> clients = new ArrayList<Client>();
-    private Type_Event type_event;
+    private EventType eventType;
     private String name;
 
     @Id
@@ -53,13 +53,13 @@ public class Event {
     }
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "type_event_id", nullable = false)
-    public Type_Event getType_Event() {
-        return type_event;
+    @JoinColumn(name = "event_type_id", nullable = false)
+    public EventType getEventType() {
+        return eventType;
     }
 
-    public void setType_Event(Type_Event type_event) {
-        this.type_event = type_event;
+    public void setEventType(EventType eventType) {
+        this.eventType = eventType;
     }
 
 

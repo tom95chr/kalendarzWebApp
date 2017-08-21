@@ -6,12 +6,22 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 import pl.pwsztar.event.EventDAO;
+import pl.pwsztar.event.eventType.EventType;
+import pl.pwsztar.event.eventType.EventTypeDAO;
+import pl.pwsztar.event.eventType.EventTypeValidator;
 import pl.pwsztar.login.LoginDetailsDAO;
 import pl.pwsztar.services.googleCalendar.GoogleCalendar;
+import pl.pwsztar.therapists.colour.TherapistColour;
+
+import java.io.IOException;
+import java.util.List;
 
 
 @Controller
@@ -28,6 +38,12 @@ public class TherapistContoller {
 
     @Autowired
     EventDAO eventDAO;
+
+    @Autowired
+    EventTypeDAO eventTypeDAO;
+
+    @Autowired
+    EventTypeValidator eventTypeValidator;
 
     @RequestMapping("/")
     public String therapistsList(Model model) {
@@ -55,6 +71,27 @@ public class TherapistContoller {
         model.addAttribute("events",eventDAO.findByTherapist_Email(getPrincipal()));
         model.addAttribute("therapists",therapistDAO.findAll());
         return "event/therapistEvents";
+    }
+
+    @RequestMapping(value = "/therapistEvents/settings", method = RequestMethod.GET)
+    public String therapistSettings(Model model) {
+        model.addAttribute("eventTypes",eventTypeDAO.findAll());
+        model.addAttribute("eventType",new EventType());
+        return "event/settings";
+    }
+
+    @RequestMapping(value = "/therapistEvents/settings", method = RequestMethod.POST)
+    public String therapistSettings(Model model, @ModelAttribute("eventType")EventType eventType,
+                                    BindingResult bindingResult){
+
+        model.addAttribute("eventTypes",eventTypeDAO.findAll());
+
+        eventTypeValidator.validate(eventType, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return ("event/settings");
+        }
+        eventTypeDAO.save(eventType);
+        return ("redirect:/therapistEvents/settings");
     }
 
     private String getPrincipal(){

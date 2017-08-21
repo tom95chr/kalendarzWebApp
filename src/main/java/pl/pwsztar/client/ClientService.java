@@ -67,7 +67,7 @@ public class ClientService {
         }
 
         if (event.getConfirmed()) {
-            if (event.getType_Event().getMaxSeats() - 1 == clientDAO.findAllByEvent(eventDAO.findByEventId(eventId)).size()) {
+            if (event.getEventType().getSeats() - 1 == clientDAO.findAllByEvent(eventDAO.findByEventId(eventId)).size()) {
                 event.setConfirmed(false);
                 eventDAO.save(event); //ustawienie false jak się ktoś zapisze
             }

@@ -92,7 +92,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.pwsztar.therapists.Therapist;
-import pl.pwsztar.type_event.Type_Event;
+import pl.pwsztar.event.eventType.EventType;
 
 import java.util.Date;
 
@@ -114,7 +114,7 @@ public class EventDTO {
     private String room;
     private Boolean confirmed;
     private Therapist therapist;
-    private Type_Event type_event;
+    private EventType eventType;
     @NotBlank(message = "Wprowadz nazwę ")
     private String name;
     @NotEmpty
@@ -174,12 +174,12 @@ public class EventDTO {
         this.therapist = therapist;
     }
 
-    public Type_Event getType_event() {
-        return type_event;
+    public EventType getType_event() {
+        return eventType;
     }
 
-    public void setType_event(Type_Event type_event) {
-        this.type_event = type_event;
+    public void setType_event(EventType eventType) {
+        this.eventType = eventType;
     }
 
     public String getName() {

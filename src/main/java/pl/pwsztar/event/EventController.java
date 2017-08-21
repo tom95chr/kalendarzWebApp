@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.pwsztar.client.ClientService;
+import pl.pwsztar.event.eventType.EventTypeDAO;
 import pl.pwsztar.services.googleCalendar.GoogleCalendar;
 import pl.pwsztar.therapists.TherapistDAO;
-import pl.pwsztar.type_event.Type_EventDAO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -28,7 +28,7 @@ public class EventController {
     @Autowired
     EventDAO eventDAO;
     @Autowired
-    Type_EventDAO type_eventDAO;
+    EventTypeDAO eventTypeDAO;
     @Autowired
     TherapistDAO therapistDAO;
     @Autowired
@@ -41,7 +41,7 @@ public class EventController {
     @RequestMapping("/event/createEvent-{user}/")
     public String createEvent(Model model, HttpServletRequest request, @ModelAttribute("eventDto") @Valid EventDTO eventDTO,
                               BindingResult result, @PathVariable("user") String user){
-        model.addAttribute("eventTypes", type_eventDAO.findAll());
+        model.addAttribute("eventTypes", eventTypeDAO.findAll());
         model.addAttribute("therapists",therapistDAO.findAll());
 
         if (request.getMethod().equalsIgnoreCase("post") && !result.hasErrors()) {
@@ -80,8 +80,7 @@ public class EventController {
                 event.setTherapist(therapistDAO.findByEmail(user));
                 event.setRoom(eventDTO.getRoom());
                 event.setConfirmed(false);
-                event.setType_Event(type_eventDAO.findByTypeEventId(eventDTO.getEventType()));
-
+                event.setEventType(eventTypeDAO.findByEventTypeId(eventDTO.getEventType()));
                 eventDAO.save(event);
 
 
@@ -120,7 +119,7 @@ public class EventController {
                             BindingResult result, @PathVariable("user") String user) throws IOException, ParseException,
             InstantiationException, IllegalAccessException {
 
-        model.addAttribute("typee", type_eventDAO.findAll());
+        model.addAttribute("typee", eventTypeDAO.findAll());
         if (request.getMethod().equalsIgnoreCase("post") && !result.hasErrors()) {
 
             Event eve =  eventService.addNewEvent(eventDTO, user);
@@ -148,7 +147,7 @@ public class EventController {
     @RequestMapping("/event/editEvent-{eve.eventId}")
     public String editEvent(HttpServletRequest request, @ModelAttribute("eventadd") @Valid EventDTO eventDTO,
                             BindingResult result, Model model, @PathVariable("eve.eventId") String eventId) throws IOException {
-        model.addAttribute("typee", type_eventDAO.findAll());
+        model.addAttribute("typee", eventTypeDAO.findAll());
         model.addAttribute("event", eventDAO.findByEventId(eventId));
         Event event =   eventDAO.findByEventId(eventId);
         Format formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm"); //zmiana formatu daty, zeby pasowała do daty od googla

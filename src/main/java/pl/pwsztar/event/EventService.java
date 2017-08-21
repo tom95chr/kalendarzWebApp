@@ -3,17 +3,10 @@ package pl.pwsztar.event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.pwsztar.client.ClientDAO;
+import pl.pwsztar.event.eventType.EventTypeDAO;
 import pl.pwsztar.services.googleCalendar.GoogleCalendar;
-import pl.pwsztar.therapists.Therapist;
 import pl.pwsztar.therapists.TherapistDAO;
-import pl.pwsztar.type_event.Type_EventDAO;
 
-import java.io.IOException;
-import java.text.Format;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,7 +20,7 @@ public class EventService {
     @Autowired
     GoogleCalendar googleCalendar;
     @Autowired
-    Type_EventDAO type_eventDAO;
+    EventTypeDAO eventTypeDAO;
     @Autowired
     TherapistDAO therapistDAO;
     @Autowired
@@ -108,7 +101,7 @@ public class EventService {
         event.setStartDateTime(eventDTO.getStartDateTime());
         event.setEndDateTime(eventDTO.getEndDateTime());
         event.setRoom(eventDTO.getRoom());
-        event.setType_Event(type_eventDAO.findByTypeEventId(eventDTO.getTyp()));
+        event.setType_Event(eventTypeDAO.findByTypeEventId(eventDTO.getTyp()));
         event.setTherapist(therapistDAO.findByTherapistId(user));
         event.setConfirmed(true);
 
@@ -180,7 +173,7 @@ public class EventService {
         event.setStartDateTime(eventDTO.getStartDateTime());
         event.setEndDateTime(eventDTO.getEndDateTime());
         event.setRoom(eventDTO.getRoom());
-        event.setType_Event(type_eventDAO.findByTypeEventId(eventDTO.getTyp()));
+        event.setType_Event(eventTypeDAO.findByTypeEventId(eventDTO.getTyp()));
 
         event.setConfirmed(eventDTO.getConfirmed());
 
