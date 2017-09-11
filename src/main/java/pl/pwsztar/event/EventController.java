@@ -38,7 +38,7 @@ public class EventController {
     @Autowired
     GoogleCalendar googleCalendar;
 
-    @RequestMapping("/event/createEvent-{user}/")
+    @RequestMapping("/therapist-events/createEvent-{user}/")
     public String createEvent(Model model, HttpServletRequest request, @ModelAttribute("eventDto") @Valid EventDTO eventDTO,
                               BindingResult result, @PathVariable("user") String user){
         model.addAttribute("eventTypes", eventTypeDAO.findAll());
@@ -105,10 +105,10 @@ public class EventController {
         try {
             googleCalendar.deleteEvent(eventDAO.findByEventId(eventId).getTherapist().getGoogleCalendarId(), eventId);
             eventDAO.delete(eventId);
-            return "redirect:/therapistEvents";
+            return "redirect:/therapist-events";
 
         } catch (IOException e) {
-            return "redirect:/therapistEvents";
+            return "redirect:/therapist-events";
         }
     }
 

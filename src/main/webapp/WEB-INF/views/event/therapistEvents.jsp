@@ -8,10 +8,10 @@
 </head>
 <body>
 Dear <strong>${user}</strong>, Manage your events <br/> <br/>
-<td><a href="<c:url value="/event/createEvent-${user}/" />">Create event</a></td> <br/>
-<a href="<c:url value="/therapistEvents/settings" />">Settings</a><br/> <br/>
-<a href="<c:url value="/logout" />">Logout</a>
-
+<td><a href="<c:url value="/therapist-events/createEvent-${user}/" />">Create event</a></td> <br/>
+<a href="<c:url value="/therapist-events/settings" />">Settings</a><br/>
+<a href="<c:url value="/logout" />">Logout</a><br/>
+<a href="<c:url value="/" />">Home</a><br/>
 <table border="1">
     <thead>
     <tr>
@@ -33,7 +33,7 @@ Dear <strong>${user}</strong>, Manage your events <br/> <br/>
             <td>${event.endDateTime}</td>
             <td>${event.room}</td>
             <td>${event.confirmed}</td>
-            <td><a href="<c:url value="/event-${event.eventId}/drop" />">Usuń</a></td>
+            <td><a href="<c:url value="/event-${event.eventId}/drop" />">Drop</a></td>
         </tr>
     </c:forEach>
     </tbody>

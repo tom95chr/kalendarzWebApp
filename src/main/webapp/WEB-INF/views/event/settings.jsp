@@ -14,7 +14,7 @@
     <title>Settings</title>
 </head>
 <body>
-<a href="<c:url value="/therapistEvents" />">Therapist Events</a><br/> <br/>
+<a href="<c:url value="/therapist-events" />">Therapist Events</a><br/> <br/>
 
 <div class="container">
 

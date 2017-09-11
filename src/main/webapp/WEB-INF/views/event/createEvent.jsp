@@ -14,6 +14,8 @@
     <title>Create Event</title>
 </head>
 <body>
+<a href="<c:url value="/therapist-events" />">Therapist events</a><br/> <br/>
+
 <form:form method="POST" modelAttribute="eventDto">
 
     <th>Typ zajęć</th><br/>

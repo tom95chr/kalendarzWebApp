@@ -65,7 +65,7 @@ public class TherapistContoller {
         return "therapist";
     }
 
-    @RequestMapping(value = "/therapistEvents", method = RequestMethod.GET)
+    @RequestMapping(value = "/therapist-events", method = RequestMethod.GET)
     public String dbaPage(ModelMap model) {
         model.addAttribute("user", getPrincipal());
         model.addAttribute("events",eventDAO.findByTherapist_Email(getPrincipal()));
@@ -73,14 +73,14 @@ public class TherapistContoller {
         return "event/therapistEvents";
     }
 
-    @RequestMapping(value = "/therapistEvents/settings", method = RequestMethod.GET)
+    @RequestMapping(value = "/therapist-events/settings", method = RequestMethod.GET)
     public String therapistSettings(Model model) {
         model.addAttribute("eventTypes",eventTypeDAO.findAll());
         model.addAttribute("eventType",new EventType());
         return "event/settings";
     }
 
-    @RequestMapping(value = "/therapistEvents/settings", method = RequestMethod.POST)
+    @RequestMapping(value = "/therapist-events/settings", method = RequestMethod.POST)
     public String therapistSettings(Model model, @ModelAttribute("eventType")EventType eventType,
                                     BindingResult bindingResult){
 
@@ -91,7 +91,7 @@ public class TherapistContoller {
             return ("event/settings");
         }
         eventTypeDAO.save(eventType);
-        return ("redirect:/therapistEvents/settings");
+        return ("redirect:/therapist-events/settings");
     }
 
     private String getPrincipal(){

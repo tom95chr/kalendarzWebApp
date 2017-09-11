@@ -78,6 +78,8 @@ public class RegistrationController {
     @RequestMapping(value = "/admin/registration", method = RequestMethod.POST)
     public ModelAndView personalData(@ModelAttribute("therapist")Therapist therapist, BindingResult bindingResult,
                                      Model model) throws IOException {
+        List<TherapistColour> colours = therapistColourDAO.findAllByTaken(false);
+        model.addAttribute("colours",colours);
         therapist.setTherapistId(therapist.getFirstName()+therapist.getLastName());
         if(therapistDAO.findByTherapistId(therapist.getTherapistId())!=null){
             therapist.setTherapistId(therapist.getFirstName()+therapist.getLastName()+"1");

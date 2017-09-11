@@ -8,7 +8,7 @@
         <intercept-url pattern="/" access="permitAll" />
         <intercept-url pattern="/home" access="permitAll" />
         <intercept-url pattern="/admin**" access="hasRole('ADMIN')" />
-        <intercept-url pattern="/therapistEvents**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')"/>
+        <intercept-url pattern="/therapist-events**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')"/>
         <form-login  login-page="/login"
                      username-parameter="ssoId"
                      password-parameter="password"

@@ -15,7 +15,7 @@
     <a href="/admin">Admin</a><br><br>
 </sec:authorize>
 <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
-    <a href="/therapistEvents">Terapeuta</a><br><br>
+    <a href="/therapist-events">Terapeuta</a><br><br>
 </sec:authorize>
 <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
     <a href="/logout">Wyloguj</a><br><br>
