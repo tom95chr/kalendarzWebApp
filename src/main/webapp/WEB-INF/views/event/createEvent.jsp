@@ -30,25 +30,43 @@
     <br/>
     <tr>
         <th>Nazwa</th><br/>
-        <td><form:input type="text" path="name" /><c:if test="${pageContext.request.method=='POST'}"><form:errors path="name" /></c:if></td>
+        <td><form:input type="text" path="name" /><c:if test="${pageContext.request.method=='POST'}">
+            <form:errors path="name" /></c:if></td>
     </tr>
     <br/>
     <tr>
         <th>Data rozpoczęcia</th><br/>
-        <td><form:input type="text" path="startDateTime" /><c:if test="${pageContext.request.method=='POST'}"><form:errors path="startDateTime" /></c:if></td>
+        <th>Przykład 06-09-2017 18:00</th><br/>
+        <td><form:input type="text" path="startDateTime" /><c:if test="${pageContext.request.method=='POST'}">
+            <form:errors path="startDateTime" /></c:if></td>
     </tr>
     <br/>
     <tr>
         <th>Data zakończenia</th><br/>
-        <td><form:input type="text" path="endDateTime" /><c:if test="${pageContext.request.method=='POST'}"><form:errors path="endDateTime" /></c:if></td>
+        <th>Przykład 06-09-2017 18:00</th><br/>
+        <td><form:input type="text" path="endDateTime" /><c:if test="${pageContext.request.method=='POST'}">
+            <form:errors path="endDateTime" /></c:if></td>
         <br/>
     <tr>
         <th>Sala:</th><br/>
         <td><form:input type="text" path="room" /><c:if test="${pageContext.request.method=='POST'}">
             <form:errors path="room" /></c:if></td>
+        <br/>
     </tr>
-    <br />
+   <%-- <tr>
+        <th>Czy wydarzenie ma się powtarzać ?</th></br>
+        <td><form:radiobutton path="cyclic" value="false" checked="true" />Nie
+            <form:radiobutton path="cyclic" value="true" />Tak</td>
+        <td><form:errors path="cyclic" /></td>
+        <br/>
 
+    </tr>--%>
+    <tr>
+        <th>Przez ile tygodni ma się powtarzać ?</th><br/>
+        <td><form:input type="number" min="0" max="50" step="1" value="0" size="3" path="numberOfRepetitions"/>
+            <c:if test="${pageContext.request.method=='POST'}">
+            <form:errors path="numberOfRepetitions" /></c:if></td>
+        <br/><br/>
     </tr>
     <td colspan="2" align="right"><input type="submit" value="Utwórz" /></td>
     </tr>

@@ -7,6 +7,7 @@ import pl.pwsztar.event.eventType.EventTypeDAO;
 import pl.pwsztar.services.googleCalendar.GoogleCalendar;
 import pl.pwsztar.therapists.TherapistDAO;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,12 +34,12 @@ public class EventService {
         System.out.println("list size: : "+events.size());
 
         for (Event event : events) {
-            System.out.println("\neventId: "+event.getEventId());
+         /*   System.out.println("\neventId: "+event.getEventId());
             System.out.println("compare startToStart: "+(event.getStartDateTime().compareTo(eventDTO.getStartDateTime())));
             System.out.println("compare endToStart: "+(event.getEndDateTime().compareTo(eventDTO.getStartDateTime())));
             System.out.println("after :"+(eventDTO.getStartDateTime().after(event.getStartDateTime())));
             System.out.println("before: "+ (eventDTO.getStartDateTime().before(event.getEndDateTime())));
-            System.out.println("room: "+event.getRoom().equals(eventDTO.getRoom()));
+            System.out.println("room: "+event.getRoom().equals(eventDTO.getRoom()));*/
 
             if (    event.getRoom().equals(eventDTO.getRoom())
                     && (
@@ -52,6 +53,15 @@ public class EventService {
             }
         }
         return null;
+    }
+
+    public EventDTO addOneWeek(EventDTO eventDTO){
+        Long start = (eventDTO.getStartDateTime().getTime() + (7 * 24 * 3600 * 1000));
+        Long end = (eventDTO.getEndDateTime().getTime() + (7 * 24 * 3600 * 1000));
+        eventDTO.setStartDateTime(new Date(start));
+        eventDTO.setEndDateTime(new Date(end));
+
+        return eventDTO;
     }
 /*
     public Boolean detectColisionsByRoom(EventDTO eventDTO){

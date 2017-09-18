@@ -24,6 +24,8 @@ public class EventDTO {
     @NotEmpty
     private String eventType;
 
+    private Integer numberOfRepetitions;
+
     public String getName() {
         return name;
     }
@@ -62,6 +64,14 @@ public class EventDTO {
 
     public void setEventType(String eventType) {
         this.eventType = eventType;
+    }
+
+    public Integer getNumberOfRepetitions() {
+        return numberOfRepetitions;
+    }
+
+    public void setNumberOfRepetitions(Integer numberOfRepetitions) {
+        this.numberOfRepetitions = numberOfRepetitions;
     }
 }
 

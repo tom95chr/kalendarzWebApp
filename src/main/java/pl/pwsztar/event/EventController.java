@@ -46,55 +46,53 @@ public class EventController {
 
         if (request.getMethod().equalsIgnoreCase("post") && !result.hasErrors()) {
 
-            Format formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"); //zmiana formatu daty, zeby pasowała do daty od googla
-            String startDate = formatter.format(eventDTO.getStartDateTime());
-            String endDate = formatter.format(eventDTO.getEndDateTime());
-            System.out.println("format");
-            System.out.println(therapistDAO.findByEmail(user).getGoogleCalendarId());
-            System.out.println(eventDTO.getName());
-            System.out.println(startDate + ":59.000+02:00");
-            System.out.println(endDate + ":59.000+02:00");
-
-            Event collidedEvent = eventService.detectColisionsByTherapist(eventDTO);
-
-            if (collidedEvent != null){
-                model.addAttribute("collidedEvent",collidedEvent);
-                System.out.println("colision!!!");
-                return "event/createEvent";
-            }
-            else {
-                model.addAttribute("eventCreated","New event created succesfully !");
-                System.out.println("colision free");
-            }
-
-            try {
-                String eventId = googleCalendar.createEvent(therapistDAO.findByEmail(user).getGoogleCalendarId(),
-                        eventDTO.getName(), "free", startDate + ":59.000+02:00",
-                        endDate + ":59.000+02:00");
-
-                Event event = new Event();
-                event.setEventId(eventId);
-                event.setName(eventDTO.getName());
-                event.setStartDateTime(eventDTO.getStartDateTime());
-                event.setEndDateTime(eventDTO.getEndDateTime());
-                event.setTherapist(therapistDAO.findByEmail(user));
-                event.setRoom(eventDTO.getRoom());
-                event.setConfirmed(false);
-                event.setEventType(eventTypeDAO.findByEventTypeId(eventDTO.getEventType()));
-                eventDAO.save(event);
+            Format myGoogleFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"); //zmiana formatu daty, zeby pasowała do daty od googla
 
 
-            } catch (IOException e) {
-                System.out.println("event creation failed");
-                model.addAttribute("error","Event creation failed");
-                e.printStackTrace();
-                return "event/createEvent";
-            }
-            catch (Exception e){
-                System.out.println("event creation failed");
-                model.addAttribute("error","Event creation failed");
-                e.printStackTrace();
-                return "event/createEvent";
+            for (int i = 0; i <= eventDTO.getNumberOfRepetitions(); i++){
+                String startDate = myGoogleFormat.format(eventDTO.getStartDateTime());
+                String endDate   = myGoogleFormat.format(eventDTO.getEndDateTime());
+                Event collidedEvent = eventService.detectColisionsByTherapist(eventDTO);
+
+                if (collidedEvent != null){
+                    model.addAttribute("collidedEvent",collidedEvent);
+                    System.out.println("colision!!!");
+                    return "event/createEvent";
+                }
+                else {
+                    model.addAttribute("eventCreated","New event created succesfully !");
+                    System.out.println("colision free");
+
+                    try {
+                        String eventId = googleCalendar.createEvent(therapistDAO.findByEmail(user).getGoogleCalendarId(),
+                                eventDTO.getName(), "free", startDate + ":59.000+02:00",
+                                endDate + ":59.000+02:00");
+
+                        Event event = new Event();
+                        event.setEventId(eventId);
+                        event.setName(eventDTO.getName());
+                        event.setStartDateTime(eventDTO.getStartDateTime());
+                        event.setEndDateTime(eventDTO.getEndDateTime());
+                        event.setTherapist(therapistDAO.findByEmail(user));
+                        event.setRoom(eventDTO.getRoom());
+                        event.setConfirmed(false);
+                        event.setEventType(eventTypeDAO.findByEventTypeId(eventDTO.getEventType()));
+                        eventDAO.save(event);
+                        eventDTO = eventService.addOneWeek(eventDTO);
+
+                    } catch (IOException e) {
+                        System.out.println("event creation failed");
+                        model.addAttribute("error","Event creation failed");
+                        e.printStackTrace();
+                        return "event/createEvent";
+                    }
+                    catch (Exception e){
+                        System.out.println("event creation failed");
+                        model.addAttribute("error","Event creation failed");
+                        e.printStackTrace();
+                        return "event/createEvent";
+                    }
+                }
             }
         }
         return "event/createEvent";
