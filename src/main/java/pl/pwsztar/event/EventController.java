@@ -57,10 +57,10 @@ public class EventController {
                 if (collidedEvent != null){
                     model.addAttribute("collidedEvent",collidedEvent);
                     System.out.println("colision!!!");
-                    return "event/createEvent";
+                    return "therapist/createEvent";
                 }
                 else {
-                    model.addAttribute("eventCreated","New event created succesfully !");
+                    model.addAttribute("eventCreated","New event/events created successfully !");
                     System.out.println("colision free");
 
                     try {
@@ -79,23 +79,25 @@ public class EventController {
                         event.setEventType(eventTypeDAO.findByEventTypeId(eventDTO.getEventType()));
                         eventDAO.save(event);
                         eventDTO = eventService.addOneWeek(eventDTO);
+                        System.out.println("cyc s: "+ eventDTO.getStartDateTime());
+                        System.out.println("cyc k: "+ eventDTO.getEndDateTime());
 
                     } catch (IOException e) {
                         System.out.println("event creation failed");
                         model.addAttribute("error","Event creation failed");
                         e.printStackTrace();
-                        return "event/createEvent";
+                        return "therapist/createEvent";
                     }
                     catch (Exception e){
                         System.out.println("event creation failed");
                         model.addAttribute("error","Event creation failed");
                         e.printStackTrace();
-                        return "event/createEvent";
+                        return "therapist/createEvent";
                     }
                 }
             }
         }
-        return "event/createEvent";
+        return "therapist/createEvent";
     }
     @RequestMapping("/event-{eventId}/drop")
     public String dropEvent(Model model,  @PathVariable("eventId") String eventId){

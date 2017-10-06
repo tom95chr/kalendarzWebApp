@@ -19,11 +19,11 @@
     <thead>
     <tr>
         <th>#</th>
-        <th>Imie</th>
-        <th>Nazwisko</th>
-        <th>Specjalizacja</th>
-        <th>Wybierz</th>
-        <th>Usun</th>
+        <th>First name</th>
+        <th>Surname</th>
+        <th>Specjalization</th>
+        <th>Choose me</th>
+        <th>Drop</th>
     </tr>
     </thead>
     <tbody>
@@ -33,8 +33,8 @@
             <td>${therapist.firstName}</td>
             <td>${therapist.lastName}</td>
             <td>${therapist.specialization}</td>
-            <td><a href="<c:url value="therapist-${therapist.therapistId}/" />">Wybierz</a></td>
-            <td><a href="<c:url value="therapist-${therapist.therapistId}/drop" />">Usun</a></td>
+            <td><a href="<c:url value="therapist-${therapist.therapistId}/" />">Choose</a></td>
+            <td><a href="<c:url value="therapist-${therapist.therapistId}/drop" />">Drop</a></td>
         </tr>
     </c:forEach>
     </tbody>

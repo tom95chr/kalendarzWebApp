@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Lista terapeutow</title>
+    <title>Therapist list</title>
 </head>
 <body>
 
@@ -15,20 +15,20 @@
     <a href="/admin">Admin</a><br><br>
 </sec:authorize>
 <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
-    <a href="/therapist-events">Terapeuta</a><br><br>
+    <a href="/therapist-events">Therapist</a><br><br>
 </sec:authorize>
 <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
-    <a href="/logout">Wyloguj</a><br><br>
+    <a href="/logout">Logout</a><br><br>
 </sec:authorize>
 
 <table border="1">
     <thead>
     <tr>
         <th>#</th>
-        <th>Imie</th>
-        <th>Nazwisko</th>
-        <th>Specjalizacja</th>
-        <th>Wybierz</th>
+        <th>First name</th>
+        <th>Surname</th>
+        <th>Speciality</th>
+        <th>Choose me</th>
     </tr>
     </thead>
     <tbody>
@@ -38,7 +38,7 @@
             <td>${therapist.firstName}</td>
             <td>${therapist.lastName}</td>
             <td>${therapist.specialization}</td>
-            <td><a href="<c:url value="therapist-${therapist.therapistId}/" />">Wybierz</a></td>
+            <td><a href="<c:url value="therapist-${therapist.therapistId}/" />">Choose</a></td>
 
         </tr>
     </c:forEach>

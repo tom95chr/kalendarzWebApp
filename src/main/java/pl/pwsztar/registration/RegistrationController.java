@@ -50,7 +50,7 @@ public class RegistrationController {
     public String registration(Model model){
         model.addAttribute("userForm", new LoginDetails());
 
-        return "registration/loginDetails";
+        return "admin/registration/loginDetails";
     }
     @RequestMapping(value = "/admin/registration/login-details", method = RequestMethod.POST)
     public String registration(@ModelAttribute("userForm") LoginDetails userForm, BindingResult bindingResult,
@@ -58,7 +58,7 @@ public class RegistrationController {
 
         userValidator.validate(userForm, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "registration/loginDetails";
+            return "admin/registration/loginDetails";
         }
         userForm.setEmail(email);
         userForm.setEnabled(Boolean.TRUE);
@@ -72,7 +72,7 @@ public class RegistrationController {
         model.addAttribute("therapist", new Therapist());
         List<TherapistColour> colours = therapistColourDAO.findAllByTaken(false);
         model.addAttribute("colours",colours);
-        return "registration/therapistData";
+        return "admin/registration/therapistData";
     }
 
     @RequestMapping(value = "/admin/registration", method = RequestMethod.POST)
@@ -87,7 +87,7 @@ public class RegistrationController {
         therapistValidator.validate(therapist, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("registration/therapistData");
+            return new ModelAndView("admin/registration/therapistData");
         }
         if (registrationService.checkAvailability(therapist.getEmail())) {
             therapist.setGoogleCalendarId(googleCalendar.createCalendar(therapist.getEmail()));
@@ -112,13 +112,13 @@ public class RegistrationController {
     @RequestMapping(value = "/admin/registration/success", method = RequestMethod.GET)
     public String registrationSuccess(Model model) {
 
-        return "registration/success";
+        return "admin/registration/success";
     }
 
     @RequestMapping(value = "/admin/registration/fail", method = RequestMethod.GET)
     public String registrationFail(Model model) {
 
-        return "registration/fail";
+        return "admin/registration/fail";
     }
 
     @RequestMapping("admin/therapist-{therapistId}/drop")

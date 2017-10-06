@@ -16,12 +16,12 @@ Dear <strong>${user}</strong>, Manage your events <br/> <br/>
     <thead>
     <tr>
         <th>#</th>
-        <th>Nazwa</th>
-        <th>Początek</th>
-        <th>Koniec</th>
-        <th>Sala</th>
-        <th>Potwierdzony</th>
-        <th>Usuń</th>
+        <th>Event name</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Room</th>
+        <th>Confirmed ?</th>
+        <th>Drop</th>
     </tr>
     </thead>
     <tbody>
@@ -39,7 +39,7 @@ Dear <strong>${user}</strong>, Manage your events <br/> <br/>
     </tbody>
 </table>
 
-<h2>Wszystkie w jednym</h2>
+<h2>All therapist events in one calendar</h2>
 <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showPrint=0&amp;showTabs=0&amp;
 showTz=0&amp;mode=WEEK&amp;height=600&amp;wkst=2&amp;hl=pl&amp;bgcolor=%23c0c0c0&amp;
 <c:forEach items="${therapists}" var="therapist">

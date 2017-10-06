@@ -11,17 +11,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 import pl.pwsztar.event.EventDAO;
 import pl.pwsztar.event.eventType.EventType;
 import pl.pwsztar.event.eventType.EventTypeDAO;
 import pl.pwsztar.event.eventType.EventTypeValidator;
 import pl.pwsztar.login.LoginDetailsDAO;
 import pl.pwsztar.services.googleCalendar.GoogleCalendar;
-import pl.pwsztar.therapists.colour.TherapistColour;
-
-import java.io.IOException;
-import java.util.List;
 
 
 @Controller
@@ -54,7 +49,7 @@ public class TherapistContoller {
     public String therapistsListAdmin(Model model) {
         model.addAttribute("therapists", therapistDAO.findAll());
 
-        return "therapists";
+        return "admin/therapists";
     }
 
     @RequestMapping(value = { "/therapist-{therapistId}/", "/admin/therapist-{therapistId}/"}, method = RequestMethod.GET)
@@ -70,14 +65,14 @@ public class TherapistContoller {
         model.addAttribute("user", getPrincipal());
         model.addAttribute("events",eventDAO.findByTherapist_Email(getPrincipal()));
         model.addAttribute("therapists",therapistDAO.findAll());
-        return "event/therapistEvents";
+        return "therapist/therapistEvents";
     }
 
     @RequestMapping(value = "/therapist-events/settings", method = RequestMethod.GET)
     public String therapistSettings(Model model) {
         model.addAttribute("eventTypes",eventTypeDAO.findAll());
         model.addAttribute("eventType",new EventType());
-        return "event/settings";
+        return "therapist/settings";
     }
 
     @RequestMapping(value = "/therapist-events/settings", method = RequestMethod.POST)

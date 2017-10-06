@@ -18,7 +18,7 @@
 
 <form:form method="POST" modelAttribute="eventDto">
 
-    <th>Typ zajęć</th><br/>
+    <th>Event type</th><br/>
     <td><form:select path="eventType">
         <c:forEach items="${eventTypes}" var="event" varStatus="status">
             <tr>
@@ -29,46 +29,38 @@
     </td>
     <br/>
     <tr>
-        <th>Nazwa</th><br/>
+        <th>Event name</th><br/>
         <td><form:input type="text" path="name" /><c:if test="${pageContext.request.method=='POST'}">
             <form:errors path="name" /></c:if></td>
     </tr>
     <br/>
     <tr>
-        <th>Data rozpoczęcia</th><br/>
-        <th>Przykład 06-09-2017 18:00</th><br/>
+        <th>Start date/time</th><br/>
+        <th>Example 06-09-2017 18:00</th><br/>
         <td><form:input type="text" path="startDateTime" /><c:if test="${pageContext.request.method=='POST'}">
             <form:errors path="startDateTime" /></c:if></td>
     </tr>
     <br/>
     <tr>
-        <th>Data zakończenia</th><br/>
-        <th>Przykład 06-09-2017 18:00</th><br/>
+        <th>End date/time</th><br/>
+        <th>Example 06-09-2017 18:00</th><br/>
         <td><form:input type="text" path="endDateTime" /><c:if test="${pageContext.request.method=='POST'}">
             <form:errors path="endDateTime" /></c:if></td>
         <br/>
     <tr>
-        <th>Sala:</th><br/>
+        <th>Room:</th><br/>
         <td><form:input type="text" path="room" /><c:if test="${pageContext.request.method=='POST'}">
             <form:errors path="room" /></c:if></td>
         <br/>
     </tr>
-   <%-- <tr>
-        <th>Czy wydarzenie ma się powtarzać ?</th></br>
-        <td><form:radiobutton path="cyclic" value="false" checked="true" />Nie
-            <form:radiobutton path="cyclic" value="true" />Tak</td>
-        <td><form:errors path="cyclic" /></td>
-        <br/>
-
-    </tr>--%>
     <tr>
-        <th>Przez ile tygodni ma się powtarzać ?</th><br/>
+        <th>If you want to create weekly repeated event, just add weeks below</th><br/>
         <td><form:input type="number" min="0" max="50" step="1" value="0" size="3" path="numberOfRepetitions"/>
             <c:if test="${pageContext.request.method=='POST'}">
             <form:errors path="numberOfRepetitions" /></c:if></td>
         <br/><br/>
     </tr>
-    <td colspan="2" align="right"><input type="submit" value="Utwórz" /></td>
+    <td colspan="2" align="right"><input type="submit" value="Create" /></td>
     </tr>
 
 </form:form>
@@ -83,7 +75,7 @@
     <h2>${eventCreated}</h2>
 </c:if>
 
-<h2>Wszystkie w jednym</h2>
+<h2>All therapist events in one calendar</h2>
 <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showPrint=0&amp;showTabs=0&amp;
 showTz=0&amp;mode=WEEK&amp;height=600&amp;wkst=2&amp;hl=pl&amp;bgcolor=%23c0c0c0&amp;
 <c:forEach items="${therapists}" var="therapist">

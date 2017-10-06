@@ -20,27 +20,27 @@
 				<form action="${loginUrl}" method="post" class="form-horizontal">
 					<c:if test="${param.error != null}">
 						<div class="alert alert-danger">
-							<p>Bledny login lub haslo.</p>
+							<p>Wrong login or password !</p>
 						</div>
 					</c:if>
 					<c:if test="${param.logout != null}">
 						<div class="alert alert-success">
-							<p>Wylogowanie zakonczone sukcesem.</p>
+							<p>Logout successfully</p>
 						</div>
 					</c:if>
 					<div class="input-group input-sm">
 						<label class="input-group-addon" for="email"><i class="fa fa-users"></i></label>
-						<input type="text" class="form-control" id="email" name="ssoId" placeholder="Wprowadz login" required>
+						<input type="text" class="form-control" id="email" name="ssoId" placeholder="Login" required>
 					</div>
 					<div class="input-group input-sm">
 						<label class="input-group-addon" for="password"><i class="fa fa-lock"></i></label>
-						<input type="password" class="form-control" id="password" name="password" placeholder="Wprowadz haslo" required>
+						<input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
 					</div>
 					<input type="hidden" name="${_csrf.parameterName}"   value="${_csrf.token}" />
 
 					<div class="form-actions">
 						<input type="submit"
-							   class="btn btn-block btn-primary btn-default" value="Zaloguj">
+							   class="btn btn-block btn-primary btn-default" value="Login">
 					</div>
 				</form>
 			</div>
