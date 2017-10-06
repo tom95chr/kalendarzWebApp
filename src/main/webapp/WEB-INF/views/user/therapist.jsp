@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Lapek
@@ -25,6 +26,35 @@
         <th>Specjalizacja</th>
         <td>${therapist.specialization}</td>
     </tr>
+    </tbody>
+</table>
+
+<h2>Available events</h2>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Room</th>
+        <th>Reservation</th>
+    </tr>
+    </thead>
+    <tbody>
+    <c:forEach items="${events}" var="event" varStatus="status">
+        <tr>
+            <td>${status.index + 1}</td>
+            <td>${event.name}</td>
+            <td>${event.eventType.eventTypeId}</td>
+            <td>${event.startDateTime}</td>
+            <td>${event.endDateTime}</td>
+            <td>${event.room}</td>
+            <td><a href="<c:url value="/therapist-${therapist.therapistId}/event-${event.eventId}/" />">Reserve</a></td>
+        </tr>
+    </c:forEach>
     </tbody>
 </table>
 

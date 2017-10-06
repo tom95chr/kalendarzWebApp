@@ -40,24 +40,11 @@ public class TherapistContoller {
     @Autowired
     EventTypeValidator eventTypeValidator;
 
-    @RequestMapping("/")
-    public String therapistsList(Model model) {
-        model.addAttribute("therapists", therapistDAO.findAll());
-        return "home";
-    }
     @RequestMapping("/admin/therapists")
     public String therapistsListAdmin(Model model) {
         model.addAttribute("therapists", therapistDAO.findAll());
 
         return "admin/therapists";
-    }
-
-    @RequestMapping(value = { "/therapist-{therapistId}/", "/admin/therapist-{therapistId}/"}, method = RequestMethod.GET)
-    public String therapistData(@PathVariable("therapistId") String therapistId,
-                                Model model) {
-        model.addAttribute("therapist", therapistDAO.findByTherapistId(therapistId));
-
-        return "therapist";
     }
 
     @RequestMapping(value = "/therapist-events", method = RequestMethod.GET)
