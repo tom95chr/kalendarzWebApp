@@ -20,7 +20,6 @@ Dear <strong>${user}</strong>, Manage your events <br/> <br/>
         <th>Start</th>
         <th>End</th>
         <th>Room</th>
-        <th>Confirmed ?</th>
         <th>Drop</th>
     </tr>
     </thead>
@@ -32,7 +31,6 @@ Dear <strong>${user}</strong>, Manage your events <br/> <br/>
             <td>${event.startDateTime}</td>
             <td>${event.endDateTime}</td>
             <td>${event.room}</td>
-            <td>${event.confirmed}</td>
             <td><a href="<c:url value="/event-${event.eventId}/drop" />">Drop</a></td>
         </tr>
     </c:forEach>

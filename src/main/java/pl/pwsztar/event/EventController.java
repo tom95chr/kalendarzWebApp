@@ -7,7 +7,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.pwsztar.client.ClientService;
 import pl.pwsztar.event.eventType.EventTypeDAO;
 import pl.pwsztar.services.googleCalendar.GoogleCalendar;
 import pl.pwsztar.therapists.TherapistDAO;
@@ -18,9 +17,6 @@ import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 
-/**
- * Created by Agnieszka on 2017-06-11.
- */
 
 @Controller
 public class EventController {
@@ -33,8 +29,7 @@ public class EventController {
     TherapistDAO therapistDAO;
     @Autowired
     EventService eventService;
-    @Autowired
-    ClientService clientService;
+
     @Autowired
     GoogleCalendar googleCalendar;
 
@@ -46,7 +41,7 @@ public class EventController {
 
         if (request.getMethod().equalsIgnoreCase("post") && !result.hasErrors()) {
 
-            Format myGoogleFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"); //zmiana formatu daty, zeby pasowała do daty od googla
+            Format myGoogleFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"); //date format chenged to googleDateFormat
 
 
             for (int i = 0; i <= eventDTO.getNumberOfRepetitions(); i++){
@@ -75,7 +70,7 @@ public class EventController {
                         event.setEndDateTime(eventDTO.getEndDateTime());
                         event.setTherapist(therapistDAO.findByEmail(user));
                         event.setRoom(eventDTO.getRoom());
-                        event.setConfirmed(false);
+                        //event.setConfirmed(false);
                         event.setEventType(eventTypeDAO.findByEventTypeId(eventDTO.getEventType()));
                         eventDAO.save(event);
                         eventDTO = eventService.addOneWeek(eventDTO);

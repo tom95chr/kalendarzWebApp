@@ -8,17 +8,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import pl.pwsztar.client.reservation.Reservation;
+import pl.pwsztar.client.reservation.ReservationDAO;
+import pl.pwsztar.event.Event;
 import pl.pwsztar.event.EventDAO;
+import pl.pwsztar.login.LoginDetails;
+import pl.pwsztar.therapists.Therapist;
 import pl.pwsztar.therapists.TherapistDAO;
+import pl.pwsztar.therapists.colour.TherapistColour;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.io.IOException;
-import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Created by Lapek on 22.05.2017.
- */
 @Controller
 public class ClientController {
 
@@ -28,44 +31,62 @@ public class ClientController {
     @Autowired
     EventDAO eventDAO;
 
+    @Autowired
+    ClientValidator clientValidator;
 
     @Autowired
-    ClientService clientService;
+    ClientDAO clientDAO;
 
-    @RequestMapping("/home2")
-    public String home(Model model) {
+    @Autowired
+    ReservationDAO reservationDAO;
+
+    @RequestMapping("/")
+    public String therapistsList(Model model) {
         model.addAttribute("therapists", therapistDAO.findAll());
-
-
-        return "home2";
+        return "home";
     }
 
-
-    @RequestMapping(value = "/choose-{therapistId}", method = RequestMethod.GET)
-    public String therapistData(@PathVariable("therapistId") String therapistId,
-                                Model model) {
+    @RequestMapping(value = { "/therapist-{therapistId}/", "/admin/therapist-{therapistId}/"}, method = RequestMethod.GET)
+    public String therapistData(@PathVariable("therapistId") String therapistId, Model model) {
         model.addAttribute("therapist", therapistDAO.findByTherapistId(therapistId));
-
-        model.addAttribute("events", clientService.getSortDates(eventDAO.findByTherapist_TherapistIdAndConfirmedIsTrue(therapistId)));
-
-        return "choose";
+        model.addAttribute("events",eventDAO.findByTherapist_TherapistId(therapistId));
+        return "client/therapist";
     }
 
-
-    @RequestMapping(value = "/choice-{eventId}")
-    public String eventData(HttpServletRequest request, @ModelAttribute("ClientDTO") @Valid ClientDTO clientDTO, BindingResult result, @PathVariable("eventId") String eventId, Model model) throws IOException, ParseException {
+    @RequestMapping(value = "/therapist-{therapistId}/event-{eventId}/", method = RequestMethod.GET)
+    public String eventReservation(@PathVariable("eventId") String eventId,
+                                   @PathVariable("therapistId") String therapistId,
+                                   Model model){
+        model.addAttribute("client", new Client());
         model.addAttribute("event", eventDAO.findByEventId(eventId));
-        if (request.getMethod().equalsIgnoreCase("post") && !result.hasErrors()) {
-            String info = clientService.addClient(clientDTO, eventId);
-            if (info == "zapisany") {
-
-                return "redirect:/";
-            }
-        model.addAttribute("info", info);
-        }
-        else{
-            System.out.print("COS ZSIE ZEL WPISALIII");
-        }
-        return "choice";
+        model.addAttribute("therapist", therapistDAO.findByTherapistId(therapistId));
+        return "client/reservation";
     }
+    @RequestMapping(value = "/therapist-{therapistId}/event-{eventId}/", method = RequestMethod.POST)
+    public String personalData(@ModelAttribute("client")Client client, BindingResult bindingResult,
+                               @PathVariable("eventId") String eventId,
+                               @PathVariable("therapistId") String therapistId,
+                               Model model) throws IOException {
+
+        clientValidator.validate(client, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return ("client/reservation");
+        }
+        Event event = eventDAO.findByEventId(eventId);
+        clientDAO.save(client);
+        Reservation rr = new Reservation();
+        rr.setClient(client);
+        rr.setEvent(event);
+        rr.setConfirmed(false);
+        reservationDAO.save(rr);
+//        Reservation res = reservationDAO.findByClientAndEvent(client,event);
+//        res.setConfirmed(true);
+//        reservationDAO.save(res);
+        return ("redirect:/confirm-reservation");
+    }
+    @RequestMapping(value = "/confirm-reservation")
+    public String confirmation(){
+        return "client/confirmation";
+    }
+
 }

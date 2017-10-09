@@ -1,3 +1,4 @@
+/*
 package pl.pwsztar.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +8,11 @@ import pl.pwsztar.event.EventDAO;
 
 import java.util.*;
 
+*/
 /**
  * Created by Agnieszka on 2017-06-20.
- */
+ *//*
+
 
 @Service
 public class ClientService {
@@ -81,3 +84,4 @@ public class ClientService {
         return "zapisany";
     }
 }
+*/

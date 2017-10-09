@@ -3,7 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%--
   Created by IntelliJ IDEA.
-  User: Lapek
+  Client: Lapek
   Date: 21.08.2017
   Time: 19:54
   To change this template use File | Settings | File Templates.

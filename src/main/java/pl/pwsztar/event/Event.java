@@ -1,6 +1,7 @@
 package pl.pwsztar.event;
 
 import pl.pwsztar.client.Client;
+import pl.pwsztar.client.reservation.Reservation;
 import pl.pwsztar.event.eventType.EventType;
 import pl.pwsztar.therapists.Therapist;
 
@@ -20,9 +21,8 @@ public class Event {
     private Date startDateTime;
     private Date endDateTime;
     private String room;
-    private Boolean confirmed;
     private Therapist therapist;
-    private List<Client> clients = new ArrayList<Client>();
+    private List<Reservation> reservations = new ArrayList<Reservation>();
     private EventType eventType;
     private String name;
 
@@ -62,7 +62,6 @@ public class Event {
         this.eventType = eventType;
     }
 
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "THERAPIST_ID", nullable = false)
     public Therapist getTherapist() {
@@ -73,14 +72,13 @@ public class Event {
         this.therapist = therapist;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
-     public List<Client> getClients() {
+/*    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "events")
+    public List<Client> getClients() {
         return clients;
       }
-
     public void setClients(List<Client> events) {
              this.clients = clients;
-           }
+           }*/
 
     public String getRoom() {
         return room;
@@ -90,16 +88,16 @@ public class Event {
         this.room = room;
     }
 
-    public Boolean getConfirmed() {
-        return confirmed;
-    }
-
-    public void setConfirmed(Boolean confirmed) {
-        this.confirmed = confirmed;
-    }
-
-
     public String getName() {return name;}
 
     public void setName(String name) {this.name = name;}
+
+    @OneToMany(mappedBy = "event")
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
 }
