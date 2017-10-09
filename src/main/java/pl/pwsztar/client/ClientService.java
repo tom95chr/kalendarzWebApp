@@ -1,18 +1,13 @@
-/*
 package pl.pwsztar.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.pwsztar.client.reservation.Reservation;
+import pl.pwsztar.client.reservation.ReservationDAO;
 import pl.pwsztar.event.Event;
 import pl.pwsztar.event.EventDAO;
 
 import java.util.*;
-
-*/
-/**
- * Created by Agnieszka on 2017-06-20.
- *//*
-
 
 @Service
 public class ClientService {
@@ -22,7 +17,14 @@ public class ClientService {
     @Autowired
     ClientDAO clientDAO;
 
-    public List<Event> getSortDates(List<Event> clients) {
+    @Autowired
+    ReservationDAO reservationDAO;
+
+    public int nrOfPaticipants(Event e){
+        List<Reservation> listOfParticipants = reservationDAO.findAllByEvent(e);
+        return listOfParticipants.size();
+    }
+    /*public List<Event> getSortDates(List<Event> clients) {
         if (clients.size() > 0) {
             Map<Date, String> dateSort = new TreeMap<Date, String>();
             for (int i = 0; i < clients.size(); i++) {
@@ -82,6 +84,5 @@ public class ClientService {
             clientDAO.save(client);
         }
         return "zapisany";
-    }
+    }*/
 }
-*/

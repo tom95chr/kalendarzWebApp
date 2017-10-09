@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Lapek
@@ -11,6 +12,6 @@
     <title>Confirm your reservation</title>
 </head>
 <body>
-
+<a href="<c:url value="/" />">Home</a><br />
 </body>
 </html>

@@ -13,6 +13,7 @@ import pl.pwsztar.client.reservation.Reservation;
 import pl.pwsztar.client.reservation.ReservationDAO;
 import pl.pwsztar.event.Event;
 import pl.pwsztar.event.EventDAO;
+import pl.pwsztar.event.eventType.EventTypeDAO;
 import pl.pwsztar.login.LoginDetails;
 import pl.pwsztar.therapists.Therapist;
 import pl.pwsztar.therapists.TherapistDAO;
@@ -20,6 +21,7 @@ import pl.pwsztar.therapists.colour.TherapistColour;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -40,6 +42,12 @@ public class ClientController {
     @Autowired
     ReservationDAO reservationDAO;
 
+    @Autowired
+    EventTypeDAO eventTypeDAO;
+
+    @Autowired
+    ClientService clientService;
+
     @RequestMapping("/")
     public String therapistsList(Model model) {
         model.addAttribute("therapists", therapistDAO.findAll());
@@ -49,7 +57,17 @@ public class ClientController {
     @RequestMapping(value = { "/therapist-{therapistId}/", "/admin/therapist-{therapistId}/"}, method = RequestMethod.GET)
     public String therapistData(@PathVariable("therapistId") String therapistId, Model model) {
         model.addAttribute("therapist", therapistDAO.findByTherapistId(therapistId));
-        model.addAttribute("events",eventDAO.findByTherapist_TherapistId(therapistId));
+        //getting events by therapist
+        List<Event> events = eventDAO.findByTherapist_TherapistId(therapistId);
+        //removing events where nr. of participants >= free seats
+        Iterator<Event> it = events.iterator();
+        while (it.hasNext()) {
+            Event e = it.next();
+            if (clientService.nrOfPaticipants(e) >= eventTypeDAO.findByEventTypeId(e.getEventType().getEventTypeId()).getSeats()) {
+                it.remove();
+            }
+        }
+        model.addAttribute("events",events);
         return "client/therapist";
     }
 

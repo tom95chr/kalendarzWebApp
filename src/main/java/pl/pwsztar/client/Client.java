@@ -33,18 +33,6 @@ public class Client {
         this.telephone = telephone;
     }
 
-/*    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "event_reservation", joinColumns = {
-            @JoinColumn(name = "EMAIL") },
-            inverseJoinColumns = { @JoinColumn(name = "EVENT_ID") })
-    public List<Event> getEvents() {
-        return events;
-    }
-
-    public void setEvents(List<Event> events) {
-        this.events = events;
-    }*/
-
     @OneToMany(mappedBy = "client")
     public List<Reservation> getReservations() {
         return reservations;

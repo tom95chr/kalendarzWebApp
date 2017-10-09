@@ -91,6 +91,7 @@ public class Therapist {
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "therapist", orphanRemoval = true)
+    @OrderBy("start_date ASC")
     public List<Event> getEvents() {
         return events;
     }

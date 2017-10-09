@@ -72,14 +72,6 @@ public class Event {
         this.therapist = therapist;
     }
 
-/*    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "events")
-    public List<Client> getClients() {
-        return clients;
-      }
-    public void setClients(List<Client> events) {
-             this.clients = clients;
-           }*/
-
     public String getRoom() {
         return room;
     }
