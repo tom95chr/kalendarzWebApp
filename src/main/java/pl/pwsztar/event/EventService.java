@@ -30,15 +30,8 @@ public class EventService {
     public Event detectColisionsByTherapist(EventDTO eventDTO) {
         List<Event> events = eventDAO.findAll();
         //System.out.println("therapistId : "+therapistEmail);
-        System.out.println("list size: : " + events.size());
 
         for (Event event : events) {
-         /*   System.out.println("\neventId: "+event.getEventId());
-            System.out.println("compare startToStart: "+(event.getStartDateTime().compareTo(eventDTO.getStartDateTime())));
-            System.out.println("compare endToStart: "+(event.getEndDateTime().compareTo(eventDTO.getStartDateTime())));
-            System.out.println("after :"+(eventDTO.getStartDateTime().after(event.getStartDateTime())));
-            System.out.println("before: "+ (eventDTO.getStartDateTime().before(event.getEndDateTime())));
-            System.out.println("room: "+event.getRoom().equals(eventDTO.getRoom()));*/
 
             if (event.getRoom().equals(eventDTO.getRoom())
                     && (

@@ -25,6 +25,7 @@ public class Event {
     private List<Reservation> reservations = new ArrayList<Reservation>();
     private EventType eventType;
     private String name;
+    private Boolean isFree;
 
     @Id
     @Column(name = "EVENT_ID")
@@ -91,5 +92,13 @@ public class Event {
 
     public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
+    }
+
+    public Boolean getFree() {
+        return isFree;
+    }
+
+    public void setFree(Boolean free) {
+        isFree = free;
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.pwsztar.client.reservation.ReservationDAO;
 import pl.pwsztar.event.eventType.EventTypeDAO;
 import pl.pwsztar.services.googleCalendar.GoogleCalendar;
 import pl.pwsztar.therapists.TherapistDAO;
@@ -33,6 +34,9 @@ public class EventController {
     @Autowired
     GoogleCalendar googleCalendar;
 
+    @Autowired
+    ReservationDAO reservationDAO;
+
     @RequestMapping("/therapist-events/createEvent-{user}/")
     public String createEvent(Model model, HttpServletRequest request, @ModelAttribute("eventDto") @Valid EventDTO eventDTO,
                               BindingResult result, @PathVariable("user") String user){
@@ -56,35 +60,29 @@ public class EventController {
                 }
                 else {
                     model.addAttribute("eventCreated","New event/events created successfully !");
-                    System.out.println("colision free");
-
                     try {
                         String eventId = googleCalendar.createEvent(therapistDAO.findByEmail(user).getGoogleCalendarId(),
-                                eventDTO.getName(), "free", startDate + ":59.000+02:00",
+                                "free", "free", startDate + ":59.000+02:00",
                                 endDate + ":59.000+02:00");
 
                         Event event = new Event();
                         event.setEventId(eventId);
-                        event.setName(eventDTO.getName());
+                        event.setName("free");
                         event.setStartDateTime(eventDTO.getStartDateTime());
                         event.setEndDateTime(eventDTO.getEndDateTime());
                         event.setTherapist(therapistDAO.findByEmail(user));
                         event.setRoom(eventDTO.getRoom());
                         //event.setConfirmed(false);
                         event.setEventType(eventTypeDAO.findByEventTypeId(eventDTO.getEventType()));
+                        event.setFree(Boolean.TRUE);
                         eventDAO.save(event);
                         eventDTO = eventService.addOneWeek(eventDTO);
-                        System.out.println("cyc s: "+ eventDTO.getStartDateTime());
-                        System.out.println("cyc k: "+ eventDTO.getEndDateTime());
-
                     } catch (IOException e) {
-                        System.out.println("event creation failed");
                         model.addAttribute("error","Event creation failed");
                         e.printStackTrace();
                         return "therapist/createEvent";
                     }
                     catch (Exception e){
-                        System.out.println("event creation failed");
                         model.addAttribute("error","Event creation failed");
                         e.printStackTrace();
                         return "therapist/createEvent";
@@ -96,10 +94,10 @@ public class EventController {
     }
     @RequestMapping("/event-{eventId}/drop")
     public String dropEvent(Model model,  @PathVariable("eventId") String eventId){
-        String user = eventDAO.findByEventId(eventId).getTherapist().getTherapistId();
         try {
+            reservationDAO.deleteReservationsByEvent_EventId(eventId);
             googleCalendar.deleteEvent(eventDAO.findByEventId(eventId).getTherapist().getGoogleCalendarId(), eventId);
-            eventDAO.delete(eventId);
+            eventDAO.deleteByEventId(eventId);
             return "redirect:/therapist-events";
 
         } catch (IOException e) {

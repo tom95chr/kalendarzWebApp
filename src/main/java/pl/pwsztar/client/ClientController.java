@@ -15,6 +15,7 @@ import pl.pwsztar.event.Event;
 import pl.pwsztar.event.EventDAO;
 import pl.pwsztar.event.eventType.EventTypeDAO;
 import pl.pwsztar.login.LoginDetails;
+import pl.pwsztar.services.googleCalendar.GoogleCalendar;
 import pl.pwsztar.therapists.Therapist;
 import pl.pwsztar.therapists.TherapistDAO;
 import pl.pwsztar.therapists.colour.TherapistColour;
@@ -48,6 +49,9 @@ public class ClientController {
     @Autowired
     ClientService clientService;
 
+    @Autowired
+    GoogleCalendar googleCalendar;
+
     @RequestMapping("/")
     public String therapistsList(Model model) {
         model.addAttribute("therapists", therapistDAO.findAll());
@@ -58,12 +62,12 @@ public class ClientController {
     public String therapistData(@PathVariable("therapistId") String therapistId, Model model) {
         model.addAttribute("therapist", therapistDAO.findByTherapistId(therapistId));
         //getting events by therapist
-        List<Event> events = eventDAO.findByTherapist_TherapistId(therapistId);
+        List<Event> events = eventDAO.findByTherapist_TherapistIdOrderByStartDateTime(therapistId);
         //removing events where nr. of participants >= free seats
         Iterator<Event> it = events.iterator();
         while (it.hasNext()) {
             Event e = it.next();
-            if (clientService.nrOfPaticipants(e) >= eventTypeDAO.findByEventTypeId(e.getEventType().getEventTypeId()).getSeats()) {
+            if (e.getFree()!=Boolean.TRUE) {
                 it.remove();
             }
         }
@@ -97,6 +101,16 @@ public class ClientController {
         rr.setEvent(event);
         rr.setConfirmed(false);
         reservationDAO.save(rr);
+
+        //if number of participants is greater than seats then set event type to notFree
+        if (clientService.nrOfPaticipants(event) >= eventTypeDAO.findByEventTypeId(
+                event.getEventType().getEventTypeId()).getSeats()) {
+            event.setFree(Boolean.FALSE);
+            googleCalendar.changeEventAvailabilityAndName(therapistDAO.findByTherapistId(therapistId).getEmail(),
+                    eventId,"busy","busy");
+            eventDAO.save(event);
+        }
+
 //        Reservation res = reservationDAO.findByClientAndEvent(client,event);
 //        res.setConfirmed(true);
 //        reservationDAO.save(res);

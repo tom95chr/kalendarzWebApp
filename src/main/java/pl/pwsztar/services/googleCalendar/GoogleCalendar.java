@@ -184,7 +184,7 @@ public class GoogleCalendar {
         return null;
     }
 
-    public void editEventGoogle(pl.pwsztar.event.Event eventDTO)throws IOException{
+   /* public void editEventGoogle(pl.pwsztar.event.Event eventDTO)throws IOException{
         try{
 
             Event event = service.events().get(eventDTO.getTherapist().getGoogleCalendarId(), eventDTO.getEventId()).execute();
@@ -205,24 +205,29 @@ public class GoogleCalendar {
         } catch(Exception e) {
             e.printStackTrace();
         }
-    }
-    public void updateEvent(String calendarId, String eventId, String availability) throws IOException {
+    }*/
+    public Boolean changeEventAvailabilityAndName(String therapistEmail, String eventId, String availability, String summary) throws IOException {
 
         try{
+            String calendarId = getGoogleCalendarId(therapistEmail);
             // Retrieve the event from the API
             Event event = service.events().get(calendarId, eventId).execute();
 
             // Here make changes
             event = setAvailability(event,availability);
+            event.setSummary(summary);
 
             // Update the event
             Event updatedEvent = service.events().update(calendarId, event.getId(), event).execute();
+            System.out.println(updatedEvent);
+            return Boolean.TRUE;
 
-            System.out.println("Event updated: "+updatedEvent);
         } catch (WrongAvailabilityException e) {
             e.printStackTrace();
+            return Boolean.FALSE;
         } catch(Exception e) {
             e.printStackTrace();
+            return Boolean.FALSE;
         }
     }
 
@@ -303,7 +308,7 @@ public class GoogleCalendar {
     }
 
     public String getGoogleCalendarId(String googleCallendarName) throws IOException {
-        System.out.println("\n"+googleCallendarName+" ID =  "+getCalendars().get(googleCallendarName));
+        //System.out.println("\n"+googleCallendarName+" ID =  "+getCalendars().get(googleCallendarName));
         return getCalendars().get(googleCallendarName);
     }
 
@@ -334,17 +339,16 @@ public class GoogleCalendar {
         System.out.println("calendar "+calendarId+" removed");
     }
 
-
-
-  /* public static void main(String[] args) throws IOException {
+/*
+   public static void main(String[] args) throws IOException {
         GoogleCalendar gk = new GoogleCalendar();
         //gk.deleteCalendar(gk.getGoogleCalendarId("jankowalski"));
         //gk.createCalendar("nowy2");
-        //gk.getGoogleCalendarId("terapeuta1");
+        gk.getGoogleCalendarId("eeee@e.e");
         //gk.printAllCalendars(gk.getCalendars());
         //gk.printAllUpcomingEvents(gk.getAllUpcomingEvents(gk.getGoogleCalendarId("terapeuta1")));
         //gk.updateEvent(gk.getGoogleCalendarId("terapeuta2"),"0djm9hj9344qbqgbacndeoouhk","free");
-        gk.createEvent(gk.getGoogleCalendarId("qwe"),"miauuuu ","busy","2017-06-11T15:31:20.000+02:00","2017-06-11T16:33:59.000+02:00");
+        //gk.createEvent(gk.getGoogleCalendarId("qwe"),"miauuuu ","busy","2017-06-11T15:31:20.000+02:00","2017-06-11T16:33:59.000+02:00");
         //System.out.println(gk.checkCalendarNameAvailability("mojlogin2"));
-    } */
+    }*/
 }

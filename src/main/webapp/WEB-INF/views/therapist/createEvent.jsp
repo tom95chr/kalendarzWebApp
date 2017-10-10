@@ -27,12 +27,12 @@
         </c:forEach>
     </form:select>
     </td>
-    <br/>
+   <%-- <br/>
     <tr>
         <th>Event name</th><br/>
         <td><form:input type="text" path="name" /><c:if test="${pageContext.request.method=='POST'}">
             <form:errors path="name" /></c:if></td>
-    </tr>
+    </tr>--%>
     <br/>
     <tr>
         <th>Start date/time</th><br/>
