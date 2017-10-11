@@ -4,28 +4,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.*;
+import pl.pwsztar.client.confirmation.ConfirmationCode;
+import pl.pwsztar.client.confirmation.ConfirmationCodeValidator;
 import pl.pwsztar.client.reservation.Reservation;
 import pl.pwsztar.client.reservation.ReservationDAO;
 import pl.pwsztar.event.Event;
 import pl.pwsztar.event.EventDAO;
 import pl.pwsztar.event.eventType.EventTypeDAO;
-import pl.pwsztar.login.LoginDetails;
 import pl.pwsztar.services.googleCalendar.GoogleCalendar;
 import pl.pwsztar.therapists.Therapist;
 import pl.pwsztar.therapists.TherapistDAO;
-import pl.pwsztar.therapists.colour.TherapistColour;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 @Controller
+@SessionAttributes("mycounter")
 public class ClientController {
 
     @Autowired
@@ -51,6 +48,9 @@ public class ClientController {
 
     @Autowired
     GoogleCalendar googleCalendar;
+
+    @Autowired
+    ConfirmationCodeValidator confirmationCodeValidator;
 
     @RequestMapping("/")
     public String therapistsList(Model model) {
@@ -85,10 +85,10 @@ public class ClientController {
         return "client/reservation";
     }
     @RequestMapping(value = "/therapist-{therapistId}/event-{eventId}/", method = RequestMethod.POST)
-    public String personalData(@ModelAttribute("client")Client client, BindingResult bindingResult,
+    public String eventReservation(@ModelAttribute("client")Client client, BindingResult bindingResult,
                                @PathVariable("eventId") String eventId,
                                @PathVariable("therapistId") String therapistId,
-                               Model model) throws IOException {
+                               Model model, HttpSession session) throws IOException {
 
         clientValidator.validate(client, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -108,7 +108,10 @@ public class ClientController {
             }
             else{
                 model.addAttribute("information",new String("You have already reserved this term."));
-                return ("client/confirmation");
+                session.setAttribute("sesionReservation", reservation);
+                session.setAttribute("thrapist", therapist);
+                session.setAttribute("event",event);
+                return ("redirect:/confirm-reservation");
             }
         }
 
@@ -128,14 +131,29 @@ public class ClientController {
             eventDAO.save(event);
         }
 
-//        Reservation res = reservationDAO.findByClientAndEvent(client,event);
-//        res.setConfirmed(true);
-//        reservationDAO.save(res);
+
         return ("redirect:/confirm-reservation");
     }
-    @RequestMapping(value = "/confirm-reservation")
-    public String confirmation(){
+    @RequestMapping(value = "/confirm-reservation", method = RequestMethod.GET)
+    public String confirmation(Model model,HttpSession session){
+        model.addAttribute("therapist",(Therapist) session.getAttribute("therapist"));
+        model.addAttribute("event",(Event) session.getAttribute("event"));
+        model.addAttribute("confirmationCode",new ConfirmationCode());
         return "client/confirmation";
+    }
+    @RequestMapping(value = "/confirm-reservation", method = RequestMethod.POST)
+    public String confirmation(@ModelAttribute("confirmationCode")ConfirmationCode confirmationCode, BindingResult bindingResult,
+                               Model model, HttpSession session){
+        Reservation r = (Reservation) session.getAttribute("sesionReservation");
+        confirmationCodeValidator.validate(confirmationCode, bindingResult);
+        //confirmation code from email....
+        if (bindingResult.hasErrors()) {
+            return ("client/confirmation");
+        }
+
+        r.setConfirmed(true);
+        reservationDAO.save(r);
+        return "client/details";
     }
 
 }

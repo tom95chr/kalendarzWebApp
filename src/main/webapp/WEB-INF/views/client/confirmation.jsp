@@ -51,25 +51,19 @@
         room: ${event.room}<br>
     </h2>
 
-<%--    <form:form method="POST" modelAttribute="client" class="form-signin">
-        <h2 class="form-signin-heading">If you want to join this event please submit your email and confirm reservation </h2>
-        <spring:bind path="email">
+    <h2>We have sent an reservation code to your email.</h2>
+    <form:form method="POST" modelAttribute="confirmationCode" class="form-signin">
+        <h2 class="form-signin-heading">To confirm your reservation, submit your reservation code</h2>
+        <spring:bind path="code">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="email" class="form-control" placeholder="Your email"
+                <form:input type="text" path="code" class="form-control" placeholder="Confirmation code"
                             autofocus="true"></form:input>
-                <form:errors path="email"></form:errors>
-            </div>
-        </spring:bind>
-
-        <spring:bind path="telephone">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="telephone" class="form-control" placeholder="Telephone(optional)"></form:input>
-                <form:errors path="telephone"></form:errors>
+                <form:errors path="code"></form:errors>
             </div>
         </spring:bind>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-    </form:form>--%>
+    </form:form>
 
 </div>
 <!-- /container -->
