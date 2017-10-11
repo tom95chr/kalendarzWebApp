@@ -35,9 +35,7 @@
 <div class="container">
     <a href="<c:url value="/" />">Home</a><br />
 
-    <h1>${information}</h1>
-    <h1></h1>That's your reservation details</h1>
-
+    <h1>Hi, ${information}<br> We are waiting for you... bla bla bla</h1>
     <h1>Host</h1>
     <h2>${therapist.firstName} ${therapist.lastName} <br>
         Specialization: ${therapist.specialization} <br>
@@ -50,26 +48,6 @@
         end: ${event.endDateTime}<br>
         room: ${event.room}<br>
     </h2>
-
-<%--    <form:form method="POST" modelAttribute="client" class="form-signin">
-        <h2 class="form-signin-heading">If you want to join this event please submit your email and confirm reservation </h2>
-        <spring:bind path="email">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="email" class="form-control" placeholder="Your email"
-                            autofocus="true"></form:input>
-                <form:errors path="email"></form:errors>
-            </div>
-        </spring:bind>
-
-        <spring:bind path="telephone">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="telephone" class="form-control" placeholder="Telephone(optional)"></form:input>
-                <form:errors path="telephone"></form:errors>
-            </div>
-        </spring:bind>
-
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-    </form:form>--%>
 
 </div>
 <!-- /container -->

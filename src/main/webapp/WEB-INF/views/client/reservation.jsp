@@ -35,7 +35,7 @@
 <div class="container">
     <h1>Host</h1>
     <h2>${therapist.firstName} ${therapist.lastName} <br>
-        Specialization: ${therapist.specialization}
+        Specialization: ${therapist.specialization} <br>
         Description: ${therapist.description}
     </h2>
     <h1>Event details</h1>
@@ -44,12 +44,12 @@
         start: ${event.startDateTime}<br>
         end: ${event.endDateTime}<br>
         room: ${event.room}<br>
-        free places: ${event.eventType.seats}<br>
+        free places: ${event.eventType.seats}   ...BLAD<br>
     </h2>
-    <h1>If you want to join this event please submit your email and confirm reservation</h1>
+
 
     <form:form method="POST" modelAttribute="client" class="form-signin">
-        <h2 class="form-signin-heading">Insert your email </h2>
+        <h2 class="form-signin-heading">If you want to join this event please submit your email and confirm reservation </h2>
         <spring:bind path="email">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:input type="text" path="email" class="form-control" placeholder="Your email"

@@ -94,7 +94,24 @@ public class ClientController {
         if (bindingResult.hasErrors()) {
             return ("client/reservation");
         }
+        Therapist therapist = therapistDAO.findByTherapistId(therapistId);
         Event event = eventDAO.findByEventId(eventId);
+        Reservation reservation = reservationDAO.findByClientAndEvent(client,event);
+
+        if(reservation != null){
+            model.addAttribute("therapist",therapist);
+            model.addAttribute("event",event);
+            model.addAttribute("reservation",reservation);
+            if (reservation.isConfirmed()){
+                                model.addAttribute("information",new String("Your reservation is confirmed"));
+                return ("client/details");
+            }
+            else{
+                model.addAttribute("information",new String("You have already reserved this term."));
+                return ("client/confirmation");
+            }
+        }
+
         clientDAO.save(client);
         Reservation rr = new Reservation();
         rr.setClient(client);
