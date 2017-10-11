@@ -35,7 +35,7 @@
 <div class="container">
     <a href="<c:url value="/" />">Home</a><br />
 
-    <h1>${information}</h1>
+   <%-- <h1>${information}</h1>
     <h1></h1>That's your reservation details</h1>
 
     <h1>Host</h1>
@@ -49,8 +49,8 @@
         start: ${event.startDateTime}<br>
         end: ${event.endDateTime}<br>
         room: ${event.room}<br>
-    </h2>
-
+    </h2>--%>
+    <h1>${confirmationFailed}</h1>
     <h2>We have sent an reservation code to your email.</h2>
     <form:form method="POST" modelAttribute="confirmationCode" class="form-signin">
         <h2 class="form-signin-heading">To confirm your reservation, submit your reservation code</h2>

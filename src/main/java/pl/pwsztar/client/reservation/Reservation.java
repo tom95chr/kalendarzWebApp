@@ -22,7 +22,10 @@ public class Reservation implements Serializable {
     private Client client;
 
     @Column(name = "confirmed")
-    private boolean confirmed;
+    private Boolean confirmed;
+
+    @Column(name = "confirmation_code")
+    private String confirmationCode;
 
     public Event getEvent() {
         return event;
@@ -46,5 +49,13 @@ public class Reservation implements Serializable {
 
     public void setConfirmed(boolean confirmed) {
         this.confirmed = confirmed;
+    }
+
+    public String getConfirmationCode() {
+        return confirmationCode;
+    }
+
+    public void setConfirmationCode(String confirmationCode) {
+        this.confirmationCode = confirmationCode;
     }
 }

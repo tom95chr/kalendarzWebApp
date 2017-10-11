@@ -24,6 +24,9 @@ public class ClientService {
         List<Reservation> listOfParticipants = reservationDAO.findAllByEvent(e);
         return listOfParticipants.size();
     }
+/*    public String confirmReservation(String confirmationCode){
+
+    }*/
     /*public List<Event> getSortDates(List<Event> clients) {
         if (clients.size() > 0) {
             Map<Date, String> dateSort = new TreeMap<Date, String>();

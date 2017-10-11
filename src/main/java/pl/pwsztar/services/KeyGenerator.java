@@ -6,7 +6,7 @@ import java.security.MessageDigest;
 @Service
 public class KeyGenerator {
 
-    String generate(String s){
+    public String generate(String s){
         try {
 
             MessageDigest md = MessageDigest.getInstance("MD5");

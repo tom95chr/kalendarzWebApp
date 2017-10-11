@@ -12,6 +12,8 @@ import pl.pwsztar.client.reservation.ReservationDAO;
 import pl.pwsztar.event.Event;
 import pl.pwsztar.event.EventDAO;
 import pl.pwsztar.event.eventType.EventTypeDAO;
+import pl.pwsztar.services.EmailService;
+import pl.pwsztar.services.KeyGenerator;
 import pl.pwsztar.services.googleCalendar.GoogleCalendar;
 import pl.pwsztar.therapists.Therapist;
 import pl.pwsztar.therapists.TherapistDAO;
@@ -52,6 +54,12 @@ public class ClientController {
     @Autowired
     ConfirmationCodeValidator confirmationCodeValidator;
 
+    @Autowired
+    KeyGenerator keyGenerator;
+
+    @Autowired
+    EmailService emailService;
+
     @RequestMapping("/")
     public String therapistsList(Model model) {
         model.addAttribute("therapists", therapistDAO.findAll());
@@ -86,43 +94,47 @@ public class ClientController {
     }
     @RequestMapping(value = "/therapist-{therapistId}/event-{eventId}/", method = RequestMethod.POST)
     public String eventReservation(@ModelAttribute("client")Client client, BindingResult bindingResult,
-                               @PathVariable("eventId") String eventId,
-                               @PathVariable("therapistId") String therapistId,
-                               Model model, HttpSession session) throws IOException {
+                                   @PathVariable("eventId") String eventId,
+                                   @PathVariable("therapistId") String therapistId,
+                                   Model model) throws IOException {
 
         clientValidator.validate(client, bindingResult);
         if (bindingResult.hasErrors()) {
             return ("client/reservation");
         }
-        Therapist therapist = therapistDAO.findByTherapistId(therapistId);
+        clientDAO.save(client);
         Event event = eventDAO.findByEventId(eventId);
         Reservation reservation = reservationDAO.findByClientAndEvent(client,event);
 
+        //if event already reserved by this client
         if(reservation != null){
-            model.addAttribute("therapist",therapist);
-            model.addAttribute("event",event);
-            model.addAttribute("reservation",reservation);
+
             if (reservation.isConfirmed()){
-                                model.addAttribute("information",new String("Your reservation is confirmed"));
+                model.addAttribute("information",new String("Your reservation has been already confirmed"));
+                model.addAttribute("therapist",therapistDAO.findByTherapistId(therapistId));
+                model.addAttribute("event",eventDAO.findByEventId(eventId));
                 return ("client/details");
             }
             else{
-                model.addAttribute("information",new String("You have already reserved this term."));
-                session.setAttribute("sesionReservation", reservation);
-                session.setAttribute("thrapist", therapist);
-                session.setAttribute("event",event);
+                String s = reservationDAO.findByClientAndEvent(client,event).getConfirmationCode();
+                System.out.println("conf-code: "+s);
                 return ("redirect:/confirm-reservation");
             }
         }
+        else{
+            //generate confirmationCode
+            String key = keyGenerator.generate(eventId+(client.getEmail()));
+            //send key to client's email
+            emailService.sendEmail(client.getEmail(),"Kod potwierdzenia","Twoj kod to: "+key);
+            Reservation rr = new Reservation();
+            rr.setClient(client);
+            rr.setEvent(event);
+            rr.setConfirmed(false);
+            rr.setConfirmationCode(key);
+            reservationDAO.save(rr);
+        }
 
-        clientDAO.save(client);
-        Reservation rr = new Reservation();
-        rr.setClient(client);
-        rr.setEvent(event);
-        rr.setConfirmed(false);
-        reservationDAO.save(rr);
-
-        //if number of participants is greater than seats then set event type to notFree
+        //if number of participants is greater than seats then set event type to busy(false)
         if (clientService.nrOfPaticipants(event) >= eventTypeDAO.findByEventTypeId(
                 event.getEventType().getEventTypeId()).getSeats()) {
             event.setFree(Boolean.FALSE);
@@ -131,29 +143,42 @@ public class ClientController {
             eventDAO.save(event);
         }
 
-
         return ("redirect:/confirm-reservation");
     }
     @RequestMapping(value = "/confirm-reservation", method = RequestMethod.GET)
     public String confirmation(Model model,HttpSession session){
-        model.addAttribute("therapist",(Therapist) session.getAttribute("therapist"));
-        model.addAttribute("event",(Event) session.getAttribute("event"));
         model.addAttribute("confirmationCode",new ConfirmationCode());
         return "client/confirmation";
     }
     @RequestMapping(value = "/confirm-reservation", method = RequestMethod.POST)
     public String confirmation(@ModelAttribute("confirmationCode")ConfirmationCode confirmationCode, BindingResult bindingResult,
-                               Model model, HttpSession session){
-        Reservation r = (Reservation) session.getAttribute("sesionReservation");
+                               Model model){
         confirmationCodeValidator.validate(confirmationCode, bindingResult);
-        //confirmation code from email....
+
         if (bindingResult.hasErrors()) {
             return ("client/confirmation");
         }
+        Reservation reservation = reservationDAO.findByConfirmationCode(confirmationCode.getCode());
 
-        r.setConfirmed(true);
-        reservationDAO.save(r);
-        return "client/details";
+
+        if(reservation!=null && reservation.isConfirmed()){
+            model.addAttribute("confirmationFailed", new String("This reservation has been already confirmed"));
+        }
+        else {
+            if (reservation != null) {
+                reservation.setConfirmed(true);
+                reservationDAO.save(reservation);
+                model.addAttribute("information", new String("Reservation confirmed successfully"));
+                model.addAttribute("therapist", therapistDAO.findByTherapistId(reservation.getEvent().getTherapist().getTherapistId()));
+                model.addAttribute("event", eventDAO.findByEventId(reservation.getEvent().getEventId()));
+                return "client/details";
+            }
+            else{
+                model.addAttribute("confirmationFailed","Reservation not found, check your reservation code and try again");
+            }
+        }
+
+        return ("client/confirmation");
     }
 
 }
