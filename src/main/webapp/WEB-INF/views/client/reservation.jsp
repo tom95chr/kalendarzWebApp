@@ -40,11 +40,11 @@
     </h2>
     <h1>Event details</h1>
     <h2>
-        name: ${event.name} <br>
         start: ${event.startDateTime}<br>
         end: ${event.endDateTime}<br>
         room: ${event.room}<br>
-        free places: ${event.eventType.seats}   ...BLAD<br>
+        free places: ${(freeSlots)}<br>
+
     </h2>
 
 

@@ -88,6 +88,8 @@ public class ClientService {
         model.addObject("client", new Client());
         model.addObject("event", eventDAO.findByEventId(eventId));
         model.addObject("therapist", therapistDAO.findByTherapistId(therapistId));
+        model.addObject("freeSlots",eventDAO.findByEventId(eventId).getEventType().getSeats()
+                - nrOfParticipants(eventDAO.findByEventId(eventId)));
         return model;
     }
 
@@ -98,6 +100,8 @@ public class ClientService {
             ModelAndView model = new ModelAndView("client/reservation");
             model.addObject("therapist",therapistDAO.findByTherapistId(therapistId));
             model.addObject("event",eventDAO.findByEventId(eventId));
+            model.addObject("freeSlots",eventDAO.findByEventId(eventId).getEventType().
+                    getSeats() - nrOfParticipants(eventDAO.findByEventId(eventId)));
             return model;
         }
         clientDAO.save(client);
@@ -129,6 +133,7 @@ public class ClientService {
             rr.setConfirmed(false);
             rr.setConfirmationCode(key);
             reservationDAO.save(rr);
+
         }
 
         //if number of participants is greater than seats then set event type to busy(false)
