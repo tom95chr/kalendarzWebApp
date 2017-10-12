@@ -16,22 +16,29 @@ Dear <strong>${user}</strong>, Manage your events <br/> <br/>
     <thead>
     <tr>
         <th>#</th>
-        <th>Event name</th>
-        <th>Start</th>
+        <%--<th>Name</th>--%>
+        <th>Start                 asdsaas sadasdas das</th>
         <th>End</th>
         <th>Room</th>
+        <th>Participants</th>
+        <th>Free places</th>
         <th>Drop</th>
     </tr>
     </thead>
     <tbody>
+
     <c:forEach items="${events}" var="event" varStatus="status">
         <tr>
             <td>${status.index + 1}</td>
-            <td>${event.name}</td>
+
+            <%--<td>${event.name}</td>--%>
             <td>${event.startDateTime}</td>
             <td>${event.endDateTime}</td>
             <td>${event.room}</td>
+            <td><a href="<c:url value="/therapist-events/event-${event.eventId}/participants" />">${participants[status.index]}</a></td>
+            <td>${event.free}</td>
             <td><a href="<c:url value="/event-${event.eventId}/drop" />">Drop</a></td>
+
         </tr>
     </c:forEach>
     </tbody>

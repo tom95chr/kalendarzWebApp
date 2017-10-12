@@ -5,10 +5,12 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
+import pl.pwsztar.client.ClientService;
 import pl.pwsztar.client.reservation.ReservationDAO;
 import pl.pwsztar.event.Event;
 import pl.pwsztar.event.EventDAO;
 import pl.pwsztar.event.EventDTO;
+import pl.pwsztar.event.EventParticipant;
 import pl.pwsztar.event.eventType.EventType;
 import pl.pwsztar.event.eventType.EventTypeDAO;
 import pl.pwsztar.event.eventType.EventTypeValidator;
@@ -20,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -54,12 +57,24 @@ public class TherapistService {
     @Autowired
     ReservationDAO reservationDAO;
 
+    @Autowired
+    ClientService clientService;
+
     public ModelAndView therapistEventsGet(){
 
         ModelAndView model = new ModelAndView("therapist/therapistEvents");
         model.addObject("user", loginService.getPrincipal());
         model.addObject("events",eventDAO.findByTherapist_Email(loginService.getPrincipal()));
         model.addObject("therapists",therapistDAO.findAll());
+
+        //number of participants
+        List<Integer> participants = new ArrayList<Integer>();
+        for (Event e:eventDAO.findByTherapist_Email(loginService.getPrincipal())
+             ) {
+            participants.add(new Integer(clientService.nrOfParticipants(e)));
+            System.out.println(e.getEventId() + "  "+ clientService.nrOfParticipants(e));
+        }
+        model.addObject("participants",participants);
         return model;
     }
 
@@ -156,6 +171,12 @@ public class TherapistService {
         return model;
     }
 
+    public ModelAndView eventParticipants(String eventId){
+        ModelAndView modelAndView = new ModelAndView("therapist/participants");
+        modelAndView.addObject(reservationDAO.findAllByEvent(eventDAO.findByEventId(eventId)));
+        return modelAndView;
+    }
+
     //returns true if colissions found
     public Event detectColisionsByTherapist(EventDTO eventDTO) {
 
@@ -186,4 +207,5 @@ public class TherapistService {
 
         return eventDTO;
     }
+
 }
