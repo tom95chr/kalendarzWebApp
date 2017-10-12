@@ -9,8 +9,6 @@ public interface EventDAO extends CrudRepository<Event, String> {
     Event findByEventId(String eventId);
     List<Event> findAll();
     <S extends Event> S save(S s);
-    List<Event> findByRoom(String room);
-    //List<Event> findByTherapist_TherapistIdAndConfirmedIsTrue(String therapistId);
     List<Event> findByTherapist_TherapistIdOrderByStartDateTime(String therapistId);
     List<Event> findByTherapist_Email(String email);
 

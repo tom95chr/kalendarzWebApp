@@ -1,4 +1,4 @@
-package pl.pwsztar.services.googleCalendar;
+package pl.pwsztar.mainServices.googleCalendar;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -66,7 +66,7 @@ public class GoogleCalendar {
     public GoogleCalendar() throws IOException {
         // Build a new authorized API client service.
         // Note: Do not confuse this class with the
-        //   com.google.api.services.calendar.model.Calendar class.
+        //   com.google.api.mainServices.calendar.model.Calendar class.
         service = getCalendarService();
     }
 
@@ -92,8 +92,8 @@ public class GoogleCalendar {
                         .build();
         Credential credential = new AuthorizationCodeInstalledApp(
                 flow, new LocalServerReceiver()).authorize("user");
-        System.out.println(
-                "Credentials saved to " + DATA_STORE_DIR.getAbsolutePath());
+/*        System.out.println(
+                "Credentials saved to " + DATA_STORE_DIR.getAbsolutePath());*/
         return credential;
     }
 
@@ -174,7 +174,7 @@ public class GoogleCalendar {
             event.setEnd(end);
 
             event = service.events().insert(calendarId, event).execute();
-            System.out.printf("Free event created: %s\n", event.getHtmlLink());
+
             return event.getId();
         } catch (WrongAvailabilityException e) {
             e.printStackTrace();

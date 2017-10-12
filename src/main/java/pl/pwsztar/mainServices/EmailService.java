@@ -1,4 +1,4 @@
-package pl.pwsztar.services;
+package pl.pwsztar.mainServices;
 
 import org.springframework.stereotype.Service;
 

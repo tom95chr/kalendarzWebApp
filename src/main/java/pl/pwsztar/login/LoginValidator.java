@@ -1,4 +1,4 @@
-package pl.pwsztar.registration;
+package pl.pwsztar.login;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,7 @@ import pl.pwsztar.login.LoginDetails;
 import pl.pwsztar.login.LoginDetailsDAO;
 
 @Component
-public class UserValidator implements Validator {
+public class LoginValidator implements Validator {
 
     @Autowired
     LoginDetailsDAO loginDetailsDAO;

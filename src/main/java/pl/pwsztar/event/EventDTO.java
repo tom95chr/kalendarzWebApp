@@ -8,31 +8,22 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class EventDTO {
-   /* @NotEmpty(message = "Wprowadz nazwę ")
-    private String name;*/
-    //@NotBlank(message = "Wprowadz date rozpoczecia")
-    //@NotEmpty
+
     @NotNull
     @DateTimeFormat(pattern = "dd-MM-yyyy' 'HH:mm")
     private Date startDateTime;
-    //@NotBlank(message = "Wprowadz date zakonczenia")
+
     @NotNull
     @DateTimeFormat(pattern = "dd-MM-yyyy' 'HH:mm")
     private Date endDateTime;
+
     @NotEmpty
     private String room;
+
     @NotEmpty
     private String eventType;
 
     private Integer numberOfRepetitions;
-/*
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }*/
 
     public Date getStartDateTime() {
         return startDateTime;

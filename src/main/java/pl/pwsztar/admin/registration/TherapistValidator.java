@@ -1,4 +1,4 @@
-package pl.pwsztar.registration;
+package pl.pwsztar.admin.registration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

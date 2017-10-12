@@ -11,9 +11,9 @@ import pl.pwsztar.client.reservation.ReservationDAO;
 import pl.pwsztar.event.Event;
 import pl.pwsztar.event.EventDAO;
 import pl.pwsztar.event.eventType.EventTypeDAO;
-import pl.pwsztar.services.EmailService;
-import pl.pwsztar.services.KeyGenerator;
-import pl.pwsztar.services.googleCalendar.GoogleCalendar;
+import pl.pwsztar.mainServices.EmailService;
+import pl.pwsztar.client.reservation.KeyGeneratorService;
+import pl.pwsztar.mainServices.googleCalendar.GoogleCalendar;
 import pl.pwsztar.therapists.TherapistDAO;
 
 import java.util.*;
@@ -49,7 +49,7 @@ public class ClientService {
     ConfirmationCodeValidator confirmationCodeValidator;
 
     @Autowired
-    KeyGenerator keyGenerator;
+    KeyGeneratorService keyGeneratorService;
 
     @Autowired
     EmailService emailService;
@@ -120,7 +120,7 @@ public class ClientService {
         }
         else{
             //generate confirmationCode
-            String key = keyGenerator.generate(eventId+(client.getEmail()));
+            String key = keyGeneratorService.generate(eventId+(client.getEmail()));
             //send key to client's email
             emailService.sendEmail(client.getEmail(),"Kod potwierdzenia","Twoj kod to: "+key);
             Reservation rr = new Reservation();

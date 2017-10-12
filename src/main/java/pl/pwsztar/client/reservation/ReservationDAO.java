@@ -15,4 +15,7 @@ public interface ReservationDAO extends CrudRepository<Reservation, String> {
     //List<Client> findAllByEvent(Event event);
     @Transactional
     void deleteReservationsByEvent_EventId(String eventId);
+
+    @Transactional
+    void deleteReservationsByEvent_Therapist_TherapistId(String therapistId);
 }

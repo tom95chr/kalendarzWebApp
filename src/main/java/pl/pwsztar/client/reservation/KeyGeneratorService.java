@@ -1,10 +1,10 @@
-package pl.pwsztar.services;
+package pl.pwsztar.client.reservation;
 
 import org.springframework.stereotype.Service;
 
 import java.security.MessageDigest;
 @Service
-public class KeyGenerator {
+public class KeyGeneratorService {
 
     public String generate(String s){
         try {

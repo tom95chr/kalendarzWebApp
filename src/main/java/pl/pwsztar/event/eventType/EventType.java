@@ -20,9 +20,6 @@ public class EventType {
         return eventTypeId;
     }
 
-
-    //java.awt.List Event;
-
     public void setEventTypeId(String idTypeEvent) {
         this.eventTypeId = idTypeEvent;
     }

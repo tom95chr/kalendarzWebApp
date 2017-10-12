@@ -1,5 +1,6 @@
 package pl.pwsztar.login;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,15 +20,12 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class LoginController {
 
-    @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public String adminPage(ModelMap model) {
-        model.addAttribute("user", getPrincipal());
-        return "admin/admin";
-    }
+    @Autowired
+    LoginService loginService;
 
     @RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
     public String accessDeniedPage(ModelMap model) {
-        model.addAttribute("user", getPrincipal());
+        model.addAttribute("user", loginService.getPrincipal());
         return "login/accessDenied";
     }
 
@@ -45,16 +43,6 @@ public class LoginController {
         return "redirect:/login?logout";
     }
 
-    private String getPrincipal(){
-        String userName = null;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (principal instanceof UserDetails) {
-            userName = ((UserDetails)principal).getUsername();
-        } else {
-            userName = principal.toString();
-        }
-        return userName;
-    }
 
 }
