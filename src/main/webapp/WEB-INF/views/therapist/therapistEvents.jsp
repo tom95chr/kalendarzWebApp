@@ -12,12 +12,13 @@ Dear <strong>${user}</strong>, Manage your events <br/> <br/>
 <a href="<c:url value="/therapist-events/settings" />">Settings</a><br/>
 <a href="<c:url value="/logout" />">Logout</a><br/>
 <a href="<c:url value="/" />">Home</a><br/>
+<h1 style="color: red">${info}</h1>
 <table border="1">
     <thead>
     <tr>
         <th>#</th>
         <%--<th>Name</th>--%>
-        <th>Start                 asdsaas sadasdas das</th>
+        <th>Start</th>
         <th>End</th>
         <th>Room</th>
         <th>Participants</th>

@@ -21,7 +21,7 @@
     <a href="/logout">Logout</a><br><br>
 </sec:authorize>
 
-<table border="1">
+<table border="1" style="border-color: red">
     <thead>
     <tr>
         <th>#</th>
@@ -44,7 +44,6 @@
     </c:forEach>
     </tbody>
 </table>
-
 
 </body>
 </html>

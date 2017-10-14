@@ -4,23 +4,22 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.Constraint;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class EventDTO {
 
-    @NotNull
+    /*private String name;*/
+
     @DateTimeFormat(pattern = "dd-MM-yyyy' 'HH:mm")
     private Date startDateTime;
 
-    @NotNull
     @DateTimeFormat(pattern = "dd-MM-yyyy' 'HH:mm")
     private Date endDateTime;
 
-    @NotEmpty
     private String room;
 
-    @NotEmpty
     private String eventType;
 
     private Integer numberOfRepetitions;

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import pl.pwsztar.client.confirmation.ConfirmationCode;
 import pl.pwsztar.client.reservation.ReservationDAO;
 import pl.pwsztar.event.Event;
 import pl.pwsztar.event.EventDAO;
@@ -26,6 +27,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Controller
 public class TherapistContoller {
@@ -48,10 +50,15 @@ public class TherapistContoller {
         return therapistService.therapistSettingsPost(eventType,bindingResult);
     }
 
-    @RequestMapping("/therapist-events/createEvent-{user}/")
-    public ModelAndView createEvent(HttpServletRequest request, @ModelAttribute("eventDto") @Valid EventDTO eventDTO,
-                              BindingResult result, @PathVariable("user") String user){
-        return therapistService.createEvent(request, eventDTO, result, user);
+    @RequestMapping(value = "/therapist-events/createEvent-{user}/",method = RequestMethod.GET)
+    public ModelAndView createEventGet(/*HttpServletRequest request, @ModelAttribute("eventDto") @Valid EventDTO eventDTO,
+                              BindingResult result, @PathVariable("user") String user*/){
+        return therapistService.createEventGet();
+    }
+
+    @RequestMapping(value = "/therapist-events/createEvent-{user}/",method = RequestMethod.POST)
+    public ModelAndView createEventPost(@ModelAttribute("eventDTO") EventDTO eventDTO, BindingResult bindingResult){
+        return therapistService.createEventPost(eventDTO,bindingResult);
     }
     @RequestMapping("/event-{eventId}/drop")
     public ModelAndView dropEvent(@PathVariable("eventId") String eventId){
