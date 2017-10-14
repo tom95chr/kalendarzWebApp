@@ -14,7 +14,7 @@
     <title>Settings</title>
 </head>
 <body>
-<a href="<c:url value="/therapist-events" />">Therapist Events</a><br/> <br/>
+<a href="<c:url value="/admin" />">Admin</a><br/> <br/>
 
 <div class="container">
 
@@ -22,15 +22,14 @@
         <h2 class="form-signin-heading">Add your type </h2>
         <spring:bind path="eventTypeId">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="eventTypeId" class="form-control" placeholder="Event Type Id"
-                            autofocus="true"></form:input>
+                <form:input type="text" path="eventTypeId" class="form-control" placeholder="Event Type Id"></form:input>
                 <form:errors path="eventTypeId"></form:errors>
             </div>
         </spring:bind>
 
         <spring:bind path="seats">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="seats" class="form-control" placeholder="Seats"></form:input>
+                <form:input type="number" path="seats" class="form-control" min="1" value="1" placeholder="Seats"></form:input>
                 <form:errors path="seats"></form:errors>
             </div>
         </spring:bind>
@@ -40,12 +39,15 @@
 
 </div>
 
+<h2 style="color: red">${info}</h2>
+
 <table border="1">
     <thead>
     <tr>
         <th>#</th>
         <th>Type</th>
         <th>Seats</th>
+        <th>Drop</th>
     </tr>
     </thead>
     <tbody>
@@ -54,6 +56,7 @@
             <td>${status.index + 1}</td>
             <td>${eventType.eventTypeId}</td>
             <td>${eventType.seats}</td>
+            <td><a href="<c:url value="/admin/event-types-${eventType.eventTypeId}/drop" />">Drop</a></td>
         </tr>
     </c:forEach>
     </tbody>

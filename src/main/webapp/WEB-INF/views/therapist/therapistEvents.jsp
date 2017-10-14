@@ -9,7 +9,6 @@
 <body>
 Dear <strong>${user}</strong>, Manage your events <br/> <br/>
 <td><a href="<c:url value="/therapist-events/createEvent-${user}/" />">Create event</a></td> <br/>
-<a href="<c:url value="/therapist-events/settings" />">Settings</a><br/>
 <a href="<c:url value="/logout" />">Logout</a><br/>
 <a href="<c:url value="/" />">Home</a><br/>
 <h1 style="color: red">${info}</h1>

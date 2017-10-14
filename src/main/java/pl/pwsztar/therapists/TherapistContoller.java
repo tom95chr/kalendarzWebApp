@@ -40,16 +40,6 @@ public class TherapistContoller {
         return therapistService.therapistEventsGet();
     }
 
-    @RequestMapping(value = "/therapist-events/settings", method = RequestMethod.GET)
-    public ModelAndView therapistSettingsGet() {
-        return  therapistService.therapistSettingsGet();
-    }
-
-    @RequestMapping(value = "/therapist-events/settings", method = RequestMethod.POST)
-    public ModelAndView therapistSettings(@ModelAttribute("eventType")EventType eventType, BindingResult bindingResult){
-        return therapistService.therapistSettingsPost(eventType,bindingResult);
-    }
-
     @RequestMapping(value = "/therapist-events/createEvent-{user}/",method = RequestMethod.GET)
     public ModelAndView createEventGet(/*HttpServletRequest request, @ModelAttribute("eventDto") @Valid EventDTO eventDTO,
                               BindingResult result, @PathVariable("user") String user*/){

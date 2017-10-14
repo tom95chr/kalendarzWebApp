@@ -21,7 +21,6 @@ import pl.pwsztar.login.LoginService;
 import pl.pwsztar.mainServices.EmailService;
 import pl.pwsztar.mainServices.googleCalendar.GoogleCalendar;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -50,9 +49,6 @@ public class TherapistService {
 
     @Autowired
     EventTypeDAO eventTypeDAO;
-
-    @Autowired
-    EventTypeValidator eventTypeValidator;
 
     @Autowired
     TherapistService therapistService;
@@ -86,27 +82,6 @@ public class TherapistService {
         return model;
     }
 
-    public ModelAndView therapistSettingsGet(){
-
-        ModelAndView model = new ModelAndView("therapist/settings");
-        model.addObject("eventTypes",eventTypeDAO.findAll());
-        model.addObject("eventType",new EventType());
-        return model;
-    }
-
-    public ModelAndView therapistSettingsPost(EventType eventType, BindingResult bindingResult){
-
-        ModelAndView model = new ModelAndView("redirect:/therapist-events/settings");
-        model.addObject("eventTypes",eventTypeDAO.findAll());
-
-        eventTypeValidator.validate(eventType, bindingResult);
-        if (bindingResult.hasErrors()) {
-            return new ModelAndView("event/settings");
-        }
-        eventTypeDAO.save(eventType);
-        return model;
-    }
-
     public ModelAndView createEventGet(){
         ModelAndView modelAndView = new ModelAndView("therapist/createEvent");
         modelAndView.addObject("eventTypes", eventTypeDAO.findAll());
@@ -132,7 +107,6 @@ public class TherapistService {
         //date format changed to googleDateFormat
         Format myGoogleFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 
-        System.out.println(eventDTO.getNumberOfRepetitions()+" ile powtarza");
         //cyclic events creation
         Integer nr = eventDTO.getNumberOfRepetitions();
         if (nr == null) nr = 0;

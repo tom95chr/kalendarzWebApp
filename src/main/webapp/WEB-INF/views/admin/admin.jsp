@@ -10,5 +10,6 @@
 	<a href="<c:url value="/admin/therapists" />">Therapists</a><br />
 	<a href="<c:url value="/" />">Home</a><br />
 	<a href="<c:url value="/admin/registration" />">Create account</a><br />
+	<a href="<c:url value="/admin/event-types" />">Event types settings</a><br/>
 </body>
 </html>

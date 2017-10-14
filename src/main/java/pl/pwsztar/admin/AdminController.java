@@ -2,14 +2,17 @@ package pl.pwsztar.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import pl.pwsztar.client.ClientService;
+import pl.pwsztar.event.eventType.EventType;
 import pl.pwsztar.login.LoginService;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class AdminController {
@@ -38,4 +41,19 @@ public class AdminController {
         model.addAttribute("user", loginService.getPrincipal());
         return "admin/admin";
     }
+
+    @RequestMapping(value = "/admin/event-types", method = RequestMethod.GET)
+    public ModelAndView therapistSettingsGet(HttpSession session) {
+        return  adminService.eventTypeSettingsGet(session);
+    }
+
+    @RequestMapping(value = "/admin/event-types", method = RequestMethod.POST)
+    public ModelAndView therapistSettings(@ModelAttribute("eventType")EventType eventType, BindingResult bindingResult){
+        return adminService.eventTypeSettingsPost(eventType,bindingResult);
+    }
+    @RequestMapping("/admin/event-types-{eventTypeId}/drop")
+    public ModelAndView dropEventType(@PathVariable("eventTypeId") String eventTypeId, HttpSession session){
+        return adminService.dropEventType(eventTypeId,session);
+    }
+
 }
