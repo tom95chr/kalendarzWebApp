@@ -10,6 +10,7 @@ public interface EventDAO extends CrudRepository<Event, String> {
     List<Event> findAll();
     <S extends Event> S save(S s);
     List<Event> findByTherapist_TherapistIdOrderByStartDateTime(String therapistId);
+    List<Event> findByTherapist_EmailOrderByStartDateTime(String therapistId);
     List<Event> findByTherapist_Email(String email);
 
     @Transactional

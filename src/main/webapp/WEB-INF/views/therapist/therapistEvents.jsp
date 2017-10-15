@@ -12,16 +12,19 @@ Dear <strong>${user}</strong>, Manage your events <br/> <br/>
 <a href="<c:url value="/logout" />">Logout</a><br/>
 <a href="<c:url value="/" />">Home</a><br/>
 <h1 style="color: red">${info}</h1>
+
 <table border="1">
     <thead>
     <tr>
         <th>#</th>
         <%--<th>Name</th>--%>
+        <th>Event type</th>
         <th>Start</th>
         <th>End</th>
         <th>Room</th>
         <th>Participants</th>
         <th>Free places</th>
+        <th>Edit</th>
         <th>Drop</th>
     </tr>
     </thead>
@@ -30,13 +33,14 @@ Dear <strong>${user}</strong>, Manage your events <br/> <br/>
     <c:forEach items="${events}" var="event" varStatus="status">
         <tr>
             <td>${status.index + 1}</td>
-
+            <td>${event.eventType.eventTypeId}</td>
             <%--<td>${event.name}</td>--%>
             <td>${event.startDateTime}</td>
             <td>${event.endDateTime}</td>
             <td>${event.room}</td>
             <td><a href="<c:url value="/therapist-events/event-${event.eventId}/participants" />">${participants[status.index]}</a></td>
             <td>${event.free}</td>
+            <td><a href="<c:url value="/therapist-events/event-${event.eventId}/edit" />">Edit</a></td>
             <td><a href="<c:url value="/event-${event.eventId}/drop" />">Drop</a></td>
 
         </tr>

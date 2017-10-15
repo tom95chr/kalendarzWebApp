@@ -41,8 +41,7 @@ public class TherapistContoller {
     }
 
     @RequestMapping(value = "/therapist-events/createEvent-{user}/",method = RequestMethod.GET)
-    public ModelAndView createEventGet(/*HttpServletRequest request, @ModelAttribute("eventDto") @Valid EventDTO eventDTO,
-                              BindingResult result, @PathVariable("user") String user*/){
+    public ModelAndView createEventGet(){
         return therapistService.createEventGet();
     }
 
@@ -58,5 +57,16 @@ public class TherapistContoller {
     @RequestMapping("/therapist-events/event-{eventId}/participants")
     public ModelAndView eventParticipants(@PathVariable("eventId") String eventId){
         return therapistService.eventParticipants(eventId);
+    }
+
+    @RequestMapping(value = "/therapist-events/event-{eventId}/edit",method = RequestMethod.GET)
+    public ModelAndView editEventGet(@PathVariable("eventId") String eventId){
+        return therapistService.editEventGet(eventId);
+    }
+
+    @RequestMapping(value = "/therapist-events/event-{eventId}/edit",method = RequestMethod.POST)
+    public ModelAndView editEventPost(@ModelAttribute("eventDTO") EventDTO eventDTO, BindingResult bindingResult,
+                                      @PathVariable("eventId") String eventId){
+        return therapistService.editEventPost(eventId,eventDTO,bindingResult);
     }
 }
