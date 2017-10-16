@@ -126,7 +126,7 @@ public class ClientService {
             //generate confirmationCode
             String key = keyGeneratorService.generate(eventId+(client.getEmail()));
             //send key to client's email
-            emailService.sendEmail(client.getEmail(),"Confirmation cod","Your confirmation code: "+key);
+            emailService.sendEmail(client.getEmail(),"Confirmation code","Your confirmation code: "+key);
             Reservation rr = new Reservation();
             rr.setClient(client);
             rr.setEvent(event);

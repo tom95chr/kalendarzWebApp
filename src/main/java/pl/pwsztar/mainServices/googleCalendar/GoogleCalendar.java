@@ -184,28 +184,7 @@ public class GoogleCalendar {
         return null;
     }
 
-   /* public void editEventGoogle(pl.pwsztar.event.Event eventDTO)throws IOException{
-        try{
 
-            Event event = service.events().get(eventDTO.getTherapist().getGoogleCalendarId(), eventDTO.getEventId()).execute();
-            DateTime startDT = new DateTime(eventDTO.getStartDateTime());
-            EventDateTime start = new EventDateTime()
-                    .setDateTime(startDT);
-            event.setStart(start);
-
-            DateTime endDT = new DateTime(eventDTO.getEndDateTime());
-            EventDateTime end = new EventDateTime()
-                    .setDateTime(endDT);
-            event.setEnd(end);
-
-            event.setSummary(eventDTO.getName());;
-            Event updatedEvent = service.events().update(eventDTO.getTherapist().getGoogleCalendarId(), event.getId(), event).execute();
-            System.out.println("Event updated: "+updatedEvent);
-
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-    }*/
     public Boolean changeEventAvailabilityAndName(String therapistEmail, String eventId, String availability, String summary) throws IOException {
 
         try{
@@ -219,12 +198,73 @@ public class GoogleCalendar {
 
             // Update the event
             Event updatedEvent = service.events().update(calendarId, event.getId(), event).execute();
-            System.out.println(updatedEvent);
+            //System.out.println(updatedEvent);
             return Boolean.TRUE;
 
         } catch (WrongAvailabilityException e) {
             e.printStackTrace();
             return Boolean.FALSE;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return Boolean.FALSE;
+        }
+    }
+    public Boolean editEvent(String therapistEmail, String eventId, String startDateTime, String endDateTime,
+                             String availability) throws IOException {
+
+        try{
+            String calendarId = getGoogleCalendarId(therapistEmail);
+            // Retrieve the event from the API
+            Event event = service.events().get(calendarId, eventId).execute();
+
+            // Here make changes
+            //event = setAvailability(event,availability);
+            //event.setSummary(summary);
+            DateTime startDT = new DateTime(startDateTime);
+            EventDateTime start = new EventDateTime()
+                    .setDateTime(startDT);
+            event.setStart(start);
+
+            DateTime endDT = new DateTime(endDateTime);
+            EventDateTime end = new EventDateTime()
+                    .setDateTime(endDT);
+            event.setEnd(end);
+            event = setAvailability(event,availability);
+
+            if (availability.equals("busy")){
+                event.setSummary("busy");
+            }
+            if (availability.equals("free")){
+                event.setSummary("free");
+            }
+            // Update the event
+            Event updatedEvent = service.events().update(calendarId, event.getId(), event).execute();
+            return Boolean.TRUE;
+
+        } catch(Exception e) {
+            e.printStackTrace();
+            return Boolean.FALSE;
+        }
+    }
+
+    public Boolean editEvent(String therapistEmail, String eventId, String availability) throws IOException {
+
+        try{
+            String calendarId = getGoogleCalendarId(therapistEmail);
+            // Retrieve the event from the API
+            Event event = service.events().get(calendarId, eventId).execute();
+
+            event = setAvailability(event,availability);
+            if (availability.equals("busy")){
+                event.setSummary("busy");
+            }
+            if (availability.equals("free")){
+                event.setSummary("free");
+            }
+            // Update the event
+            Event updatedEvent = service.events().update(calendarId, event.getId(), event).execute();
+            return Boolean.TRUE;
+
         } catch(Exception e) {
             e.printStackTrace();
             return Boolean.FALSE;

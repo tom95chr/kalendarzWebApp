@@ -1,6 +1,7 @@
 package pl.pwsztar.therapists;
 
 
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -160,17 +161,8 @@ public class TherapistService {
 
         ModelAndView model = new ModelAndView("redirect:/therapist-events");
         List<Reservation> listOfParticipants = reservationDAO.findAllByEvent(eventDAO.findByEventId(eventId));
-        for (Reservation reservation : listOfParticipants
-                ) {
-            String email = reservation.getClient().getEmail();
-            emailService.sendEmail(email, "Event cancellation", "Hello.\n\nWe would like to inform, that" +
-                    "event which you were signed has been cancelled.\n\nEvent details: " +
-                    "\nTherapist: " + reservation.getEvent().getTherapist().getFirstName() + " " +
-                    reservation.getEvent().getTherapist().getLastName() +
-                    "\nStart date/time: " + reservation.getEvent().getStartDateTime() +
-                    "\nroom nr:" + reservation.getEvent().getRoom() + "\n\nKind regards\n " + reservation.getEvent().getTherapist().getFirstName() + " " +
-                    reservation.getEvent().getTherapist().getLastName());
-        }
+        //c = cancellation
+        emailService.sendMultiple(listOfParticipants,'c');
         try {
             reservationDAO.deleteReservationsByEvent_EventId(eventId);
             googleCalendar.deleteEvent(eventDAO.findByEventId(eventId).getTherapist().getGoogleCalendarId(), eventId);
@@ -231,14 +223,9 @@ public class TherapistService {
     public ModelAndView editEventPost(String eventId, EventDTO eventDTO, BindingResult bindingResult) {
         ModelAndView model = new ModelAndView("redirect:/therapist-events");
         Event e = eventDAO.findByEventId(eventId);
-
-        //System.out.println(eventDTO.getStartDateTime() + "\n" + eventDTO.getEndDateTime() + "\n" + eventDTO.getRoom() + "\n" + eventDTO.getEventType());
-
-        /*//Format myGoogleFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-        //String startDate = myGoogleFormat.format(eventDTO.getStartDateTime());
-        String endDate = myGoogleFormat.format(eventDTO.getEndDateTime());*/
-
+        //event tye old = new
         if (!(eventDTO.getEventType().equals(e.getEventType().getEventTypeId()))) {
+            //participants>free seats
             if (clientService.nrOfParticipants(e) > eventTypeDAO.findByEventTypeId(eventDTO.getEventType()).getSeats()) {
                 ModelAndView m2 = new ModelAndView("therapist/editEvent");
                 m2.addObject("event", eventDAO.findByEventId(eventId));
@@ -247,20 +234,26 @@ public class TherapistService {
                 m2.addObject("editError", "Cannot change event type, because number of " +
                         "participants is greater than number of free seats");
                 return m2;
-            }
-            else {
+            } else {
                 if (eventTypeDAO.findByEventTypeId(eventDTO.getEventType()).getSeats() > clientService.nrOfParticipants(e)) {
                     e.setFree(Boolean.TRUE);
-                }
-                else {
+                } else {
                     e.setFree(Boolean.FALSE);
                 }
                 e.setEventType(eventTypeDAO.findByEventTypeId(eventDTO.getEventType()));
             }
         }
-
+        //to avoid problems with nullException
         if (eventDTO.getRoom().equals("")) {
             eventDTO.setRoom(e.getRoom());
+        }
+        //availability for googleCal
+        String availability;
+        if (e.getFree()){
+            availability = "free";
+        }
+        else {
+            availability = "busy";
         }
         if (eventDTO.getEndDateTime() != null && eventDTO.getEndDateTime() != null) {
 
@@ -275,10 +268,44 @@ public class TherapistService {
             }
             e.setStartDateTime(eventDTO.getStartDateTime());
             e.setEndDateTime(eventDTO.getEndDateTime());
+
+            Format myGoogleFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+            String startDate = myGoogleFormat.format(eventDTO.getStartDateTime());
+            String endDate = myGoogleFormat.format(eventDTO.getEndDateTime());
+            String therapistEmail = loginService.getPrincipal();
+            try {
+                 Boolean isUpdated = googleCalendar.editEvent(therapistEmail, eventId,  startDate +
+                                 ":59.000+02:00", endDate + ":59.000+02:00", availability);
+
+            }catch (IOException ioException){
+                ioException.printStackTrace();
+            }catch (Exception exception){
+                exception.printStackTrace();
+            }
+        }
+        //when
+        else {
+            try {
+                String therapistEmail = loginService.getPrincipal();
+                Boolean isUpdated = googleCalendar.editEvent(therapistEmail, eventId, availability);
+
+            }catch (IOException ioException){
+                ioException.printStackTrace();
+            }catch (Exception exception){
+                exception.printStackTrace();
+            }
         }
         if (!e.getRoom().equals(eventDTO.getRoom()))
             e.setRoom(eventDTO.getRoom());
+        //save
         eventDAO.save(e);
+        //inform participants
+        List<Reservation> r = reservationDAO.findAllByEvent(e);
+        if (r.size()>0){
+            //e = edited
+            emailService.sendMultiple(r,'e');
+        }
+
         return model;
     }
 
