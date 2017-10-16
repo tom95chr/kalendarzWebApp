@@ -34,7 +34,11 @@
 
 <div class="container">
     <h1 style="color: red">${editError}</h1>
-
+    <c:if test="${collidedEvent != null}">
+        <h2 style="color: red">Collision found !</h2>
+        <h2 style="color: red">This room is occupied by ${collidedEvent.therapist.firstName} ${collidedEvent.therapist.lastName}
+            from: ${collidedEvent.startDateTime.toString()} to: ${collidedEvent.endDateTime.toString()} </h2>
+    </c:if>
     <form:form method="POST" modelAttribute="eventDTO" id="formularz">
         <h2 class="form-signin-heading">Edit and save</h2>
 

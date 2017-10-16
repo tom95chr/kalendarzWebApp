@@ -9,10 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import pl.pwsztar.client.ClientService;
 import pl.pwsztar.client.reservation.Reservation;
 import pl.pwsztar.client.reservation.ReservationDAO;
-import pl.pwsztar.event.Event;
-import pl.pwsztar.event.EventDAO;
-import pl.pwsztar.event.EventDTO;
-import pl.pwsztar.event.EventValidator;
+import pl.pwsztar.event.*;
 import pl.pwsztar.event.eventType.EventType;
 import pl.pwsztar.event.eventType.EventTypeDAO;
 import pl.pwsztar.event.eventType.EventTypeValidator;
@@ -227,15 +224,7 @@ public class TherapistService {
         ModelAndView model = new ModelAndView("therapist/editEvent");
         model.addObject("event", eventDAO.findByEventId(eventId));
         model.addObject("eventDTO", new EventDTO());
-
-        List<EventType> eventTypes = eventTypeDAO.findAll();
-        List<String> types = new ArrayList<String>();
-        for (EventType eventType : eventTypes) {
-            types.add(eventType.getEventTypeId());
-        }
-        int index = types.indexOf(eventDAO.findByEventId(eventId).getEventType().getEventTypeId());
-        Collections.swap(types, 0, index);
-        model.addObject("types", types);
+        model.addObject("types", getEventTypesId(eventTypeDAO.findAll(), eventId));
         return model;
     }
 
@@ -249,32 +238,57 @@ public class TherapistService {
         //String startDate = myGoogleFormat.format(eventDTO.getStartDateTime());
         String endDate = myGoogleFormat.format(eventDTO.getEndDateTime());*/
 
-        if (!(eventDTO.getEventType().equals(e.getEventType().getEventTypeId()))){
+        if (!(eventDTO.getEventType().equals(e.getEventType().getEventTypeId()))) {
             if (clientService.nrOfParticipants(e) > eventTypeDAO.findByEventTypeId(eventDTO.getEventType()).getSeats()) {
-                model.addObject("editError", "Cannot change event type, because number of " +
+                ModelAndView m2 = new ModelAndView("therapist/editEvent");
+                m2.addObject("event", eventDAO.findByEventId(eventId));
+                m2.addObject("eventDTO", new EventDTO());
+                m2.addObject("types", getEventTypesId(eventTypeDAO.findAll(), eventId));
+                m2.addObject("editError", "Cannot change event type, because number of " +
                         "participants is greater than number of free seats");
-                return model;
+                return m2;
             }
             else {
                 if (eventTypeDAO.findByEventTypeId(eventDTO.getEventType()).getSeats() > clientService.nrOfParticipants(e)) {
                     e.setFree(Boolean.TRUE);
                 }
-                else{
+                else {
                     e.setFree(Boolean.FALSE);
                 }
                 e.setEventType(eventTypeDAO.findByEventTypeId(eventDTO.getEventType()));
             }
-            if (eventDTO.getStartDateTime() != null) {
-                e.setStartDateTime(eventDTO.getStartDateTime());
-            }
-            if (eventDTO.getEndDateTime() != null)
-                e.setEndDateTime(eventDTO.getEndDateTime());
-            if (!eventDTO.getRoom().equals(""))
-                e.setRoom(eventDTO.getRoom());
-            eventDAO.save(e);
-
-            return model;
         }
+
+        if (eventDTO.getRoom().equals("")) {
+            eventDTO.setRoom(e.getRoom());
+        }
+        if (eventDTO.getEndDateTime() != null && eventDTO.getEndDateTime() != null) {
+
+            Event collidedEvent = therapistService.detectCollisionsByTherapist(eventDTO);
+            if (collidedEvent != null) {
+                ModelAndView m2 = new ModelAndView("therapist/editEvent");
+                m2.addObject("event", eventDAO.findByEventId(eventId));
+                m2.addObject("eventDTO", new EventDTO());
+                m2.addObject("types", getEventTypesId(eventTypeDAO.findAll(), eventId));
+                m2.addObject("collidedEvent", collidedEvent);
+                return m2;
+            }
+            e.setStartDateTime(eventDTO.getStartDateTime());
+            e.setEndDateTime(eventDTO.getEndDateTime());
+        }
+        if (!e.getRoom().equals(eventDTO.getRoom()))
+            e.setRoom(eventDTO.getRoom());
+        eventDAO.save(e);
         return model;
+    }
+
+    public List<String> getEventTypesId(List<EventType> eventTypes, String eventId) {
+        List<String> types = new ArrayList<String>();
+        for (EventType eventType : eventTypes) {
+            types.add(eventType.getEventTypeId());
+        }
+        int index = types.indexOf(eventDAO.findByEventId(eventId).getEventType().getEventTypeId());
+        Collections.swap(types, 0, index);
+        return types;
     }
 }
