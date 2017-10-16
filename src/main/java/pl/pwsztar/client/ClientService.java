@@ -54,17 +54,18 @@ public class ClientService {
     @Autowired
     EmailService emailService;
 
-    public int nrOfParticipants(Event e){
+    public int nrOfParticipants(Event e) {
         List<Reservation> listOfParticipants = reservationDAO.findAllByEvent(e);
         return listOfParticipants.size();
     }
 
-    public ModelAndView therapistsList(){
+    public ModelAndView therapistsList() {
         ModelAndView model = new ModelAndView("home");
         model.addObject("therapists", therapistDAO.findAll());
         return model;
     }
-    public ModelAndView therapistData(String therapistId){
+
+    public ModelAndView therapistData(String therapistId) {
         ModelAndView model = new ModelAndView("client/therapist");
 
         model.addObject("therapist", therapistDAO.findByTherapistId(therapistId));
@@ -74,59 +75,58 @@ public class ClientService {
         Iterator<Event> it = events.iterator();
         while (it.hasNext()) {
             Event e = it.next();
-            if (e.getFree()!=Boolean.TRUE) {
+            if (e.getFree() != Boolean.TRUE) {
                 it.remove();
             }
         }
-        model.addObject("events",events);
+        model.addObject("events", events);
 
         return model;
     }
 
-    public ModelAndView eventReservationGet(String therapistId, String eventId){
+    public ModelAndView eventReservationGet(String therapistId, String eventId) {
         ModelAndView model = new ModelAndView("client/reservation");
         model.addObject("client", new Client());
         model.addObject("event", eventDAO.findByEventId(eventId));
         model.addObject("therapist", therapistDAO.findByTherapistId(therapistId));
-        model.addObject("freeSlots",eventDAO.findByEventId(eventId).getEventType().getSeats()
+        model.addObject("freeSlots", eventDAO.findByEventId(eventId).getEventType().getSeats()
                 - nrOfParticipants(eventDAO.findByEventId(eventId)));
         return model;
     }
 
     public ModelAndView eventReservationPost(Client client, BindingResult bindingResult,
-                                             String eventId, String therapistId){
+                                             String eventId, String therapistId) {
         clientValidator.validate(client, bindingResult);
         if (bindingResult.hasErrors()) {
             ModelAndView model = new ModelAndView("client/reservation");
-            model.addObject("therapist",therapistDAO.findByTherapistId(therapistId));
-            model.addObject("event",eventDAO.findByEventId(eventId));
-            model.addObject("freeSlots",eventDAO.findByEventId(eventId).getEventType().
+            model.addObject("therapist", therapistDAO.findByTherapistId(therapistId));
+            model.addObject("event", eventDAO.findByEventId(eventId));
+            model.addObject("freeSlots", eventDAO.findByEventId(eventId).getEventType().
                     getSeats() - nrOfParticipants(eventDAO.findByEventId(eventId)));
             return model;
         }
         clientDAO.save(client);
         Event event = eventDAO.findByEventId(eventId);
-        Reservation reservation = reservationDAO.findByClientAndEvent(client,event);
+        Reservation reservation = reservationDAO.findByClientAndEvent(client, event);
 
         //if event already reserved by this client
-        if(reservation != null){
+        if (reservation != null) {
 
-            if (reservation.isConfirmed()){
+            if (reservation.isConfirmed()) {
                 ModelAndView model = new ModelAndView("client/details");
-                model.addObject("information",new String("Your reservation has been already confirmed"));
-                model.addObject("therapist",therapistDAO.findByTherapistId(therapistId));
-                model.addObject("event",eventDAO.findByEventId(eventId));
+                model.addObject("information", new String("Your reservation has been already confirmed"));
+                model.addObject("therapist", therapistDAO.findByTherapistId(therapistId));
+                model.addObject("event", eventDAO.findByEventId(eventId));
+                model.addObject("confirmationCode",reservation.getConfirmationCode());
                 return model;
-            }
-            else{
+            } else {
                 return new ModelAndView("redirect:/confirm-reservation");
             }
-        }
-        else{
+        } else {
             //generate confirmationCode
-            String key = keyGeneratorService.generate(eventId+(client.getEmail()));
+            String key = keyGeneratorService.generate(eventId + (client.getEmail()));
             //send key to client's email
-            emailService.sendEmail(client.getEmail(),"Confirmation code","Your confirmation code: "+key);
+            emailService.sendEmail(client.getEmail(), "Confirmation code", "Your confirmation code: " + key);
             Reservation rr = new Reservation();
             rr.setClient(client);
             rr.setEvent(event);
@@ -135,15 +135,15 @@ public class ClientService {
             reservationDAO.save(rr);
 
         }
-
-        //if number of participants is greater than seats then set event type to busy(false)
+        //if number of participants is greater than seats then set event free to busy(false)
         if (clientService.nrOfParticipants(event) >= eventTypeDAO.findByEventTypeId(
                 event.getEventType().getEventTypeId()).getSeats()) {
             event.setFree(Boolean.FALSE);
-            try{
-                googleCalendar.changeEventAvailabilityAndName(therapistDAO.findByTherapistId(therapistId).getEmail(),
-                        eventId,"busy","busy");
-            }catch(Exception e){
+            try {
+                googleCalendar.changeEventAvailabilityAndName(therapistDAO.findByTherapistId(event.getTherapist().
+                                getTherapistId()).getEmail(),
+                        event.getEventId(), "busy", "busy");
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             eventDAO.save(event);
@@ -152,41 +152,111 @@ public class ClientService {
         return new ModelAndView("redirect:/confirm-reservation");
     }
 
-    public ModelAndView confirmationGet(){
+    public ModelAndView confirmationGet() {
         ModelAndView model = new ModelAndView("client/confirmation");
-        model.addObject("confirmationCode",new ConfirmationCode());
+        model.addObject("confirmationCode", new ConfirmationCode());
+        model.addObject("info1","We have sent an reservation code to your email.");
+        model.addObject("info2","To confirm");
         return model;
     }
 
-    public ModelAndView confirmationPost(ConfirmationCode confirmationCode, BindingResult bindingResult){
+    public ModelAndView confirmationPost(ConfirmationCode confirmationCode, BindingResult bindingResult) {
 
         ModelAndView model = new ModelAndView("client/confirmation");
         confirmationCodeValidator.validate(confirmationCode, bindingResult);
 
         if (bindingResult.hasErrors()) {
+            model.addObject("info2","To confirm");
             return model;
         }
         Reservation reservation = reservationDAO.findByConfirmationCode(confirmationCode.getCode());
 
 
-        if(reservation!=null && reservation.isConfirmed()){
-            model.addObject("confirmationFailed", new String("This reservation has been already confirmed"));
+        if (reservation != null && reservation.isConfirmed()) {
+            model.addObject("confirmationFailed", new String("This reservation has been already " +
+                    "confirmed"));
 
-        }
-        else {
+        } else {
             if (reservation != null) {
                 reservation.setConfirmed(true);
                 reservationDAO.save(reservation);
                 ModelAndView model2 = new ModelAndView("client/details");
                 model2.addObject("information", new String("Reservation confirmed successfully"));
-                model2.addObject("therapist", therapistDAO.findByTherapistId(reservation.getEvent().getTherapist().getTherapistId()));
+                model2.addObject("therapist", therapistDAO.findByTherapistId(reservation.getEvent().
+                        getTherapist().getTherapistId()));
                 model2.addObject("event", eventDAO.findByEventId(reservation.getEvent().getEventId()));
+                model2.addObject("confirmationCode",reservation.getConfirmationCode());
                 return model2;
-            }
-            else{
-                model.addObject("confirmationFailed","Reservation not found, check your reservation code and try again");
+            } else {
+                model.addObject("confirmationFailed", "Reservation not found, check your " +
+                        "reservation code and try again");
+                model.addObject("info1","We have sent an reservation code to your email.");
+                model.addObject("info2","To confirm");
             }
         }
         return model;
     }
+
+    public ModelAndView myReservationGet() {
+        ModelAndView model = new ModelAndView("client/confirmation");
+        model.addObject("confirmationCode", new ConfirmationCode());
+        model.addObject("info2","To check");
+        return model;
+    }
+
+    public ModelAndView myReservationPost(ConfirmationCode confirmationCode, BindingResult bindingResult) {
+
+        ModelAndView model = new ModelAndView("client/confirmation");
+        confirmationCodeValidator.validate(confirmationCode, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            model.addObject("info2","To check");
+            return model;
+        }
+        Reservation reservation = reservationDAO.findByConfirmationCode(confirmationCode.getCode());
+
+
+        if (reservation != null) {
+
+            ModelAndView model2 = new ModelAndView("client/details");
+            model2.addObject("information", new String("Reservation confirmed successfully"));
+            model2.addObject("therapist", therapistDAO.findByTherapistId(reservation.getEvent().getTherapist().getTherapistId()));
+            model2.addObject("event", eventDAO.findByEventId(reservation.getEvent().getEventId()));
+            model2.addObject("confirmationCode",reservation.getConfirmationCode());
+            return model2;
+        } else {
+            model.addObject("confirmationFailed", "Reservation not found, check your reservation code and try again");
+            model.addObject("info2","To check");
+        }
+
+        return model;
+    }
+
+    public ModelAndView cancelReservation(String confirmationCode) {
+
+        ModelAndView modelAndView = new ModelAndView("client/details");
+
+        Reservation r = reservationDAO.findByConfirmationCode(confirmationCode);
+        Event event = r.getEvent();
+
+        //delete reservation
+        reservationDAO.deleteReservationsByConfirmationCode(confirmationCode);
+
+        //if number of participants is greater than seats then set event free to busy(false)
+        if (clientService.nrOfParticipants(event) < eventTypeDAO.findByEventTypeId(
+                event.getEventType().getEventTypeId()).getSeats()) {
+            event.setFree(Boolean.TRUE);
+            try {
+                googleCalendar.changeEventAvailabilityAndName(therapistDAO.findByTherapistId(event.getTherapist().
+                                getTherapistId()).getEmail(),
+                        event.getEventId(), "free", "free");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            eventDAO.save(event);
+        }
+        modelAndView.addObject("cancelSuccess","Your reservation has been cancelled");
+        return modelAndView;
+    }
+
 }

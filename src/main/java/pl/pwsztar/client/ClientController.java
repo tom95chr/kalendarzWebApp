@@ -49,5 +49,20 @@ public class ClientController {
 
         return clientService.confirmationPost(confirmationCode,bindingResult);
     }
+    @RequestMapping(value = "/my-reservation", method = RequestMethod.GET)
+    public ModelAndView myReservationGet(){
+        return clientService.myReservationGet();
+    }
 
+    @RequestMapping(value = "/my-reservation", method = RequestMethod.POST)
+    public ModelAndView myReservationPost(@ModelAttribute("confirmationCode")ConfirmationCode confirmationCode,
+                                         BindingResult bindingResult){
+
+        return clientService.myReservationPost(confirmationCode,bindingResult);
+    }
+
+    @RequestMapping(value = "/my-reservation-{confirmationCode}/cancel",method = RequestMethod.GET)
+    public ModelAndView cancelReservation(@PathVariable("confirmationCode") String confirmationCode){
+        return clientService.cancelReservation(confirmationCode);
+    }
 }

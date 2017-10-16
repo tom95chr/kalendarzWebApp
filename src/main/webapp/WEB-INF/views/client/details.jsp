@@ -35,19 +35,26 @@
 <div class="container">
     <a href="<c:url value="/" />">Home</a><br />
 
-    <h1>Hi, ${information}<br> We are waiting for you... bla bla bla</h1>
-    <h1>Host</h1>
-    <h2>${therapist.firstName} ${therapist.lastName} <br>
-        Specialization: ${therapist.specialization} <br>
-        Description: ${therapist.description}
-    </h2>
-    <h1>Event details</h1>
-    <h2>
-        name: ${event.name} <br>
-        start: ${event.startDateTime}<br>
-        end: ${event.endDateTime}<br>
-        room: ${event.room}<br>
-    </h2>
+    <c:if test="${cancelSuccess!=null}">
+        <h2>${cancelSuccess}</h2>
+    </c:if>
+    <c:if test="${cancelSuccess==null}">
+        <h1>Hi, ${information}<br> We are waiting for you... bla bla bla</h1>
+        <h1>Host</h1>
+        <h2>${therapist.firstName} ${therapist.lastName} <br>
+            Specialization: ${therapist.specialization} <br>
+            Description: ${therapist.description}
+        </h2>
+        <h1>Event details</h1>
+        <h2>
+            name: ${event.name} <br>
+            start: ${event.startDateTime}<br>
+            end: ${event.endDateTime}<br>
+            room: ${event.room}<br>
+        </h2>
+        <h3>To cancel your reservation, please click <a href="/my-reservation-${confirmationCode}/cancel">here</a></h3>
+    </c:if>
+
 
 </div>
 <!-- /container -->
