@@ -12,6 +12,7 @@
     <title>Terapeuta</title>
 </head>
 <body>
+
 <table border="1">
     <tbody>
     <tr>
@@ -27,8 +28,9 @@
         <td>${therapist.specialization}</td>
     </tr>
     </tbody>
-</table>
 
+</table>
+<c:if test="${events.size()>0}">
 <h2>Available events</h2>
 
 <table border="1">
@@ -57,9 +59,13 @@
     </c:forEach>
     </tbody>
 </table>
+</c:if>
+<c:if test="${events.size()==0}">
+    <h1>Sorry, no available events found</h1>
+</c:if>
 
-
-<iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=1&amp;showTz=0&amp;mode=WEEK&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=${therapist.googleCalendarId}&amp;color=%235229A3&amp;ctz=Europe%2FWarsaw" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+<iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=1&amp;showTz=0&amp;mode=WEEK&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=${therapist.googleCalendarId}&amp;color=%235229A3&amp;ctz=Europe%2FWarsaw"
+        style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
 
 </body>
 </html>
