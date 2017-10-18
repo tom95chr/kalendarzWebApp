@@ -1,13 +1,13 @@
 package pl.pwsztar.event;
 
-import pl.pwsztar.client.Client;
+
 import pl.pwsztar.client.reservation.Reservation;
 import pl.pwsztar.event.eventType.EventType;
 import pl.pwsztar.therapists.Therapist;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,8 +18,8 @@ import java.util.List;
 public class Event {
 
     private String eventId;
-    private Date startDateTime;
-    private Date endDateTime;
+    private LocalDateTime startDateTime;
+    private LocalDateTime endDateTime;
     private String room;
     private Therapist therapist;
     private List<Reservation> reservations = new ArrayList<Reservation>();
@@ -36,20 +36,22 @@ public class Event {
     public void setEventId(String eventId) {
         this.eventId = eventId;
     }
+
     @Column(name = "START_DATE")
-    public Date getStartDateTime() {
+    public LocalDateTime getStartDateTime() {
         return startDateTime;
     }
 
-    public void setStartDateTime(Date startDateTime) {
+    public void setStartDateTime(LocalDateTime startDateTime) {
         this.startDateTime = startDateTime;
     }
+
     @Column(name = "END_DATE")
-    public Date getEndDateTime() {
+    public LocalDateTime getEndDateTime() {
         return endDateTime;
     }
 
-    public void setEndDateTime(Date endDateTime) {
+    public void setEndDateTime(LocalDateTime endDateTime) {
         this.endDateTime = endDateTime;
     }
 
@@ -81,9 +83,13 @@ public class Event {
         this.room = room;
     }
 
-    public String getName() {return name;}
+    public String getName() {
+        return name;
+    }
 
-    public void setName(String name) {this.name = name;}
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @OneToMany(mappedBy = "event")
     public List<Reservation> getReservations() {
@@ -101,4 +107,6 @@ public class Event {
     public void setFree(Boolean free) {
         isFree = free;
     }
+
+
 }

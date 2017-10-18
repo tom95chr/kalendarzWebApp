@@ -2,10 +2,12 @@ package pl.pwsztar.event;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.Constraint;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class EventDTO {
@@ -13,10 +15,10 @@ public class EventDTO {
     /*private String name;*/
 
     @DateTimeFormat(pattern = "dd-MM-yyyy' 'HH:mm")
-    private Date startDateTime;
+    private LocalDateTime startDateTime;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy' 'HH:mm")
-    private Date endDateTime;
+    private LocalDateTime endDateTime;
 
     private String room;
 
@@ -24,7 +26,7 @@ public class EventDTO {
 
     private Integer numberOfRepetitions;
 
-    public Date getStartDateTime() {
+/*    public Date getStartDateTime() {
         return startDateTime;
     }
 
@@ -38,7 +40,7 @@ public class EventDTO {
 
     public void setEndDateTime(Date endDateTime) {
         this.endDateTime = endDateTime;
-    }
+    }*/
 
     public String getRoom() {
         return room;
@@ -62,6 +64,22 @@ public class EventDTO {
 
     public void setNumberOfRepetitions(Integer numberOfRepetitions) {
         this.numberOfRepetitions = numberOfRepetitions;
+    }
+
+    public LocalDateTime getStartDateTime() {
+        return startDateTime;
+    }
+
+    public void setStartDateTime(LocalDateTime startDateTime) {
+        this.startDateTime = startDateTime;
+    }
+
+    public LocalDateTime getEndDateTime() {
+        return endDateTime;
+    }
+
+    public void setEndDateTime(LocalDateTime endDateTime) {
+        this.endDateTime = endDateTime;
     }
 }
 

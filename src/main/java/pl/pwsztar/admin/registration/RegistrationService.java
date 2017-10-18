@@ -1,6 +1,7 @@
 package pl.pwsztar.admin.registration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
@@ -44,6 +45,9 @@ public class RegistrationService {
     @Autowired
     private ReservationDAO reservationDAO;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public Boolean checkAvailability(String googleCalendarId) {
 
         try {
@@ -70,6 +74,8 @@ public class RegistrationService {
         }
         userForm.setEmail(email);
         userForm.setEnabled(Boolean.TRUE);
+        String password = passwordEncoder.encode(userForm.getPassword());
+        userForm.setPassword(password);
         loginDetailsDAO.save(userForm);
 
         return new ModelAndView("redirect:/admin/registration/success");

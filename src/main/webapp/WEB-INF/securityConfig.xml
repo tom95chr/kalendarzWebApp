@@ -23,8 +23,11 @@
                                        "SELECT email, password, enabled FROM login_details WHERE email=?"
                                authorities-by-username-query=
                                        "SELECT email, user_role FROM login_details WHERE email =?  " />
+            <password-encoder ref="bcryptEncoder"/>
         </authentication-provider>
     </authentication-manager>
+
+    <beans:bean id="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 
     <beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <beans:property name="driverClassName" value="org.postgresql.Driver" />

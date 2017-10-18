@@ -28,6 +28,8 @@
 
 <body>
 
+<a href="<c:url value="/therapist-events" />">Home</a><br/>
+
 <div class="container">
 
     <form:form method="POST" modelAttribute="eventDTO" id="formularz">

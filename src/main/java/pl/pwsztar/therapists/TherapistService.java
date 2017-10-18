@@ -2,6 +2,7 @@ package pl.pwsztar.therapists;
 
 
 import com.sun.org.apache.regexp.internal.RE;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +23,12 @@ import pl.pwsztar.mainServices.googleCalendar.GoogleCalendar;
 import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
+import java.util.*;
+import java.time.*;
 
 
 @Service
@@ -94,7 +97,7 @@ public class TherapistService {
     public ModelAndView createEventPost(EventDTO eventDTO, BindingResult bindingResult) {
 
         //saving for event creation form
-        EventDTO oldDto = eventDTO;
+        //EventDTO oldDto = eventDTO;
 
         ModelAndView model = new ModelAndView("therapist/createEvent");
         eventValidator.validate(eventDTO, bindingResult);
@@ -106,16 +109,17 @@ public class TherapistService {
         }
 
 
-        //date format changed to googleDateFormat
-        Format myGoogleFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-
+        //date format changed for google
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         //cyclic events creation
         Integer nr = eventDTO.getNumberOfRepetitions();
         if (nr == null) nr = 0;
 
         for (int i = 0; i <= nr; i++) {
-            String startDate = myGoogleFormat.format(eventDTO.getStartDateTime());
-            String endDate = myGoogleFormat.format(eventDTO.getEndDateTime());
+
+            String startDate = eventDTO.getStartDateTime().format(formatter);
+            String endDate = eventDTO.getEndDateTime().format(formatter);
+            System.out.println(startDate);
             Event collidedEvent = therapistService.detectCollisionsByTherapist(eventDTO);
 
             if (collidedEvent != null) {
@@ -126,8 +130,8 @@ public class TherapistService {
             } else {
                 try {
                     String eventId = googleCalendar.createEvent(therapistDAO.findByEmail(loginService.getPrincipal()).getGoogleCalendarId(),
-                            "free", "free", startDate + ":59.000+02:00",
-                            endDate + ":59.000+02:00");
+                            "free", "free", startDate + ":00.000+02:00",
+                            endDate + ":00.000+02:00");
 
                     Event event = new Event();
                     event.setEventId(eventId);
@@ -162,7 +166,7 @@ public class TherapistService {
         ModelAndView model = new ModelAndView("redirect:/therapist-events");
         List<Reservation> listOfParticipants = reservationDAO.findAllByEvent(eventDAO.findByEventId(eventId));
         //c = cancellation
-        emailService.sendMultiple(listOfParticipants,'c');
+        emailService.sendMultiple(listOfParticipants, 'c');
         try {
             reservationDAO.deleteReservationsByEvent_EventId(eventId);
             googleCalendar.deleteEvent(eventDAO.findByEventId(eventId).getTherapist().getGoogleCalendarId(), eventId);
@@ -191,11 +195,10 @@ public class TherapistService {
             if (event.getRoom().equals(eventDTO.getRoom())
                     && (
                     (event.getStartDateTime().compareTo(eventDTO.getStartDateTime()) == 0)
-                            || (event.getEndDateTime().compareTo(eventDTO.getStartDateTime()) == 0)
-                            || ((eventDTO.getStartDateTime().after(event.getStartDateTime()))
-                            && (eventDTO.getStartDateTime().before(event.getEndDateTime()))))
+                            || (event.getEndDateTime().isBefore(eventDTO.getStartDateTime()))
+                            || ((eventDTO.getStartDateTime().isAfter(event.getStartDateTime()))
+                            && (eventDTO.getStartDateTime().isBefore(event.getEndDateTime()))))
                     ) {
-
                 return event;
             }
         }
@@ -204,10 +207,10 @@ public class TherapistService {
 
     public EventDTO addOneWeek(EventDTO eventDTO) {
 
-        Long start = (eventDTO.getStartDateTime().getTime() + (7 * 24 * 3600 * 1000));
-        Long end = (eventDTO.getEndDateTime().getTime() + (7 * 24 * 3600 * 1000));
-        eventDTO.setStartDateTime(new Date(start));
-        eventDTO.setEndDateTime(new Date(end));
+        LocalDateTime start = eventDTO.getStartDateTime().plusWeeks(1);
+        LocalDateTime end = eventDTO.getEndDateTime().plusWeeks(1);
+        eventDTO.setStartDateTime(start);
+        eventDTO.setEndDateTime(end);
 
         return eventDTO;
     }
@@ -249,10 +252,9 @@ public class TherapistService {
         }
         //availability for googleCal
         String availability;
-        if (e.getFree()){
+        if (e.getFree()) {
             availability = "free";
-        }
-        else {
+        } else {
             availability = "busy";
         }
         if (eventDTO.getEndDateTime() != null && eventDTO.getEndDateTime() != null) {
@@ -269,17 +271,18 @@ public class TherapistService {
             e.setStartDateTime(eventDTO.getStartDateTime());
             e.setEndDateTime(eventDTO.getEndDateTime());
 
-            Format myGoogleFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-            String startDate = myGoogleFormat.format(eventDTO.getStartDateTime());
-            String endDate = myGoogleFormat.format(eventDTO.getEndDateTime());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+            String startDate = eventDTO.getStartDateTime().format(formatter);
+            String endDate = eventDTO.getEndDateTime().format(formatter);
+
             String therapistEmail = loginService.getPrincipal();
             try {
-                 Boolean isUpdated = googleCalendar.editEvent(therapistEmail, eventId,  startDate +
-                                 ":59.000+02:00", endDate + ":59.000+02:00", availability);
+                Boolean isUpdated = googleCalendar.editEvent(therapistEmail, eventId, startDate +
+                        ":59.000+02:00", endDate + ":59.000+02:00", availability);
 
-            }catch (IOException ioException){
+            } catch (IOException ioException) {
                 ioException.printStackTrace();
-            }catch (Exception exception){
+            } catch (Exception exception) {
                 exception.printStackTrace();
             }
         }
@@ -289,9 +292,9 @@ public class TherapistService {
                 String therapistEmail = loginService.getPrincipal();
                 Boolean isUpdated = googleCalendar.editEvent(therapistEmail, eventId, availability);
 
-            }catch (IOException ioException){
+            } catch (IOException ioException) {
                 ioException.printStackTrace();
-            }catch (Exception exception){
+            } catch (Exception exception) {
                 exception.printStackTrace();
             }
         }
@@ -301,9 +304,9 @@ public class TherapistService {
         eventDAO.save(e);
         //inform participants
         List<Reservation> r = reservationDAO.findAllByEvent(e);
-        if (r.size()>0){
+        if (r.size() > 0) {
             //e = edited
-            emailService.sendMultiple(r,'e');
+            emailService.sendMultiple(r, 'e');
         }
 
         return model;
@@ -318,4 +321,17 @@ public class TherapistService {
         Collections.swap(types, 0, index);
         return types;
     }
+
+/*    public static void main(String[] args) {
+
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println(now);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        String formatDateTime = now.format(formatter);
+
+        System.out.println("After : " + formatDateTime);
+
+    }*/
 }

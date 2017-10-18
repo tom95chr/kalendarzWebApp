@@ -173,6 +173,9 @@ public class GoogleCalendar {
                     .setDateTime(endDT);
             event.setEnd(end);
 
+            System.out.println("GOOGLE");
+            System.out.println(startDT);
+            System.out.println(endDT);
             event = service.events().insert(calendarId, event).execute();
 
             return event.getId();
