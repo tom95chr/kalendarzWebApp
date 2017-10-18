@@ -37,7 +37,8 @@
     <c:if test="${collidedEvent != null}">
         <h2 style="color: red">Collision found !</h2>
         <h2 style="color: red">This room is occupied by ${collidedEvent.therapist.firstName} ${collidedEvent.therapist.lastName}
-            from: ${collidedEvent.startDateTime.toString()} to: ${collidedEvent.endDateTime.toString()} </h2>
+            from: ${collidedEvent.startDateTime.toLocalDate()} godz. ${collidedEvent.startDateTime.toLocalTime()}
+            to: ${collidedEvent.endDateTime.toLocalDate()} ${collidedEvent.endDateTime.toLocalTime()}</h2>
     </c:if>
     <form:form method="POST" modelAttribute="eventDTO" id="formularz">
         <h2 class="form-signin-heading">Edit and save</h2>
@@ -64,7 +65,7 @@
         <spring:bind path="startDateTime">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:input type="date" path="startDateTime" class="form-control"
-                            placeholder="Start date/time: ${event.startDateTime}"></form:input>
+                            placeholder="Start date/time: ${event.startDateTime.toLocalDate()} ${event.startDateTime.toLocalTime()}"></form:input>
                     <%--autofocus="true"></form:input>--%>
                 <form:errors path="startDateTime"></form:errors>
             </div>
@@ -73,7 +74,7 @@
         <spring:bind path="endDateTime">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:input type="date" path="endDateTime" class="form-control"
-                            placeholder="End date/time: ${event.endDateTime}"></form:input>
+                            placeholder="End date/time: ${event.endDateTime.toLocalDate()} ${event.endDateTime.toLocalTime()}"></form:input>
                 <form:errors path="endDateTime"></form:errors>
             </div>
         </spring:bind>

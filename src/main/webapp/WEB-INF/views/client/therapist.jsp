@@ -51,8 +51,10 @@
             <td>${status.index + 1}</td>
             <td>${event.name}</td>
             <td>${event.eventType.eventTypeId}</td>
-            <td>${event.startDateTime}</td>
-            <td>${event.endDateTime}</td>
+            <td>${event.startDateTime.dayOfMonth}-${event.startDateTime.monthValue}-${event.startDateTime.year}
+            godz. ${event.startDateTime.toLocalTime()}</td>
+            <td>${event.endDateTime.dayOfMonth}-${event.endDateTime.monthValue}-${event.endDateTime.year}
+                godz. ${event.endDateTime.toLocalTime()}</td>
             <td>${event.room}</td>
             <td><a href="<c:url value="/therapist-${therapist.therapistId}/event-${event.eventId}/" />">Reserve</a></td>
         </tr>

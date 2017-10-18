@@ -40,8 +40,11 @@
     </h2>
     <h1>Event details</h1>
     <h2>
-        start: ${event.startDateTime}<br>
-        end: ${event.endDateTime}<br>
+
+        start: ${event.startDateTime.dayOfMonth}-${event.startDateTime.monthValue}-${event.startDateTime.year}
+        godz. ${event.startDateTime.toLocalTime()}<br>
+        end: ${event.endDateTime.dayOfMonth}-${event.endDateTime.monthValue}-${event.endDateTime.year}
+        godz. ${event.endDateTime.toLocalTime()}<br>
         room: ${event.room}<br>
         free places: ${(freeSlots)}<br>
 

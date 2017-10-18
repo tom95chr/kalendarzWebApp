@@ -322,16 +322,4 @@ public class TherapistService {
         return types;
     }
 
-/*    public static void main(String[] args) {
-
-        LocalDateTime now = LocalDateTime.now();
-        System.out.println(now);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
-        String formatDateTime = now.format(formatter);
-
-        System.out.println("After : " + formatDateTime);
-
-    }*/
 }

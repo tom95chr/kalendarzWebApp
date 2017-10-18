@@ -48,8 +48,10 @@
         <h1>Event details</h1>
         <h2>
             name: ${event.name} <br>
-            start: ${event.startDateTime}<br>
-            end: ${event.endDateTime}<br>
+            start: ${event.startDateTime.dayOfMonth}-${event.startDateTime.monthValue}-${event.startDateTime.year}
+            godz. ${event.startDateTime.toLocalTime()}<br>
+            end: ${event.endDateTime.dayOfMonth}-${event.endDateTime.monthValue}-${event.endDateTime.year}
+            godz. ${event.endDateTime.toLocalTime()}<br>
             room: ${event.room}<br>
         </h2>
         <h3>To cancel your reservation, please click <a href="/my-reservation-${confirmationCode}/cancel">here</a></h3>
