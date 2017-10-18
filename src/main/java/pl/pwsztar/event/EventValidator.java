@@ -27,15 +27,8 @@ public class EventValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "endDateTime", "NotEmpty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "room", "NotEmpty");
 
-        /*if (t.getEmail().length() < 6 || t.getEmail().length() > 32) {
-            errors.rejectValue("email", "Size.therapist.email");
+        if(e.getStartDateTime().compareTo(e.getEndDateTime())>=0){
+            errors.rejectValue("startDateTime", "Event.EndBeforeStart.ThinkAboutItBro");
         }
-        if (therapistDAO.findByEmail(t.getEmail()) != null) {
-            errors.rejectValue("email", "Duplicate.therapist.email");
-        }
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "telephone", "NotEmpty");
-        if (t.getTelephone().length() < 9) {
-            errors.rejectValue("telephone", "Size.therapist.telephone");
-        }*/
     }
 }

@@ -108,7 +108,6 @@ public class TherapistService {
             return model;
         }
 
-
         //date format changed for google
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         //cyclic events creation
