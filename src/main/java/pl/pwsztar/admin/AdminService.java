@@ -1,6 +1,7 @@
 package pl.pwsztar.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,6 +24,7 @@ public class AdminService {
 
     @Autowired
     EventTypeDAO eventTypeDAO;
+
     public ModelAndView therapistList(){
         ModelAndView model = new ModelAndView("admin/therapists");
         model.addObject("therapists", therapistDAO.findAll());
