@@ -194,7 +194,7 @@ public class TherapistService {
             if (event.getRoom().equals(eventDTO.getRoom())
                     && (
                     (event.getStartDateTime().compareTo(eventDTO.getStartDateTime()) == 0)
-                            || (event.getEndDateTime().isBefore(eventDTO.getStartDateTime()))
+                            || (event.getEndDateTime().compareTo(eventDTO.getStartDateTime())==0)
                             || ((eventDTO.getStartDateTime().isAfter(event.getStartDateTime()))
                             && (eventDTO.getStartDateTime().isBefore(event.getEndDateTime()))))
                     ) {

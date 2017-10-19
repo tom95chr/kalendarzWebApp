@@ -94,8 +94,11 @@
     <c:if test="${collidedEvent != null}">
         <h2 style="color: red">Upppps... this term is not available.</h2>
         <h2 style="color: red">This room is occupied by ${collidedEvent.therapist.firstName} ${collidedEvent.therapist.lastName}
-            from: ${collidedEvent.startDateTime.toString()} to: ${collidedEvent.endDateTime.toString()} </h2>
+            from: ${collidedEvent.startDateTime.dayOfMonth}-${collidedEvent.startDateTime.monthValue}-${collidedEvent.startDateTime.year}
+            godz. ${collidedEvent.startDateTime.toLocalTime()} to: ${collidedEvent.endDateTime.dayOfMonth}-${collidedEvent.endDateTime.monthValue}-${collidedEvent.endDateTime.year}
+            godz. ${collidedEvent.endDateTime.toLocalTime()} </h2>
     </c:if>
+
     <h2 style="color: red">${info}</h2>
     <%--    <c:if test="${collidedEvent == null}">
             <h2>${eventCreated}</h2>
