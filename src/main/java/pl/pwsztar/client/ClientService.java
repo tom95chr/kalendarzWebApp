@@ -178,6 +178,10 @@ public class ClientService {
 
         } else {
             if (reservation != null) {
+                //inform therapist
+                emailService.sendEmail(reservation.getEvent().getTherapist().getEmail(),"New patient signed",
+                        "Hi, someone has signed to you for visit. Please check your therapist page");
+                //confirmed successfully
                 reservation.setConfirmed(true);
                 reservationDAO.save(reservation);
                 ModelAndView model2 = new ModelAndView("client/details");
@@ -255,6 +259,9 @@ public class ClientService {
             }
             eventDAO.save(event);
         }
+        //inform therapist
+        emailService.sendEmail(r.getEvent().getTherapist().getEmail(),"Someone has canceled reservation",
+                "Hi, someone has canceled visit. Please check your therapist page");
         modelAndView.addObject("cancelSuccess","Your reservation has been cancelled");
         return modelAndView;
     }
