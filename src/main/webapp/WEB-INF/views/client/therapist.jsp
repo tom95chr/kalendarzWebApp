@@ -41,70 +41,58 @@
 
 <section class="hero container">
 
-    <p>Elo</p>
+    <p>imie nazw dane</p>
 
 </section>
 
-<div>
+<section class="row">
+    <div class="grid2">
+        <section class="teaser col-2-3a">
+            <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=1&amp;showTz=0&amp;mode=WEEK&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=${therapist.googleCalendarId}&amp;color=%235229A3&amp;ctz=Europe%2FWarsaw"
+                    style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+        </section><!--
+        --><section class="teaser col-1-3a">
+            <c:if test="${events.size()>0}">
+                <%--<h2>Available events</h2>--%>
 
-    <table border="1">
-        <tbody>
-        <tr>
-            <th>Name</th>
-            <td>${therapist.firstName}</td>
-        </tr>
-        <tr>
-            <th>Surname</th>
-            <td>${therapist.lastName}</td>
-        </tr>
-        <tr>
-            <th>Specialization</th>
-            <td>${therapist.specialization}</td>
-        </tr>
-        </tbody>
-
-    </table>
-    <c:if test="${events.size()>0}">
-        <h2>Available events</h2>
-
-        <table border="1">
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>Typ</th>
-                <th>Data</th>
-                <th>Godzina</th>
-                <th>Trwa</th>
-                    <%--<th>Room</th>--%>
-                <th>Wybierz</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${events}" var="event" varStatus="status">
-                <tr>
-                    <td>${status.index + 1}</td>
-                        <%--<td>${event.name}</td>--%>
-                    <td>${event.eventType.eventTypeId}</td>
-                    <td>${event.startDateTime.dayOfMonth}-${event.startDateTime.monthValue}-${event.startDateTime.year}</td>
-                    <td>${event.startDateTime.toLocalTime()}</td>
-                    <td>${duration[status.index]} min.</td>
-                        <%--<td>${event.endDateTime.dayOfMonth}-${event.endDateTime.monthValue}-${event.endDateTime.year}
-                            godz. ${event.endDateTime.toLocalTime()}</td>--%>
-                        <%--<td>${event.room}</td>--%>
-                    <td><a href="<c:url value="/therapist-${therapist.therapistId}/event-${event.eventId}/" />">Wyb</a>
-                    </td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </c:if>
-    <c:if test="${events.size()==0}">
-        <h1>Sorry, no available events found</h1>
-    </c:if>
-
-    <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=1&amp;showTz=0&amp;mode=WEEK&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=${therapist.googleCalendarId}&amp;color=%235229A3&amp;ctz=Europe%2FWarsaw"
-            style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
-</div>
+                <table class="table-fill">
+                    <thead>
+                    <tr>
+                        <th class="text-left">#</th>
+                        <th class="text-left">Typ</th>
+                        <th class="text-left">Data</th>
+                        <th class="text-left">Godzina</th>
+                        <th class="text-left">Trwa</th>
+                            <%--<th>Room</th>--%>
+                        <th>Wybierz</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${events}" var="event" varStatus="status">
+                        <tr>
+                            <td class="text-right">${status.index + 1}</td>
+                                <%--<td>${event.name}</td>--%>
+                            <td class="text-left">${event.eventType.eventTypeId}</td>
+                            <td class="text-right">${event.startDateTime.dayOfMonth}-${event.startDateTime.monthValue}-${event.startDateTime.year}</td>
+                            <td class="text-right">${event.startDateTime.toLocalTime()}</td>
+                            <td>${duration[status.index]}min.</td>
+                                <%--<td>${event.endDateTime.dayOfMonth}-${event.endDateTime.monthValue}-${event.endDateTime.year}
+                                    godz. ${event.endDateTime.toLocalTime()}</td>--%>
+                                <%--<td>${event.room}</td>--%>
+                            <td class="text-right"><a
+                                    href="<c:url value="/therapist-${therapist.therapistId}/event-${event.eventId}/" />">Wyb</a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </c:if>
+            <c:if test="${events.size()==0}">
+                <h1>Sorry, no available events found</h1>
+            </c:if>
+        </section>
+    </div>
+</section>
 <footer class="primary-footer container group">
 
     <small>&copy; PWSZ Tarnów</small>
