@@ -155,8 +155,10 @@ public class ClientService {
     public ModelAndView confirmationGet() {
         ModelAndView model = new ModelAndView("client/confirmation");
         model.addObject("confirmationCode", new ConfirmationCode());
-        model.addObject("info1","We have sent an reservation code to your email.");
-        model.addObject("info2","To confirm");
+        model.addObject("info1","Twój unikalny kod wysłaliśmy na podany przy rezerwacji email");
+        model.addObject("pageTypeInfo","Tu możesz potwierdzić swoją rezerwację. Wystarczy podać " +
+                "unikalny kod rezerwacji.");
+        model.addObject("info2","Aby potwierdzić");
         return model;
     }
 
@@ -166,36 +168,45 @@ public class ClientService {
         confirmationCodeValidator.validate(confirmationCode, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            model.addObject("info2","To confirm");
+            model.addObject("pageTypeInfo","Tu możesz potwierdzić swoją rezerwację. Wystarczy podać " +
+                    "unikalny kod rezerwacji.");
+            model.addObject("info1","Twój unikalny kod wysłaliśmy na podany przy rezerwacji email");
+            model.addObject("info2","Aby potwierdzić");
             return model;
         }
         Reservation reservation = reservationDAO.findByConfirmationCode(confirmationCode.getCode());
 
 
         if (reservation != null && reservation.isConfirmed()) {
-            model.addObject("confirmationFailed", new String("This reservation has been already " +
-                    "confirmed"));
+            model.addObject("confirmationFailed", new String("Ta rezerwacja została już wcześniej " +
+                    "potwierdzona"));
+            model.addObject("pageTypeInfo","Tu możesz potwierdzić swoją rezerwację. Wystarczy podać " +
+                    "unikalny kod rezerwacji.");
+            model.addObject("info1","Twój unikalny kod wysłaliśmy na podany przy rezerwacji email");
+            model.addObject("info2","Aby potwierdzić");
 
         } else {
             if (reservation != null) {
                 //inform therapist
-                emailService.sendEmail(reservation.getEvent().getTherapist().getEmail(),"New patient signed",
-                        "Hi, someone has signed to you for visit. Please check your therapist page");
+                emailService.sendEmail(reservation.getEvent().getTherapist().getEmail(),"Ktoś zapisał się na wizytę",
+                        "Witaj. Ktoś właśnie potwierdził wizytę u Ciebie.");
                 //confirmed successfully
                 reservation.setConfirmed(true);
                 reservationDAO.save(reservation);
                 ModelAndView model2 = new ModelAndView("client/details");
-                model2.addObject("information", new String("Reservation confirmed successfully"));
+                model2.addObject("information", new String("Rezerwacja potwierdzona"));
                 model2.addObject("therapist", therapistDAO.findByTherapistId(reservation.getEvent().
                         getTherapist().getTherapistId()));
                 model2.addObject("event", eventDAO.findByEventId(reservation.getEvent().getEventId()));
                 model2.addObject("confirmationCode",reservation.getConfirmationCode());
                 return model2;
             } else {
-                model.addObject("confirmationFailed", "Reservation not found, check your " +
-                        "reservation code and try again");
-                model.addObject("info1","We have sent an reservation code to your email.");
-                model.addObject("info2","To confirm");
+                model.addObject("confirmationFailed", "Nie odnaleziono rezerwacji. Sprawdź" +
+                        " swój kod i spróbuj ponownie później");
+                model.addObject("info1","Twój unikalny kod wysłaliśmy na podany przy rezerwacji email");
+                model.addObject("pageTypeInfo","Tu możesz potwierdzić swoją rezerwację. Wystarczy podać " +
+                        "unikalny kod rezerwacji.");
+                model.addObject("info2","Aby potwierdzić");
             }
         }
         return model;
@@ -204,7 +215,9 @@ public class ClientService {
     public ModelAndView myReservationGet() {
         ModelAndView model = new ModelAndView("client/confirmation");
         model.addObject("confirmationCode", new ConfirmationCode());
-        model.addObject("info2","To check");
+        model.addObject("pageTypeInfo","Tu możesz edytować swoją rezerwację. Wystarczy podać " +
+                "unikalny kod rezerwacji.");
+        model.addObject("info2","Aby edytować");
         return model;
     }
 
@@ -214,7 +227,9 @@ public class ClientService {
         confirmationCodeValidator.validate(confirmationCode, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            model.addObject("info2","To check");
+            model.addObject("pageTypeInfo","Tu możesz edytować swoją rezerwację. Wystarczy podać " +
+                    "unikalny kod rezerwacji.");
+            model.addObject("info2","Aby edytować");
             return model;
         }
         Reservation reservation = reservationDAO.findByConfirmationCode(confirmationCode.getCode());
@@ -229,8 +244,10 @@ public class ClientService {
             model2.addObject("confirmationCode",reservation.getConfirmationCode());
             return model2;
         } else {
-            model.addObject("confirmationFailed", "Reservation not found, check your reservation code and try again");
-            model.addObject("info2","To check");
+            model.addObject("confirmationFailed", "Nie odnaleziono rezerwacji. Sprawdź swój kod i spróbuj ponownie później");
+            model.addObject("pageTypeInfo","Tu możesz edytować swoją rezerwację. Wystarczy podać " +
+                    "unikalny kod rezerwacji.");
+            model.addObject("info2","Aby edytować");
         }
 
         return model;

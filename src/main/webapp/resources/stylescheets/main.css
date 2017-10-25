@@ -82,13 +82,15 @@ body {
 }
 .grid,
 .col-1-3,
-.col-2-3 {
+.col-2-3,
+.col-1-2 {
     padding-left: 40px;
     padding-right: 40px;
     padding-bottom: 40px;
 }
 .col-1-3,
-.col-2-3  {
+.col-2-3,
+.col-1-2 {
     display: inline-block;
     vertical-align: top;
 }
@@ -97,6 +99,9 @@ body {
 }
 .col-2-3 {
     width: 66.66%;
+}
+.col-1-2 {
+    width: 45%;
 }
 
 /*
@@ -150,8 +155,11 @@ body {
 h1, h2, h3, h4 {
     color: #001288;
 }
-h1, h4, h5, p {
+h1, h4, h5 {
     margin-bottom: 22px;
+}
+p {
+    margin-bottom: 10px;
 }
 h1 {
     font-size: 36px;
@@ -243,7 +251,6 @@ p a {
     text-transform: uppercase;
 }
 .btn-alt {
-
     border: 1px solid #000000;
     padding: 10px 30px;
     float: right;
@@ -251,6 +258,17 @@ p a {
 .btn-alt:hover {
     background: #000000;
     color: #003888;
+}
+
+.btn-submit {
+    border: 1px solid #000000;
+    padding: 10px 30px;
+    text-align: center;
+    margin-left: 30%
+}
+.btn-submit:hover {
+    background: linear-gradient(to left,  #08ffa4, #0f77f6);
+    color: #f0f6ff;
 }
 
 
@@ -305,7 +323,7 @@ p a {
 .hero {
     color: #fff;
     line-height: 44px;
-    padding: 22px 80px 66px 80px;
+    padding: 22px 80px 10px 80px;
     text-align: center;
 }
 .hero h2 {
@@ -331,3 +349,44 @@ img {
     width: 150px;
 }
 
+/*
+  ========================================
+  FORMULARS
+  ========================================
+*/
+.register-group label {
+    color: #648880;
+    cursor: pointer;
+    font-weight: 400;
+}
+.register-group input,
+.register-group select,
+.register-group textarea {
+    border: 1px solid #c6c9cc;
+    border-radius: 5px;
+    color: #888;
+    display: block;
+    margin: 5px 0 27px 0;
+    padding: 5px 8px;
+}
+.register-group input,
+.register-group textarea {
+    width: 100%;
+}
+.register-group select {
+    height: 34px;
+    width: 60px;
+}
+.register-group textarea {
+    height: 78px;
+}
+
+.confirm input {
+    border: 1px solid #000000;
+    border-radius: 5px;
+    color: #000000;
+    display: block;
+    margin: 5px 0 0 0;
+    padding: 5px 8px;
+    width: 100%;
+}
