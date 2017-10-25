@@ -95,28 +95,7 @@
         </section>
     </div>
 </section>
-<%--<div class="container">
-    <a href="<c:url value="/" />">Home</a><br />
 
-
-    <h1 style="color: red">${confirmationFailed}</h1>
-    <h2>${info1}</h2>
-    <form:form method="POST" modelAttribute="confirmationCode" class="form-signin">
-        <h2 class="form-signin-heading">${info2} your reservation, please submit reservation code</h2>
-        <spring:bind path="code">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="code" class="form-control" placeholder="Confirmation code"
-                            autofocus="true"></form:input>
-                <form:errors path="code"></form:errors>
-            </div>
-        </spring:bind>
-
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-    </form:form>
-
-</div>--%>
-<%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="${contextPath}/resources/js/bootstrap.min.js"></script>--%>
 <!-- Footer -->
 
 <footer class="primary-footer container group">
