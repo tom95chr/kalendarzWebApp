@@ -4,46 +4,82 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Therapist list</title>
+    <title>Poradnia </title>
+    <link rel="stylesheet" href="resources/stylescheets/main.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:100,300,400">
 </head>
-<body>
 
-<a href="/login">Login</a><br><br>
-<sec:authorize url="/admin">
-    <a href="/admin">Admin</a><br><br>
-</sec:authorize>
-<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
-    <a href="/therapist-events">Therapist</a><br><br>
-</sec:authorize>
-<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
-    <a href="/logout">Logout</a><br><br>
-</sec:authorize>
-<a href="/my-reservation">My reservation</a><br><br>
-<table border="1" style="border-color: red">
-    <thead>
-    <tr>
-        <th>#</th>
-        <th>First name</th>
-        <th>Surname</th>
-        <th>Speciality</th>
-        <th>Choose me</th>
-    </tr>
-    </thead>
-    <tbody>
-    <c:forEach items="${therapists}" var="therapist" varStatus="status">
-        <tr>
-            <td>${status.index + 1}</td>
-            <td>${therapist.firstName}</td>
-            <td>${therapist.lastName}</td>
-            <td>${therapist.specialization}</td>
-            <td><a href="<c:url value="therapist-${therapist.therapistId}/" />">Choose</a></td>
+<body class="row-alt">
 
-        </tr>
+<header class="primary-header container">
+
+    <a class="logo" href="/">
+        <img src="resources/images/logo.png">
+    </a>
+
+    <a class="btn btn-alt " href="/login">Login</a>
+
+
+    <nav class="nav primary-nav group">
+        <a href="/">Home</a>
+        <sec:authorize url="/admin">
+            <a href="/admin">Admin</a>
+        </sec:authorize>
+        <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
+            <a href="/therapist-events">Therapist</a>
+        </sec:authorize>
+        <a href="/my-reservation">Rezerwacja</a>
+        <a href="/confirm-reservation">Potwierdzenie</a>
+        <a href="/logout">Wyloguj</a>
+    </nav>
+
+</header>
+
+<!-- Hero -->
+
+<section class="hero container">
+
+    <h2>Poradnia psychoterapeutyczna przy PWSZ</h2>
+
+    <p>Jeśli szukasz pomocy psychoterapeuty to dobrze trafiles. Poniżej znajduje się przegląd
+        naszych specjalistów. Aby zapisać się na wybrany termin spotkania kliknij w "terapeutę"</p>
+
+
+</section>
+
+<!-- Therapists -->
+
+<section class="row">
+    <div class="grid">
+        <c:forEach items="${therapists}" var="therapist" varStatus="status">
+        <section class="teaser col-1-3">
+            <h5>${therapist.specialization}</h5>
+            <a href="<c:url value="therapist-${therapist.therapistId}/" />">
+            <h3>${therapist.firstName} ${therapist.lastName}</h3>
+            </a>
+            <p>${therapist.description}</p>
+        </section>
     </c:forEach>
-    </tbody>
-</table>
 
+    </div>
+</section>
+
+<!-- Footer -->
+
+        <footer class="primary-footer container group">
+
+            <small>&copy; PWSZ Tarnów</small>
+
+            <nav class="nav">
+                <a href="/">Home</a>
+                <a href="/my-reservation">Rezerwacja</a>
+                <a href="/confirm-reservation">Potwierdzenie</a>
+                <a href="/logout">Wyloguj</a>
+            </nav>
+
+        </footer>
 </body>
 </html>
