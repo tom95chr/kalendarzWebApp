@@ -16,6 +16,7 @@ import pl.pwsztar.client.reservation.KeyGeneratorService;
 import pl.pwsztar.mainServices.googleCalendar.GoogleCalendar;
 import pl.pwsztar.therapists.TherapistDAO;
 
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Service
@@ -79,6 +80,14 @@ public class ClientService {
                 it.remove();
             }
         }
+
+        //calculating duration
+        List<Long> duration = new ArrayList<>();
+        for (Event e : events
+                ) {
+            duration.add(ChronoUnit.MINUTES.between(e.getStartDateTime(),e.getEndDateTime()));
+        }
+        model.addObject("duration",duration);
         model.addObject("events", events);
 
         return model;

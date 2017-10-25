@@ -57,7 +57,7 @@
         <c:forEach items="${therapists}" var="therapist" varStatus="status">
         <section class="teaser col-1-3">
             <h5>${therapist.specialization}</h5>
-            <a href="<c:url value="therapist-${therapist.therapistId}/" />">
+            <a href=/therapist-${therapist.therapistId}>
             <h3>${therapist.firstName} ${therapist.lastName}</h3>
             </a>
             <p>${therapist.description}</p>

@@ -19,7 +19,7 @@ public class ClientController {
         return clientService.therapistsList();
     }
 
-    @RequestMapping(value = "/therapist-{therapistId}/",method = RequestMethod.GET)
+    @RequestMapping(value = "/therapist-{therapistId}",method = RequestMethod.GET)
     public ModelAndView therapistData(@PathVariable("therapistId") String therapistId) {
         return clientService.therapistData(therapistId);
     }
