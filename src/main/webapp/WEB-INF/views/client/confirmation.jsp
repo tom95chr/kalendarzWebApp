@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="assets/images/logo-418x449.png" type="image/x-icon">
     <meta name="description" content="">
-    <title>Home</title>
+    <title>Rezerwacja/Potwierdzenie</title>
     <link rel="stylesheet" href="resources/assets/web/assets/mobirise-icons/mobirise-icons.css">
     <link rel="stylesheet" href="resources/assets/tether/tether.min.css">
     <link rel="stylesheet" href="resources/assets/bootstrap/css/bootstrap.min.css">
@@ -214,88 +214,4 @@
 
 </body>
 </html>
-<%--<!--
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Potwierdzenie </title>
-    <link rel="stylesheet" href="resources/stylescheets/main.css">
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:100,300,400">
-</head>
 
-<body class="row-alt">
-
-<header class="primary-header container">
-
-    <a class="logo" href="/">
-        <img src="resources/images/logo.png">
-    </a>
-
-    <a class="btn btn-alt " href="/login">Login</a>
-
-
-    <nav class="nav primary-nav group">
-        <a href="/">Home</a>
-        <sec:authorize url="/admin">
-            <a href="/admin">Admin</a>
-        </sec:authorize>
-        <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
-            <a href="/therapist-events">Therapist</a>
-        </sec:authorize>
-        <a href="/my-reservation">Rezerwacja</a>
-        <a href="/confirm-reservation">Potwierdzenie</a>
-        <a href="/logout">Wyloguj</a>
-    </nav>
-
-</header>
-
-<!-- Hero -->
-
-<section class="hero container">
-
-    <p>${pageTypeInfo}</p>
-
-</section>
-
-<!-- confirmation -->
-<section class="row">
-    <div class="grid">
-        <section class="teaser col-1-2">
-            <h5>${info1}</h5>
-            <p>${info2} swoją rezerwację, proszę podać kod rezerwacji.</p>
-            &lt;%&ndash;<h2 style="color: red">${confirmationFailed}</h2>&ndash;%&gt;
-        </section><!--
-        -->
-        <section class="teaser col-1-2 confirm">
-            <form:form method="POST" modelAttribute="confirmationCode" class="form-signin">
-                    <h3 class="form-signin-heading">Unikalny kod rezerwacji</h3>
-                    <spring:bind path="code">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input type="text" path="code" class="form-control" placeholder="Kod"
-                                        autofocus="true"></form:input>
-                            <form:errors path="code"></form:errors>
-                        </div>
-                    </spring:bind>
-                <p style="color: red">${confirmationFailed}</p>
-                <button class="btn btn-submit" type="submit">Wyślij</button>
-            </form:form>
-        </section>
-    </div>
-</section>
-
-<!-- Footer -->
-
-<footer class="primary-footer container group">
-
-    <small>&copy; PWSZ Tarnów</small>
-
-    <nav class="nav">
-        <a href="/">Home</a>
-        <a href="/my-reservation">Rezerwacja</a>
-        <a href="/confirm-reservation">Potwierdzenie</a>
-        <a href="/logout">Wyloguj</a>
-    </nav>
-
-</footer>
-</body>
-</html>&ndash;%&gt;--%>

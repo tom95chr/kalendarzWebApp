@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="assets/images/logo-418x449.png" type="image/x-icon">
     <meta name="description" content="">
-    <title>Home</title>
+    <title>Poradnia</title>
     <link rel="stylesheet" href="resources/assets/web/assets/mobirise-icons/mobirise-icons.css">
     <link rel="stylesheet" href="resources/assets/tether/tether.min.css">
     <link rel="stylesheet" href="resources/assets/bootstrap/css/bootstrap.min.css">
@@ -22,18 +22,6 @@
     <link rel="stylesheet" href="resources/assets/socicon/css/styles.css">
     <link rel="stylesheet" href="resources/assets/theme/css/style.css">
     <link rel="stylesheet" href="resources/assets/mobirise/css/mbr-additional.css" type="text/css">
-    <%--<form:form method="POST" modelAttribute="confirmationCode" class="form-signin">
-        <h3 class="form-signin-heading">Unikalny kod rezerwacji</h3>
-        <spring:bind path="code">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="code" class="form-control" placeholder="Kod"
-                            autofocus="true"></form:input>
-                <form:errors path="code"></form:errors>
-            </div>
-        </spring:bind>
-    <p style="color: red">${confirmationFailed}</p>
-    <button class="btn btn-submit" type="submit">Wyślij</button>
---%>
 
 </head>
 <body>
