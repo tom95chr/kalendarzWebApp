@@ -57,6 +57,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav nav-dropdown" data-app-modern-menu="true">
                 <li class="nav-item">
+                    <a class="nav-link link text-white display-4" href="/"><span
+                            class="mbri-home mbr-iconfont mbr-iconfont-btn"></span>&nbsp;Home</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link link text-white display-4" href="/confirm-reservation"><span
                             class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>
                         Potwierdzenie</a>
