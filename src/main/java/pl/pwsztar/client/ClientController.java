@@ -24,14 +24,14 @@ public class ClientController {
         return clientService.therapistData(therapistId);
     }
 
-    @RequestMapping(value = "/therapist-{therapistId}/event-{eventId}/", method = RequestMethod.GET)
+    @RequestMapping(value = "/therapist-{therapistId}/event-{eventId}", method = RequestMethod.GET)
     public ModelAndView eventReservationGet(@PathVariable("eventId") String eventId,
                                          @PathVariable("therapistId") String therapistId){
 
         return clientService.eventReservationGet(therapistId,eventId);
     }
 
-    @RequestMapping(value = "/therapist-{therapistId}/event-{eventId}/", method = RequestMethod.POST)
+    @RequestMapping(value = "/therapist-{therapistId}/event-{eventId}", method = RequestMethod.POST)
     public ModelAndView eventReservationPost(@ModelAttribute("client")Client client, BindingResult bindingResult,
                                    @PathVariable("eventId") String eventId,
                                    @PathVariable("therapistId") String therapistId)  {
