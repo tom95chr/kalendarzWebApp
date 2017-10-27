@@ -93,22 +93,24 @@ public class ClientService {
         return model;
     }
 
-    public ModelAndView eventReservationGet(String therapistId, String eventId) {
+    public ModelAndView eventReservationGet(String eventId) {
         ModelAndView model = new ModelAndView("client/reservation");
         model.addObject("client", new Client());
         model.addObject("event", eventDAO.findByEventId(eventId));
-        model.addObject("therapist", therapistDAO.findByTherapistId(therapistId));
+        model.addObject("therapist", therapistDAO.findByTherapistId(eventDAO.findByEventId(eventId)
+                .getTherapist().getTherapistId()));
         model.addObject("freeSlots", eventDAO.findByEventId(eventId).getEventType().getSeats()
                 - nrOfParticipants(eventDAO.findByEventId(eventId)));
         return model;
     }
 
     public ModelAndView eventReservationPost(Client client, BindingResult bindingResult,
-                                             String eventId, String therapistId) {
+                                             String eventId) {
         clientValidator.validate(client, bindingResult);
         if (bindingResult.hasErrors()) {
             ModelAndView model = new ModelAndView("client/reservation");
-            model.addObject("therapist", therapistDAO.findByTherapistId(therapistId));
+            model.addObject("therapist", therapistDAO.findByTherapistId(eventDAO.findByEventId(eventId)
+                    .getTherapist().getTherapistId()));
             model.addObject("event", eventDAO.findByEventId(eventId));
             model.addObject("freeSlots", eventDAO.findByEventId(eventId).getEventType().
                     getSeats() - nrOfParticipants(eventDAO.findByEventId(eventId)));
@@ -125,7 +127,8 @@ public class ClientService {
                 ModelAndView model = new ModelAndView("client/details");
                 model.addObject("information", new String("Twoja rezerwacja została już wcześniej" +
                         " potwierdzona."));
-                model.addObject("therapist", therapistDAO.findByTherapistId(therapistId));
+                model.addObject("therapist", therapistDAO.findByTherapistId(eventDAO.findByEventId(eventId)
+                        .getTherapist().getTherapistId()));
                 model.addObject("event", eventDAO.findByEventId(eventId));
                 model.addObject("confirmationCode",reservation.getConfirmationCode());
                 return model;

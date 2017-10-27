@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="resources/assets/images/logo-418x449.png" type="image/x-icon">
     <meta name="description" content="Web Page Maker Description">
-    <title>therapist</title>
+    <title>Terapeuta</title>
     <link rel="stylesheet" href="resources/assets/web/assets/mobirise-icons/mobirise-icons.css">
     <link rel="stylesheet" href="resources/assets/tether/tether.min.css">
     <link rel="stylesheet" href="resources/assets/bootstrap/css/bootstrap.min.css">
@@ -169,7 +169,7 @@
                                 <c:forEach items="${events}" var="event" varStatus="status">
                                     <tr>
                                         <td class="body-item bg-success align-center" style="font-size: medium">
-                                            <a href="<c:url value="/therapist-${therapist.therapistId}/event-${event.eventId}/" />">wybierz</a>
+                                            <a href="/therapist-event-${event.eventId}">wybierz</a>
                                         </td>
                                         <td class="body-item mbr-fonts-style display-7" style="font-size: small">${event.eventType.eventTypeId}</td>
                                         <td class="body-item mbr-fonts-style display-7 align-right" style="font-size: small">${event.startDateTime.dayOfMonth}-${event.startDateTime.monthValue}-${event.startDateTime.year}</td>
