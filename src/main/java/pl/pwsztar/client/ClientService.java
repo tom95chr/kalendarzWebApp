@@ -254,6 +254,8 @@ public class ClientService {
             model.addObject("info1","Twój unikalny kod wysłaliśmy na podany przy rezerwacji email.");
             model.addObject("pageTypeInfo","edytować");
             model.addObject("info2","Edycja rezerwacji");
+            model.addObject("confirmationFailed", "Nie odnaleziono rezerwacji. Sprawdź" +
+                    " swój kod i spróbuj ponownie później");
         }
 
         return model;
@@ -261,7 +263,7 @@ public class ClientService {
 
     public ModelAndView cancelReservation(String confirmationCode) {
 
-        ModelAndView modelAndView = new ModelAndView("client/details");
+        ModelAndView modelAndView = new ModelAndView("client/cancelled");
 
         Reservation r = reservationDAO.findByConfirmationCode(confirmationCode);
         Event event = r.getEvent();
@@ -285,7 +287,7 @@ public class ClientService {
         //inform therapist
         emailService.sendEmail(r.getEvent().getTherapist().getEmail(),"Ktoś odwołał rezerwację",
                 "Witaj. Ktoś odwołał rezerwację");
-        modelAndView.addObject("cancelSuccess","Twoja rezerwacja została odwołana");
+
         return modelAndView;
     }
 

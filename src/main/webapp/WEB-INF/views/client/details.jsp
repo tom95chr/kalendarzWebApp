@@ -1,6 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
@@ -23,7 +24,6 @@
     <link rel="stylesheet" href="resources/assets/dropdown/css/style.css">
     <link rel="stylesheet" href="resources/assets/theme/css/style.css">
     <link rel="stylesheet" href="resources/assets/mobirise/css/mbr-additional.css" type="text/css">
-
 
 
 </head>
@@ -81,26 +81,26 @@
     </nav>
 </section>
 
-<section class="engine"><a href="https://mobirise.co/f">free bootstrap builder</a></section><section class="countdown2 cid-qzbXDziNBS" id="countdown2-1a" data-rv-view="311">
+
+    <section class="engine"><a href="https://mobirise.co/f">free bootstrap builder</a></section>
+    <section class="countdown2 cid-qzbXDziNBS" id="countdown2-1a" data-rv-view="311">
 
 
+        <div class="container">
+            <h3 class="mbr-section-subtitle align-center mbr-fonts-style display-5">
 
-
-
-    <div class="container">
-        <h3 class="mbr-section-subtitle align-center mbr-fonts-style display-5">
-
-        </h3>
-        <h2 class="mbr-section-title pb-3 align-center mbr-fonts-style display-2 font-weight-bold" style="color: white">
-            Szczegóły Twojej rezerwacji
-        </h2>
-    </div>
-    <div class="container pt-5 mt-2">
-        <div class=" countdown-cont align-center p-4">
-            <div class="event-name align-left mbr-white ">
-                <h4 class="mbr-fonts-style display-5">Do rozpoczęcia spotkania pozostało</h4>
-            </div>
-            <div class="countdown align-center py-2" data-due-date="${event.startDateTime.year}/${event.startDateTime.monthValue}/${event.startDateTime.dayOfMonth}/${event.startDateTime.hour}:${event.startDateTime.minute}">
+            </h3>
+            <h2 class="mbr-section-title pb-3 align-center mbr-fonts-style display-2 font-weight-bold"
+                style="color: white">
+                Szczegóły Twojej rezerwacji
+            </h2>
+        </div>
+        <div class="container pt-5 mt-2">
+            <div class=" countdown-cont align-center p-4">
+                <div class="event-name align-left mbr-white ">
+                    <h4 class="mbr-fonts-style display-5">Do rozpoczęcia spotkania pozostało</h4>
+                </div>
+                <div class="countdown align-center py-2" data-due-date="${event.startDateTime.year}/${event.startDateTime.monthValue}/${event.startDateTime.dayOfMonth}/${event.startDateTime.hour}:${event.startDateTime.minute}">
             </div>
             <div class="daysCountdown" title="Dni"></div>
             <div class="hoursCountdown" title="Godzin"></div>
@@ -111,104 +111,95 @@
             </div>
         </div>
 
+        </div>
+    </section>
 
-    </div>
-</section>
+    <section class="counters2 counters cid-qzbW9mqBmg" id="counters2-18" data-rv-view="314">
 
-<section class="counters2 counters cid-qzbW9mqBmg" id="counters2-18" data-rv-view="314">
-
-    <div class="container pt-4 mt-2">
-        <div class="media-container-row">
-            <div class="media-block" style="width: 50%;">
-                <h2 class="mbr-section-title pb-3 align-left mbr-fonts-style display-2">
-                    Wskazówki dojazdu
-                </h2>
-               <%-- <h3 class="mbr-section-subtitle pb-5 align-left mbr-fonts-style display-5">
-                    Responsive block with counters and media.
-                </h3>--%>
-                <div class="mbr-figure">
-                    <div class="google-map"><iframe frameborder="0" style="border:0; height: 400px"  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0Dx_boXQiwvdz8sJHoYeZNVTdoWONYkU&amp;q=place_id:ChIJaaxo_lSDPUcRno-mYFwjFrA" allowfullscreen=""></iframe></div>
+        <div class="container pt-4 mt-2">
+            <div class="media-container-row">
+                <div class="media-block" style="width: 50%;">
+                    <h2 class="mbr-section-title pb-3 align-left mbr-fonts-style display-2">
+                        Wskazówki dojazdu
+                    </h2>
+                         <h3 class="mbr-section-subtitle pb-5 align-left mbr-fonts-style display-5">
+                             Responsive block with counters and media.
+                         </h3>
+                    <div class="mbr-figure">
+                        <div class="google-map"><iframe frameborder="0" style="border:0; height: 400px"  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0Dx_boXQiwvdz8sJHoYeZNVTdoWONYkU&amp;q=place_id:ChIJaaxo_lSDPUcRno-mYFwjFrA" allowfullscreen=""></iframe></div>
+                    </div>
                 </div>
-            </div>
-            <div class="cards-block">
-                <div class="cards-container">
-                    <div class="card px-3 align-left col-12 col-md-6">
-                        <div class="panel-item p-3">
-                            <div class="card-img pb-3">
-                                <span class="mbri-mobirise mbr-iconfont pr-2" media-simple="true"></span>
-                                <h3 class="count py-2 mbr-fonts-style display-2">
-                                    100
-                                </h3>
-                            </div>
-                            <div class="card-text">
-                                <h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
-                                    Unlimited websites
-                                </h4>
-                                <p class="mbr-content-text mbr-fonts-style display-7">
-                                    Mobirise give you the freedom to develop as many websites as you like.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card px-3 align-left col-12 col-md-6">
-                        <div class="panel-item p-3">
-                            <div class="card-img pb-3">
-                                <span class="mbri-extension mbr-iconfont pr-2" media-simple="true"></span>
-                                <h3 class="count py-3 mbr-fonts-style display-2">
-                                    200
-                                </h3>
-                            </div>
-                            <div class="card-text">
-                                <h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
-                                    Trendy websites blocks
-                                </h4>
-                                <p class="mbr-content-text mbr-fonts-style display-7">
-                                    Choose from the large selection of latest pre-made blocks.
-                                </p>
+                <div class="cards-block">
+                    <div class="cards-container">
+
+                        <div class="card px-3 align-center col-12 col-md-6">
+                            <div class="panel-item p-3">
+                                <div class="card-text">
+                                    <h4 style="color: #0f77f6">${therapist.specialization}</h4>
+                                </div>
+                                <div class="card-text">
+                                    <h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
+                                        <br>${therapist.firstName} ${therapist.lastName}
+                                    </h4>
+                                    <p class="mbr-content-text mbr-fonts-style display-7">
+                                        email: ${therapist.email}<br>
+                                        tel. ${therapist.telephone}
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card px-3 align-left col-12 col-md-6">
-                        <div class="panel-item p-3">
-                            <div class="card-img pb-3">
-                                <span class="mbri-responsive mbr-iconfont pr-2" media-simple="true"></span>
-                                <h3 class="count py-3 mbr-fonts-style display-2">
-                                    300
-                                </h3>
-                            </div>
-                            <div class="card-text">
-                                <h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
-                                    Bootstrap
-                                </h4>
-                                <p class="mbr-content-text mbr-fonts-style display-7">
-                                    One of Bootstrap's big point is responsiveness
-                                </p>
+
+                        <div class="card px-3 align-center col-12 col-md-6">
+                            <div class="panel-item p-3">
+                                <div class="card-text">
+                                    <h4 style="color: #0f77f6">Typ spotkania</h4>
+                                </div>
+                                <div class="card-text">
+                                    <h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
+                                        <br>${event.eventType.eventTypeId}
+                                    </h4>
+                                    <p class="mbr-content-text mbr-fonts-style display-7">
+                                        Maksymalna liczba uczestników : ${event.eventType.seats} <br>
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card px-3 align-left col-12 col-md-6">
-                        <div class="panel-item p-3">
-                            <div class="card-img pb-3">
-                                <span class="mbri-globe-2 mbr-iconfont pr-2" media-simple="true"></span>
-                                <h3 class="count py-3 mbr-fonts-style display-2">
-                                    400
-                                </h3>
+                        <div class="card px-3 align-center col-12 col-md-6">
+                            <div class="panel-item p-3">
+                                <div class="card-text">
+                                    <h4 style="color: #0f77f6">Miejsce spotkania</h4>
+                                </div>
+                                <div class="card-text">
+                                    <h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
+                                        <br>Sala nr: ${event.room}
+                                    </h4>
+                                    <p class="mbr-content-text mbr-fonts-style display-7">
+                                        <!-- informacje dodatkowe -->
+                                    </p>
+                                </div>
                             </div>
-                            <div class="card-texts">
-                                <h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
-                                    Web fonts
-                                </h4>
-                                <p class="mbr-content-text mbr-fonts-style display-7">
-                                    Mobirise make it easy for you to use Google fonts on your website easily and freely.
-                                </p>
+                        </div>
+                        <div class="card px-3 align-center col-12 col-md-6">
+                            <div class="panel-item p-3">
+                                <div class="card-text">
+                                    <h4 style="color: red">Anuluj rezerwację</h4>
+                                </div>
+                                <div class="card-text">
+                                    <h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
+                                        <!-- informacje dodatkowe pogrubione -->
+                                    </h4>
+                                    <p class="mbr-content-text mbr-fonts-style display-7">
+                                        Aby anulować swoją rezerwację, kliknij <a
+                                            href="/my-reservation-${confirmationCode}/cancel">tutaj</a>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 <!-- footer -->
 

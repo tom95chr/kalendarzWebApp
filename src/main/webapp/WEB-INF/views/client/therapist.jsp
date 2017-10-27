@@ -187,9 +187,9 @@
                                         <span class="infoBefore"> </span>
                                         <span class="inactive infoRows"></span>
                                         <span class="infoAfter">terminy/ów</span>
-                                        <span class="infoFilteredBefore">(filtered from</span>
+                                        <span class="infoFilteredBefore">(przeszukano</span>
                                         <span class="inactive infoRows"></span>
-                                        <span class="infoFilteredAfter"> total entries)</span>
+                                        <span class="infoFilteredAfter"> terminów)</span>
                                     </div>
                                 </div>
                                 <div class="col-sm-4"></div>
