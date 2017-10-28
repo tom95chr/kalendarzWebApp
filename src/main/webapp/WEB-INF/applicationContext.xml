@@ -60,6 +60,7 @@
 
     <bean id="messageSource"
           class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+          p:defaultEncoding="UTF-8"
           p:basename="/resources/validation" />
 
 </beans>

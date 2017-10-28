@@ -123,13 +123,18 @@
                         Wskazówki dojazdu
                     </h2>
                          <h3 class="mbr-section-subtitle pb-5 align-left mbr-fonts-style display-5">
-                             Responsive block with counters and media.
+
                          </h3>
                     <div class="mbr-figure">
                         <div class="google-map"><iframe frameborder="0" style="border:0; height: 400px"  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0Dx_boXQiwvdz8sJHoYeZNVTdoWONYkU&amp;q=place_id:ChIJaaxo_lSDPUcRno-mYFwjFrA" allowfullscreen=""></iframe></div>
                     </div>
                 </div>
                 <div class="cards-block">
+                    <h2 class="mbr-section-title mb-3" style="color: red"> Twoja rezerwacja została potwierdzona pomyślnie !
+                    </h2>
+                    <p class="mb-5">Dziękujemy za skorzystanie z naszj strony.
+                        Zapraszamy na spotkanie. Poniżej znajdziesz szczegóły Twojej rezerwacji.
+                    </p>
                     <div class="cards-container">
 
                         <div class="card px-3 align-center col-12 col-md-6">
@@ -251,7 +256,7 @@
                             <!-- Modal body -->
                             <div class="modal-body">
                                 <h5 class="modal-title" style="color: black">Tomasz Chrapusta</h5>
-                                <h6 style="color: black">PWSZ Tarnów<br>Informatyka 2014-2017</h6>
+                                <h6 style="color: black">PWSZ Tarnów<br>Informatyka 2014-2018</h6>
                             </div>
 
                             <!-- Modal footer -->

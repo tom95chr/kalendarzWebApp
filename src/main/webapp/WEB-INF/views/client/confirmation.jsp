@@ -173,7 +173,7 @@
                             <!-- Modal body -->
                             <div class="modal-body">
                                 <h5 class="modal-title" style="color: black">Tomasz Chrapusta</h5>
-                                <h6 style="color: black">PWSZ Tarnów<br>Informatyka 2014-2017</h6>
+                                <h6 style="color: black">PWSZ Tarnów<br>Informatyka 2014-2018</h6>
                             </div>
 
                             <!-- Modal footer -->

@@ -83,13 +83,12 @@
     </nav>
 </section>
 
-<section class="engine"><a href="https://mobirise.co/b">web creator</a></section>
 <section class="tabs2 cid-qzgWo7cLCL" id="tabs2-1e" data-rv-view="135">
 
 
     <div class="container col-12">
         <h2 class="mbr-section-title align-center pb-5 mbr-fonts-style display-2">
-            Zarezerwuj ten termin już teraz
+            Zapisz się już teraz
         </h2>
         <div class="media-container-row">
             <div class="card px-3 align-center col-sm-4">
@@ -117,9 +116,10 @@
                         <%--<h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
                         </h4>--%>
                         <p class="mbr-content-text mbr-bold mbr-fonts-style display-7">
-                            Sala nr: ${event.room}<br>
+                            Typ spotkania: ${event.eventType.eventTypeId}<br>
                             Data: ${event.startDateTime.toLocalDate()}<br>
-                            Godzina: ${event.startDateTime.toLocalTime()}
+                            Godzina: ${event.startDateTime.toLocalTime()}<br>
+                            Sala nr: ${event.room}<br>
                         </p>
 
                     </div>
@@ -132,11 +132,11 @@
                     </div>
                     <div class="card-text">
                         <h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
-                            <br>${event.eventType.eventTypeId}
+                            <br>Liczba wolnych miejsc: ${freeSlots}
                         </h4>
                         <p class="mbr-content-text mbr-fonts-style display-7">
                             Maksymalna liczba uczestników: ${event.eventType.seats} <br>
-                            Liczba wolnych miejsc: ${freeSlots}
+
                         </p>
                     </div>
                 </div>
@@ -152,41 +152,46 @@
         <div class="row justify-content-center">
             <div class="title col-12 col-lg-8">
                 <h2 class="mbr-section-title align-center pb-3 mbr-fonts-style display-2">
-                    TWOJE DANE
+                    DANE KONTAKTOWE
                 </h2>
                 <h3 class="mbr-section-subtitle align-center mbr-light pb-3 mbr-fonts-style display-5">
-                    Aby się zapisać na wybrany termin wystarczy, że podasz swój adres email. Opcjonalnie możesz dodać
-                    swój numer telefonu co ułątwi nam kontakt w razie ewentualnych zmian.
+                    Aby się zapisać na wybrany termin wystarczy, że podasz swój adres email. Upewnij się, podany email
+                    jest prawidłowy. Zostanie na niego wysłany kod potwierdzenia. Opcjonalnie możesz też dodać
+                    numer telefonu co ułatwi nam kontakt w razie ewentualnych zmian.
                 </h3>
             </div>
         </div>
     </div>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="media-container-column col-lg-8" data-form-type="formoid">
-                <div data-form-alert="" hidden="">
-                    Thanks for filling out the form!
-                </div>
+            <div class="media-container-column col-lg-5" >
+                <form:form method="POST" modelAttribute="client" class="form-signin">
+                    <spring:bind path="email">
+                        <div class="form-group${status.error ? 'has-error' : ''}">
+                            <form:input type="text" path="email" class="form-control" placeholder="Adres email"
+                                        autofocus="true"></form:input>
+                            <form:errors path="email"></form:errors>
+                        </div>
+                    </spring:bind>
+                    <spring:bind path="emailConfirm">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <form:input type="email" path="emailConfirm" class="form-control"
+                                        placeholder="Podaj email jeszcze raz"></form:input>
+                            <form:errors path="emailConfirm"></form:errors>
+                        </div>
+                    </spring:bind>
 
-                <form class="mbr-form" action="https://mobirise.com/" method="post" data-form-title="Mobirise Form"><input type="hidden" data-form-email="true" value="0Nxnl/aC7ad4qI9G68Eg2Okr47uwdNOIvP9067ACqKDw2b7h4ECd5X3PxbsY7gRoktumblOj19yxO2Mg7slJ4uClEOX9MpL0JIpS5DklGhXfQS0swUdBQHGDyxWnw1g6">
-                    <div class="row row-sm-offset">
-                        <div class="col-md-4 multi-horizontal" data-for="email">
-                            <div class="form-group">
-                                <label class="form-control-label mbr-fonts-style display-7" for="email-form1-1f">Email</label>
-                                <input type="email" class="form-control" name="email" data-form-field="Email" required="" id="email-form1-1f">
-                            </div>
+                    <spring:bind path="telephone">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <form:input type="text" path="telephone" class="form-control" placeholder="Telefon (opcjonalnie)"></form:input>
+                            <form:errors path="telephone"></form:errors>
                         </div>
-                        <div class="col-md-4 multi-horizontal" data-for="phone">
-                            <div class="form-group">
-                                <label class="form-control-label mbr-fonts-style display-7" for="phone-form1-1f">Telefon(opcjonalnie)</label>
-                                <input type="tel" class="form-control" name="phone" data-form-field="Phone" id="phone-form1-1f">
-                            </div>
-                        </div>
-                    </div>
+                    </spring:bind>
+
                     <span class="input-group-btn">
                             <button href="" type="submit" class="btn btn-primary btn-form display-4">Wyślij</button>
                         </span>
-                </form>
+                </form:form>
             </div>
         </div>
     </div>
@@ -242,7 +247,7 @@
                             <!-- Modal body -->
                             <div class="modal-body">
                                 <h5 class="modal-title" style="color: black">Tomasz Chrapusta</h5>
-                                <h6 style="color: black">PWSZ Tarnów<br>Informatyka 2014-2017</h6>
+                                <h6 style="color: black">PWSZ Tarnów<br>Informatyka 2014-2018</h6>
                             </div>
 
                             <!-- Modal footer -->
@@ -288,54 +293,3 @@
 
 </body>
 </html>
-<%--
-<html>
-
-<body>
-
-
-<div class="container">
-    <h1>Host</h1>
-    <h2>${therapist.firstName} ${therapist.lastName} <br>
-        Specialization: ${therapist.specialization} <br>
-        Description: ${therapist.description}
-    </h2>
-    <h1>Event details</h1>
-    <h2>
-
-        start: ${event.startDateTime.dayOfMonth}-${event.startDateTime.monthValue}-${event.startDateTime.year}
-        godz. ${event.startDateTime.toLocalTime()}<br>
-        end: ${event.endDateTime.dayOfMonth}-${event.endDateTime.monthValue}-${event.endDateTime.year}
-        godz. ${event.endDateTime.toLocalTime()}<br>
-        room: ${event.room}<br>
-        free places: ${(freeSlots)}<br>
-
-    </h2>
-
-
-    <form:form method="POST" modelAttribute="client" class="form-signin">
-        <h2 class="form-signin-heading">If you want to join this event please submit your email and confirm reservation </h2>
-        <spring:bind path="email">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="email" class="form-control" placeholder="Your email"
-                            autofocus="true"></form:input>
-                <form:errors path="email"></form:errors>
-            </div>
-        </spring:bind>
-
-        <spring:bind path="telephone">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="telephone" class="form-control" placeholder="Telephone(optional)"></form:input>
-                <form:errors path="telephone"></form:errors>
-            </div>
-        </spring:bind>
-
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-    </form:form>
-
-</div>
-<!-- /container -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
-</body>
-</html>--%>

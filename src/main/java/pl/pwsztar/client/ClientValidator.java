@@ -17,8 +17,9 @@ public class ClientValidator implements Validator {
         Client c = (Client) o;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty");
-        if (c.getEmail().length() < 6 || c.getEmail().length() > 32) {
-            errors.rejectValue("email", "Size.therapist.email");
+
+        if (!c.getEmailConfirm().equals(c.getEmail())) {
+            errors.rejectValue("emailConfirm", "Diff.client.emailConfirm");
         }
     }
 }
