@@ -91,14 +91,14 @@
 
             </h3>
             <h2 class="mbr-section-title pb-3 align-center mbr-fonts-style display-2 font-weight-bold"
-                style="color: white">
+                style="color: white; background-color:rgba(0, 0, 0, 0.8)">
                 Szczegóły Twojej rezerwacji
             </h2>
         </div>
         <div class="container pt-5 mt-2">
             <div class=" countdown-cont align-center p-4">
                 <div class="event-name align-left mbr-white ">
-                    <h4 class="mbr-fonts-style display-5">Do rozpoczęcia spotkania pozostało</h4>
+                    <h4 class="mbr-fonts-style display-5" style="color: black;">Do rozpoczęcia spotkania pozostało</h4>
                 </div>
                 <div class="countdown align-center py-2" data-due-date="${event.startDateTime.year}/${event.startDateTime.monthValue}/${event.startDateTime.dayOfMonth}/${event.startDateTime.hour}:${event.startDateTime.minute}">
             </div>
@@ -107,7 +107,7 @@
             <div class="minutesCountdown" title="Minut"></div>
             <div class="secondsCountdown" title="Sekund"></div>
             <div class="event-date align-left mbr-white">
-                <h5 class="mbr-fonts-style display-7">${event.startDateTime.year}/${event.startDateTime.monthValue}/${event.startDateTime.dayOfMonth} godz. ${event.startDateTime.hour}:${event.startDateTime.minute}
+                <h5 class="mbr-fonts-style display-7" style="color: black;">${event.startDateTime.year}/${event.startDateTime.monthValue}/${event.startDateTime.dayOfMonth} godz. ${event.getStartDateTime().toLocalTime()}
             </div>
         </div>
 
@@ -172,14 +172,16 @@
                         <div class="card px-3 align-center col-12 col-md-6">
                             <div class="panel-item p-3">
                                 <div class="card-text">
-                                    <h4 style="color: #0f77f6">Miejsce spotkania</h4>
+                                    <h4 style="color: #0f77f6">Czas i miejsce spotkania</h4>
                                 </div>
                                 <div class="card-text">
-                                    <h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
-                                        <br>Sala nr: ${event.room}
-                                    </h4>
+           <%--                         <h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
+
+                                    </h4>--%>
                                     <p class="mbr-content-text mbr-fonts-style display-7">
-                                        <!-- informacje dodatkowe -->
+                                        <br>Data: ${event.startDateTime.dayOfMonth} - ${event.startDateTime.monthValue} - ${event.startDateTime.year}
+                                        <br>Godzina: ${event.getStartDateTime().toLocalTime()}
+                                        <br>Sala nr: ${event.room}
                                     </p>
                                 </div>
                             </div>
