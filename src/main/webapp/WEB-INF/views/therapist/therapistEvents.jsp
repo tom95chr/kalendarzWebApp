@@ -166,31 +166,31 @@
                             <table class="table isSearch" cellspacing="0">
                                 <thead>
                                 <tr class="table-heads ">
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
+                                    <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
                                         Typ
                                     </th>
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
+                                    <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
                                         Data
                                     </th>
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
+                                    <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
                                         Godz.
                                     </th>
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
+                                    <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
                                         Trwa
                                     </th>
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
+                                    <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
                                         Sala
                                     </th>
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
+                                    <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
                                         Zapisani
                                     </th>
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
+                                    <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
                                         Wolne miejsca
                                     </th>
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
+                                    <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
                                         Edytuj
                                     </th>
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
+                                    <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
                                         Usuń
                                     </th>
                                 </tr>
@@ -205,11 +205,19 @@
                                         <td class="body-item mbr-fonts-style display-7" style="font-size: small">${event.startDateTime.toLocalTime()}</td>
                                         <td class="body-item mbr-fonts-style display-7" style="font-size: small">${event.calculateDuration()}min.</td>
                                         <td class="body-item mbr-fonts-style display-7" style="font-size: small">${event.room}</td>
-                                        <td class="body-item mbr-fonts-style display-7" style="font-size: small">
+                                        <td class="body-item mbr-fonts-style display-7 align-center" style="font-size: small">
                                             <a href="<c:url value="/therapist-events/event-${event.eventId}/participants" />">${event.nrOfParticipants()}</a>
                                         </td>
-                                        <td class="body-item mbr-fonts-style display-7" style="font-size: small">${event.free}</td>
-                                        <td class="body-item align-center" style="font-size: medium; background-color: #d0ffc7 ">
+                                        <td class="body-item mbr-fonts-style display-7 align-center" style="font-size: small">
+                                            <c:if test="${event.free}">
+                                                TAK
+                                            </c:if>
+                                            <c:if test="${!event.free}">
+                                                NIE
+                                            </c:if>
+                                        </td>
+                                        <td class="body-item align-center"
+                                            style="font-size: medium; background-color: #d0ffc7 ">
                                             <a href="<c:url value="/therapist-events/event-${event.eventId}/edit" />">edytuj</a>
                                         </td>
                                         <td class="body-item align-center" style="font-size: medium; background-color:#ffe7c1 ">

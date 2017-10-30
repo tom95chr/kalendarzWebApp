@@ -110,8 +110,8 @@
             </div>
 
             <!-- Modal body -->
-            <div class="modal-body">
-                <h5 class="modal-title" style="color: black"><%= session.getAttribute("loggedUser")%></h5>
+            <div class="modal-body align-center">
+                <h5 class="modal-title" style="color: black; font-weight: bold"><%= session.getAttribute("loggedUser")%></h5>
                 <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
                                                                href="/logout"><span
                         class="mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>
@@ -193,7 +193,7 @@
 
 </section>
 
-<section class="features8 cid-qz9i5WARlL mbr-parallax-background" id="features8-m" data-rv-view="31">
+<section class="features8 cid-qz9i5WARlL mbr-parallax-background" id="features8-m" data-rv-view="85">
 
     <div class="mbr-overlay" style="opacity: 0.2; background-color: rgb(35, 35, 35);">
     </div>
