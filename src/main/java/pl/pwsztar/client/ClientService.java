@@ -1,6 +1,9 @@
 package pl.pwsztar.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,11 +14,13 @@ import pl.pwsztar.client.reservation.ReservationDAO;
 import pl.pwsztar.event.Event;
 import pl.pwsztar.event.EventDAO;
 import pl.pwsztar.event.eventType.EventTypeDAO;
+import pl.pwsztar.login.LoginService;
 import pl.pwsztar.mainServices.EmailService;
 import pl.pwsztar.client.reservation.KeyGeneratorService;
 import pl.pwsztar.mainServices.googleCalendar.GoogleCalendar;
 import pl.pwsztar.therapists.TherapistDAO;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -56,14 +61,19 @@ public class ClientService {
     @Autowired
     EmailService emailService;
 
+    @Autowired
+    LoginService loginService;
+
     public int nrOfParticipants(Event e) {
         List<Reservation> listOfParticipants = reservationDAO.findAllByEvent(e);
         return listOfParticipants.size();
     }
 
-    public ModelAndView therapistsList() {
+    public ModelAndView therapistsList(HttpSession session) {
         ModelAndView model = new ModelAndView("home");
         model.addObject("therapists", therapistDAO.findAll());
+        session.setAttribute("loggedUser",loginService.getPrincipal());
+        System.out.println(session.getAttribute("loggedUser"));
         return model;
     }
 

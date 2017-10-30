@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.pwsztar.client.confirmation.ConfirmationCode;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 
 public class ClientController {
@@ -15,8 +17,8 @@ public class ClientController {
     ClientService clientService;
 
     @RequestMapping("/")
-    public ModelAndView therapistsList() {
-        return clientService.therapistsList();
+    public ModelAndView therapistsList(HttpSession session) {
+        return clientService.therapistsList(session);
     }
 
     @RequestMapping(value = "/therapist-{therapistId}",method = RequestMethod.GET)

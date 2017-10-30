@@ -78,14 +78,62 @@
                             class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>Admin</a></li>
                 </sec:authorize>
             </ul>
+            <!-- login button -->
+            <%
+                if (session.getAttribute("loggedUser")=="anonymousUser"){
+            %>
             <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
                                                            href="/login"><span
                     class="mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>
 
-                Login</a></div>
+                Login
+            </a></div>
+            <%
+            } else{
+            %>
+            <div class="navbar-buttons mbr-section-btn"><a class=" btn btn-primary display-7" data-toggle="modal" data-target="#loginModal"><span
+                    class="mbri-lock mbr-iconfont mbr-iconfont-btn"></span>
+                <%= session.getAttribute("loggedUser")%>
+                <%
+                    }
+                %>
+                <!-- login button -->
+
+            </a></div>
         </div>
     </nav>
 </section>
+
+<!-- logout modal -->
+<div class="modal fade" id="loginModal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title" style="color: black">Użytkownik:</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <h5 class="modal-title" style="color: black"><%= session.getAttribute("loggedUser")%></h5>
+                <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
+                                                               href="/logout"><span
+                        class="mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>
+
+                    Wyloguj
+                </a></div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Zamknij</button>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 <section class="tabs2 cid-qzgWo7cLCL" id="tabs2-1e" data-rv-view="135">
 
