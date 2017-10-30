@@ -59,13 +59,13 @@
             <ul class="navbar-nav nav-dropdown" data-app-modern-menu="true">
                 <li class="nav-item">
                     <a class="nav-link link text-white display-4" href="/"><span
-                            class="mbri-home mbr-iconfont mbr-iconfont-btn"></span>&nbsp;Home</a>
+                            class="mbri-home mbr-iconfont mbr-iconfont-btn"></span>Home</a>
                 </li>
-                <li class="nav-item">
+                <%--<li class="nav-item">
                     <a class="nav-link link text-white display-4" href="/confirm-reservation"><span
                             class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>
                         Potwierdzenie</a>
-                </li>
+                </li>--%>
                 <li class="nav-item"><a class="nav-link link text-white display-4" href="/therapist-events/createEvent/"><span
                         class="mbri-plus mbr-iconfont mbr-iconfont-btn"></span>
                     Utwórz spotkanie</a></li>
@@ -116,8 +116,8 @@
             </div>
 
             <!-- Modal body -->
-            <div class="modal-body">
-                <h5 class="modal-title" style="color: black"><%= session.getAttribute("loggedUser")%></h5>
+            <div class="modal-body align-center">
+                <h5 class="modal-title" style="color: black; font-weight: bold"><%= session.getAttribute("loggedUser")%></h5>
                 <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
                                                                href="/logout"><span
                         class="mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>

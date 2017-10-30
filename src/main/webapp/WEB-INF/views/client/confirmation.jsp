@@ -115,8 +115,8 @@
             </div>
 
             <!-- Modal body -->
-            <div class="modal-body">
-                <h5 class="modal-title" style="color: black"><%= session.getAttribute("loggedUser")%></h5>
+            <div class="modal-body align-center">
+                <h5 class="modal-title" style="color: black; font-weight: bold"><%= session.getAttribute("loggedUser")%></h5>
                 <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
                                                                href="/logout"><span
                         class="mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>
