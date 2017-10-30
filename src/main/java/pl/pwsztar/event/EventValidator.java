@@ -23,9 +23,10 @@ public class EventValidator implements Validator {
         EventDTO e = (EventDTO) o;
 
         //ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "NotEmpty");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "startDateTime", "NotEmpty");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "endDateTime", "NotEmpty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "startDate", "NotEmpty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "startTime", "NotEmpty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "room", "NotEmpty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "duration", "NotEmpty");
 
 /*        if(e.getStartDateTime().compareTo(e.getEndDateTime())>=0){
             errors.rejectValue("startDateTime", "Event.EndBeforeStart.ThinkAboutItBro");

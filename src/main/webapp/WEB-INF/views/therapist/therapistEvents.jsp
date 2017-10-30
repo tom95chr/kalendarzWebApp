@@ -66,7 +66,7 @@
                             class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>
                         Potwierdzenie</a>
                 </li>--%>
-                <li class="nav-item"><a class="nav-link link text-white display-4" href="/therapist-events/createEvent/"><span
+                <li class="nav-item"><a class="nav-link link text-white display-4" href="/therapist-createEvent"><span
                         class="mbri-plus mbr-iconfont mbr-iconfont-btn"></span>
                     Utwórz spotkanie</a></li>
                 <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">

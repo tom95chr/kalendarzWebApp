@@ -107,6 +107,10 @@ public class TherapistService {
             model.addObject("therapists", therapistDAO.findAll());
             return model;
         }
+        //endDateTime = startdate + startTime + duration
+        eventDTO.setStartDateTime(LocalDateTime.of(eventDTO.getStartDate(), eventDTO.getStartTime()));
+        LocalDateTime startPlusMins = eventDTO.getStartDateTime().plusMinutes(eventDTO.getDuration());
+        eventDTO.setEndDateTime(startPlusMins);
 
         //date format changed for google
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
@@ -129,12 +133,12 @@ public class TherapistService {
             } else {
                 try {
                     String eventId = googleCalendar.createEvent(therapistDAO.findByEmail(loginService.getPrincipal()).getGoogleCalendarId(),
-                            "free", "free", startDate + ":00.000+02:00",
+                            "wolny", "free", startDate + ":00.000+02:00",
                             endDate + ":00.000+02:00");
 
                     Event event = new Event();
                     event.setEventId(eventId);
-                    event.setName("free");
+                    event.setName("wolny");
                     event.setStartDateTime(eventDTO.getStartDateTime());
                     event.setEndDateTime(eventDTO.getEndDateTime());
                     event.setTherapist(therapistDAO.findByEmail(loginService.getPrincipal()));
@@ -158,6 +162,7 @@ public class TherapistService {
         model.addObject("eventTypes", eventTypeDAO.findAll());
         model.addObject("therapists", therapistDAO.findAll());
         return model;
+
     }
 
     public ModelAndView dropEvent(String eventId) {
