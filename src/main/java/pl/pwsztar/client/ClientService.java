@@ -73,7 +73,6 @@ public class ClientService {
         ModelAndView model = new ModelAndView("home");
         model.addObject("therapists", therapistDAO.findAll());
         session.setAttribute("loggedUser",loginService.getPrincipal());
-        System.out.println(session.getAttribute("loggedUser"));
         return model;
     }
 
