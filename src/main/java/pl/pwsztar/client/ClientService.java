@@ -150,7 +150,7 @@ public class ClientService {
             String confirmPageUrl = "http://localhost:8080/confirm-reservation";
             String text4 = " i wprowadź swój kod rezerwacji. W przeciwnym razie Twoja rezerwacja zostanie automatycznie usunięta.";
             String confirmationLinkName = "stronę potwierdzenia";
-            emailService.sendCode(client.getEmail(), "Potwierdź swoją rezerwację",text1,text2,text3,
+            emailService.sendHtmlEmail(client.getEmail(), "Potwierdź swoją rezerwację",text1,text2,text3,
                     confirmPageUrl,text4,confirmationLinkName, key);
             Reservation rr = new Reservation();
             rr.setClient(client);

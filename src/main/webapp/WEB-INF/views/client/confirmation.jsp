@@ -67,10 +67,14 @@
                 </li>
                 <li class="nav-item"><a class="nav-link link text-white display-4" href="/my-reservation"><span
                         class="mbri-desktop mbr-iconfont mbr-iconfont-btn"></span>
-                    &nbsp;Rezerwacja</a></li>
+                    &nbsp;Moja rezerwacja</a></li>
                 <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
                     <li class="nav-item"><a class="nav-link link text-white display-4" href="/therapist-events"><span
                             class="mbri-smile-face mbr-iconfont mbr-iconfont-btn"></span>Terapeuta</a></li>
+                </sec:authorize>
+                <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+                    <li class="nav-item"><a class="nav-link link text-white display-4" href="/admin"><span
+                            class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>Admin</a></li>
                 </sec:authorize>
             </ul>
             <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"

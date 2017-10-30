@@ -1,18 +1,11 @@
 package pl.pwsztar.mainServices;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.pwsztar.client.reservation.Reservation;
-import pl.pwsztar.event.Event;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 import java.util.List;
 import java.util.Properties;
 
@@ -30,9 +23,9 @@ public class EmailService {
     protected String password = "1qazxsw23edc";
 
 
-    public static void main(String[] args) {
+/*    public static void main(String[] args) {
         EmailService emailService = new EmailService();
-        /*emailService.sendEmail("tom-chr@wp.pl","Temat maila2", "Tresc miala2");*/
+        *//*emailService.sendEmail("tom-chr@wp.pl","Temat maila2", "Tresc miala2");*//*
         String text1 = "Gratulacje. Udało Ci się zarezerwować termin spotkania. psychoterapeutą. Czekamy na Ciebie dnia" +
                 "<br>Teraz prosimy o potwierdzenie swojej obecności. <br> ";
         String text2 = "Oto Twój kod potwierdzenia: ";
@@ -40,10 +33,10 @@ public class EmailService {
         String confirmPageUrl = "http://localhost:8080/confirm-reservation";
         String text4 = " i wprowadź swój kod rezerwacji. W przeciwnym razie Twoja rezerwacja zostanie automatycznie usunięta.";
         String confirmationLinkName = "stronę potwierdzenia";
-        emailService.sendCode("tom-chr@wp.pl", "Potwierdź swoją rezerwację",text1,text2,text3,
+        emailService.sendHtmlEmail("tom-chr@wp.pl", "Potwierdź swoją rezerwację",text1,text2,text3,
                 confirmPageUrl,text4,confirmationLinkName, "key");
 
-    }
+    }*/
 
     public boolean sendEmail(String recipientEmail, String subject, String content) {
 
@@ -79,40 +72,51 @@ public class EmailService {
 
     //edited,canceled
     public void sendMultiple(List<Reservation> listOfParticipants, Character type) {
-        String subject = null;
-        String summary = null;
-        switch (type) {
-            case 'e':
-                subject = "Event has been modified";
-                summary = "Hello.\n\nWe would like to inform, that event which you were signed has been modified.";
-                break;
-            case 'c':
-                subject = "Event cancellation";
-                summary = "Hello.\n\nWe would like to inform, that event which you were signed has been cancelled.";
-                break;
-            default:
-                subject = null;
-                summary = null;
-                break;
-        }
-        System.out.println(subject);
 
         for (Reservation reservation : listOfParticipants
                 ) {
+            String subject;
+            String text1,text2,text3;
+            switch (type) {
+                case 'e':
+                    subject = "Modyfikacja spotkania";
+                    text1 = "Witaj.\n\nSpotkanie z "+reservation.getEvent().getTherapist().getSpecialization()
+                            + "<br>" +reservation.getEvent().getTherapist().getFirstName() + " " +
+                            reservation.getEvent().getTherapist().getLastName()+"zostało edytowane.";
+                    text2 = "Detale spotkania (po edycji):";
+                    text3 = "Data: "+reservation.getEvent().getStartDateTime().toLocalDate()+"<br>Godzina "+
+                            reservation.getEvent().getStartDateTime().toLocalTime()+"<br>Sala nr. "+
+                            reservation.getEvent().getRoom()+".<br> Typ spotkania: spotkanie "+
+                            reservation.getEvent().getEventType().getEventTypeId();
+                    break;
+                case 'c':
+                    subject = "Odwołano spotkanie";
+                    text1 = "Witaj. Spotkanie z "+reservation.getEvent().getTherapist().getSpecialization()+
+                            "<br>"+reservation.getEvent().getTherapist().getFirstName()+" "+
+                            reservation.getEvent().getTherapist().getLastName()+" zostało odwołane." +
+                            " <br>Dane odwołanego spotkania: <br>Data: " +
+                            reservation.getEvent().getStartDateTime().toLocalDate()+
+                            " godz. " +reservation.getEvent().getStartDateTime().toLocalTime()+
+                            "<br>Sala nr: "+reservation.getEvent().getRoom()+
+                            "<br><br>Przepraszamy za utrudnienia. <br> ";
+                    text2 = "";
+                    text3 = "";
+                    break;
+                default:
+                    subject = "";
+                    text1 = "";
+                    text2 = "";
+                    text3 = "";
+                    break;
+            }
             String email = reservation.getClient().getEmail();
-            sendEmail(email, subject, summary + "\n\nEvent details: " +
-                    "\nEvent type: " + reservation.getEvent().getEventType().getEventTypeId() +
-                    "\nTherapist: " + reservation.getEvent().getTherapist().getFirstName() + " " +
-                    reservation.getEvent().getTherapist().getLastName() +
-                    "\nStart date/time: " + reservation.getEvent().getStartDateTime() +
-                    "\nroom nr:" + reservation.getEvent().getRoom() + "\n\nKind regards\n " + reservation.getEvent().getTherapist().getFirstName() + " " +
-                    reservation.getEvent().getTherapist().getLastName());
+            sendHtmlEmail(email, subject,text1,text2,text3,"","","","");
         }
     }
 
 
-    public void sendCode(String recipientEmail, String subject,String text1, String text2, String text3,
-                         String confirmPageUrl, String text4, String confirmationLinkName, String code) {
+    public void sendHtmlEmail(String recipientEmail, String subject, String text1, String text2, String text3,
+                              String confirmPageUrl, String text4, String confirmationLinkName, String code) {
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", mailSmtpAuth);
