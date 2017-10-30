@@ -80,7 +80,7 @@ public class TherapistService {
         List<Integer> participants = new ArrayList<Integer>();
         for (Event e : events
                 ) {
-            participants.add(new Integer(clientService.nrOfParticipants(e)));
+            participants.add(new Integer(e.nrOfParticipants()));
         }
         model.addObject("participants", participants);
         return model;
@@ -228,7 +228,7 @@ public class TherapistService {
         //event tye old = new
         if (!(eventDTO.getEventType().equals(e.getEventType().getEventTypeId()))) {
             //participants>free seats
-            if (clientService.nrOfParticipants(e) > eventTypeDAO.findByEventTypeId(eventDTO.getEventType()).getSeats()) {
+            if (e.nrOfParticipants() > eventTypeDAO.findByEventTypeId(eventDTO.getEventType()).getSeats()) {
                 ModelAndView m2 = new ModelAndView("therapist/editEvent");
                 m2.addObject("event", eventDAO.findByEventId(eventId));
                 m2.addObject("eventDTO", new EventDTO());
@@ -237,7 +237,7 @@ public class TherapistService {
                         "participants is greater than number of free seats");
                 return m2;
             } else {
-                if (eventTypeDAO.findByEventTypeId(eventDTO.getEventType()).getSeats() > clientService.nrOfParticipants(e)) {
+                if (eventTypeDAO.findByEventTypeId(eventDTO.getEventType()).getSeats() > e.nrOfParticipants()) {
                     e.setFree(Boolean.TRUE);
                 } else {
                     e.setFree(Boolean.FALSE);

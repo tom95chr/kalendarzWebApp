@@ -7,6 +7,7 @@ import pl.pwsztar.therapists.Therapist;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,7 +92,7 @@ public class Event {
         this.name = name;
     }
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
     public List<Reservation> getReservations() {
         return reservations;
     }
@@ -108,5 +109,12 @@ public class Event {
         isFree = free;
     }
 
+    public Long calculateDuration(){
+        return ChronoUnit.MINUTES.between(startDateTime,endDateTime);
+    }
+    public int nrOfParticipants() {
+        List<Reservation> listOfParticipants = this.reservations;
+        return listOfParticipants.size();
+    }
 
 }

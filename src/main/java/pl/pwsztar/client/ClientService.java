@@ -64,10 +64,6 @@ public class ClientService {
     @Autowired
     LoginService loginService;
 
-    public int nrOfParticipants(Event e) {
-        List<Reservation> listOfParticipants = reservationDAO.findAllByEvent(e);
-        return listOfParticipants.size();
-    }
 
     public ModelAndView therapistsList(HttpSession session) {
         ModelAndView model = new ModelAndView("home");
@@ -92,13 +88,6 @@ public class ClientService {
             }
         }
 
-        //calculating duration
-        List<Long> duration = new ArrayList<>();
-        for (Event e : events
-                ) {
-            duration.add(ChronoUnit.MINUTES.between(e.getStartDateTime(),e.getEndDateTime()));
-        }
-        model.addObject("duration",duration);
         model.addObject("events", events);
 
         return model;
@@ -111,7 +100,7 @@ public class ClientService {
         model.addObject("therapist", therapistDAO.findByTherapistId(eventDAO.findByEventId(eventId)
                 .getTherapist().getTherapistId()));
         model.addObject("freeSlots", eventDAO.findByEventId(eventId).getEventType().getSeats()
-                - nrOfParticipants(eventDAO.findByEventId(eventId)));
+                - eventDAO.findByEventId(eventId).nrOfParticipants());
         return model;
     }
 
@@ -124,7 +113,7 @@ public class ClientService {
                     .getTherapist().getTherapistId()));
             model.addObject("event", eventDAO.findByEventId(eventId));
             model.addObject("freeSlots", eventDAO.findByEventId(eventId).getEventType().
-                    getSeats() - nrOfParticipants(eventDAO.findByEventId(eventId)));
+                    getSeats() - eventDAO.findByEventId(eventId).nrOfParticipants());
             return model;
         }
         clientDAO.save(client);
@@ -170,7 +159,7 @@ public class ClientService {
 
         }
         //if number of participants is greater than seats then set event free to busy(false)
-        if (clientService.nrOfParticipants(event) >= eventTypeDAO.findByEventTypeId(
+        if (event.nrOfParticipants() >= eventTypeDAO.findByEventTypeId(
                 event.getEventType().getEventTypeId()).getSeats()) {
             event.setFree(Boolean.FALSE);
             try {
@@ -305,7 +294,7 @@ public class ClientService {
         //delete reservation
         reservationDAO.deleteReservationsByConfirmationCode(confirmationCode);
         //if number of participants is greater than seats then set event free to busy(false)
-        if (clientService.nrOfParticipants(event) < eventTypeDAO.findByEventTypeId(
+        if (event.nrOfParticipants() < eventTypeDAO.findByEventTypeId(
                 event.getEventType().getEventTypeId()).getSeats()) {
             event.setFree(Boolean.TRUE);
             try {

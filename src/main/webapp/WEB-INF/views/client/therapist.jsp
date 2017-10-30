@@ -30,7 +30,7 @@
 
 </head>
 <body>
-<section class="menu cid-qz9d6i0EaI" once="menu" id="menu1-e" data-rv-view="684">
+<section class="menu cid-qz9d6i0EaI" once="menu" id="menu1-s" data-rv-view="47">
 
 
     <nav class="navbar navbar-expand beta-menu navbar-dropdown align-items-center navbar-fixed-top navbar-toggleable-sm">
@@ -134,14 +134,14 @@
         </div>
     </div>
 </div>
+<section class="engine"><a href="https://mobirise.co/d">free web software</a>
+</section><section class="countdown2 cid-qzc7TOs7aU" id="countdown2-1b" data-rv-view="103">
 
 
     <div class="container">
         <br>
         <br>
-        <br>
-        <br>
-        <br>
+
         <c:if test="${events.size()>0}">
             <h2 class="mbr-section-subtitle align-center mbr-fonts-style display-5">
                 Nie czekaj aż ktoś inny Cię wyprzedzi. <br>Najbliższe spotkanie już za
@@ -154,6 +154,7 @@
         </c:if>
 
     </div>
+    <c:if test="${events.size()>0}">
     <div class="container pt-5 mt-2">
         <div class=" countdown-cont align-center p-4">
             <div class="event-name align-left mbr-white ">
@@ -169,9 +170,8 @@
                 <h5 class="mbr-fonts-style display-7">${events[0].startDateTime.year}/${events[0].startDateTime.monthValue}/${events[0].startDateTime.dayOfMonth}</h5>
             </div>
         </div>
-
-
     </div>
+    </c:if>
 </section>
 
 <section class="section-table cid-qz9pczK0Ee mbr-parallax-background" id="table1-t" data-rv-view="241">
@@ -233,7 +233,7 @@
                                         <td class="body-item mbr-fonts-style display-7" style="font-size: small">${event.eventType.eventTypeId}</td>
                                         <td class="body-item mbr-fonts-style display-7 align-right" style="font-size: small">${event.startDateTime.dayOfMonth}-${event.startDateTime.monthValue}-${event.startDateTime.year}</td>
                                         <td class="body-item mbr-fonts-style display-7" style="font-size: small">${event.startDateTime.toLocalTime()}</td>
-                                        <td class="body-item mbr-fonts-style display-7" style="font-size: small">${duration[status.index]}min.</td>
+                                        <td class="body-item mbr-fonts-style display-7" style="font-size: small">${event.calculateDuration()}min.</td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
