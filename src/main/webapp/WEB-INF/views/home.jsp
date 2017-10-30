@@ -193,9 +193,10 @@
 
 </section>
 
-<section class="features8 cid-qz9i5WARlL" id="features8-m" data-rv-view="681">
+<section class="features8 cid-qz9i5WARlL mbr-parallax-background" id="features8-m" data-rv-view="31">
 
-
+    <div class="mbr-overlay" style="opacity: 0.2; background-color: rgb(35, 35, 35);">
+    </div>
     <div class="container">
         <div class="row">
 
