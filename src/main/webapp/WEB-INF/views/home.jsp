@@ -24,7 +24,7 @@
 
 </head>
 <body>
-<section class="menu cid-qz9d6i0EaI" once="menu" id="menu1-e" data-rv-view="684">
+<section class="menu cid-qz9d6i0EaI" once="menu" id="menu1-e" data-rv-view="71">
 
 
     <nav class="navbar navbar-expand beta-menu navbar-dropdown align-items-center navbar-fixed-top navbar-toggleable-sm">
@@ -74,7 +74,7 @@
             </ul>
             <!-- login button -->
             <%
-                if (session.getAttribute("loggedUser")=="anonymousUser"){
+                if (session.getAttribute("loggedUser")=="anonymousUser" || session.getAttribute("loggedUser")==null){
             %>
             <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
                                                            href="/login"><span
@@ -129,8 +129,7 @@
     </div>
 </div>
 
-<section class="engine"><a href="https://mobirise.co/b">web creator</a></section>
-<section class="header1 cid-qz9qEBoDIb" id="header1-z" data-rv-view="675">
+<section class="header1 cid-qz9qEBoDIb" id="header1-z" data-rv-view="62">
 
 
     <div class="container">
@@ -148,7 +147,7 @@
 
 </section>
 
-<section class="features6 cid-qz9kSVYRAX" id="features6-p" data-rv-view="678">
+<section class="features6 cid-qz9kSVYRAX" id="features6-p" data-rv-view="65">
 
 
     <div class="container">
@@ -193,7 +192,7 @@
 
 </section>
 
-<section class="features8 cid-qz9i5WARlL mbr-parallax-background" id="features8-m" data-rv-view="85">
+<section class="features8 cid-qz9i5WARlL mbr-parallax-background" id="features8-m" data-rv-view="68">
 
     <div class="mbr-overlay" style="opacity: 0.2; background-color: rgb(35, 35, 35);">
     </div>
@@ -225,7 +224,7 @@
 
 <!-- footer -->
 
-<section class="cid-qz9d6nOi74" id="footer1-g" data-rv-view="686">
+<section class="cid-qz9d6nOi74" id="footer1-g" data-rv-view="73">
 
 
     <div class="container">

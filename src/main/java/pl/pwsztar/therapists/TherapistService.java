@@ -1,11 +1,7 @@
 package pl.pwsztar.therapists;
 
-
-import com.sun.org.apache.regexp.internal.RE;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 import pl.pwsztar.client.ClientService;
@@ -14,22 +10,14 @@ import pl.pwsztar.client.reservation.ReservationDAO;
 import pl.pwsztar.event.*;
 import pl.pwsztar.event.eventType.EventType;
 import pl.pwsztar.event.eventType.EventTypeDAO;
-import pl.pwsztar.event.eventType.EventTypeValidator;
 import pl.pwsztar.login.LoginDetailsDAO;
 import pl.pwsztar.login.LoginService;
 import pl.pwsztar.mainServices.EmailService;
 import pl.pwsztar.mainServices.googleCalendar.GoogleCalendar;
-
 import java.io.IOException;
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.ChronoField;
 import java.util.*;
-import java.time.*;
-
 
 @Service
 public class TherapistService {
@@ -96,9 +84,6 @@ public class TherapistService {
 
     public ModelAndView createEventPost(EventDTO eventDTO, BindingResult bindingResult) {
 
-        //saving for event creation form
-        //EventDTO oldDto = eventDTO;
-
         ModelAndView model = new ModelAndView("therapist/createEvent");
         eventValidator.validate(eventDTO, bindingResult);
 
@@ -148,12 +133,12 @@ public class TherapistService {
                     eventDAO.save(event);
                     eventDTO = therapistService.addOneWeek(eventDTO);
                     //just for form view
-                    model.addObject("info", "New event/events created successfully !");
+                    model.addObject("successInfo", "Nowe spotkanie / spotkania zostały utworzone pomyślnie");
                 } catch (IOException e) {
-                    model.addObject("info", "Event creation failed. Unexpected error");
+                    model.addObject("info", "NIEPRZEWIDZIANY BŁĄD NIE UTWORZONO SPOTAKANIA");
                     e.printStackTrace();
                 } catch (Exception e) {
-                    model.addObject("info", "Event creation failed. Unexpected error");
+                    model.addObject("info", "NIEPRZEWIDZIANY BŁĄD NIE UTWORZONO SPOTAKANIA");
                     e.printStackTrace();
                 }
             }
@@ -178,7 +163,6 @@ public class TherapistService {
 
         } catch (IOException e) {
             e.printStackTrace();
-            model.addObject("info", "unexpected error during event dropping");
         }
         return model;
     }
@@ -199,7 +183,7 @@ public class TherapistService {
             if (event.getRoom().equals(eventDTO.getRoom())
                     && (
                     (event.getStartDateTime().compareTo(eventDTO.getStartDateTime()) == 0)
-                            || (event.getEndDateTime().compareTo(eventDTO.getStartDateTime())==0)
+                            || (event.getEndDateTime().compareTo(eventDTO.getStartDateTime()) == 0)
                             || ((eventDTO.getStartDateTime().isAfter(event.getStartDateTime()))
                             && (eventDTO.getStartDateTime().isBefore(event.getEndDateTime()))))
                     ) {
@@ -224,12 +208,47 @@ public class TherapistService {
         model.addObject("event", eventDAO.findByEventId(eventId));
         model.addObject("eventDTO", new EventDTO());
         model.addObject("types", getEventTypesId(eventTypeDAO.findAll(), eventId));
+        model.addObject("therapists",therapistDAO.findAll());
         return model;
     }
 
     public ModelAndView editEventPost(String eventId, EventDTO eventDTO, BindingResult bindingResult) {
         ModelAndView model = new ModelAndView("redirect:/therapist-events");
+
         Event e = eventDAO.findByEventId(eventId);
+
+        //to avoid problems with nullException
+        if (eventDTO.getStartDate()==null){
+            eventDTO.setStartDate(e.getStartDateTime().toLocalDate());
+        }
+        if (eventDTO.getStartTime()==null){
+            eventDTO.setStartTime(e.getStartDateTime().toLocalTime());
+        }
+        if (eventDTO.getDuration()==null){
+            eventDTO.setDuration(e.calculateDuration());
+        }
+        if (eventDTO.getRoom().equals("")) {
+            eventDTO.setRoom(e.getRoom());
+        }
+
+        //endDateTime = startdate + startTime + duration
+        eventDTO.setStartDateTime(LocalDateTime.of(eventDTO.getStartDate(), eventDTO.getStartTime()));
+        LocalDateTime startPlusMins = eventDTO.getStartDateTime().plusMinutes(eventDTO.getDuration());
+        eventDTO.setEndDateTime(startPlusMins);
+
+        if (eventDTO.getStartDateTime().isEqual(e.getStartDateTime()) &&
+                eventDTO.getStartDateTime().isEqual(e.getStartDateTime()) &&
+                eventDTO.getRoom().equals(e.getRoom()) &&
+                eventDTO.getEventType().equals(e.getEventType().getEventTypeId())){
+            ModelAndView m2 = new ModelAndView("therapist/editEvent");
+            m2.addObject("event", eventDAO.findByEventId(eventId));
+            m2.addObject("eventDTO", new EventDTO());
+            m2.addObject("types", getEventTypesId(eventTypeDAO.findAll(), eventId));
+            model.addObject("therapists",therapistDAO.findAll());
+            m2.addObject("editError", "Nic nie zmieniono");
+            return m2;
+        }
+
         //event tye old = new
         if (!(eventDTO.getEventType().equals(e.getEventType().getEventTypeId()))) {
             //participants>free seats
@@ -238,8 +257,9 @@ public class TherapistService {
                 m2.addObject("event", eventDAO.findByEventId(eventId));
                 m2.addObject("eventDTO", new EventDTO());
                 m2.addObject("types", getEventTypesId(eventTypeDAO.findAll(), eventId));
-                m2.addObject("editError", "Cannot change event type, because number of " +
-                        "participants is greater than number of free seats");
+                model.addObject("therapists",therapistDAO.findAll());
+                m2.addObject("editError", "Nie można zmienić typu spotkania, ponieważ " +
+                        "ilość zapisanych osób jest większa niż ilość wolnych miejsc.");
                 return m2;
             } else {
                 if (eventTypeDAO.findByEventTypeId(eventDTO.getEventType()).getSeats() > e.nrOfParticipants()) {
@@ -250,10 +270,7 @@ public class TherapistService {
                 e.setEventType(eventTypeDAO.findByEventTypeId(eventDTO.getEventType()));
             }
         }
-        //to avoid problems with nullException
-        if (eventDTO.getRoom().equals("")) {
-            eventDTO.setRoom(e.getRoom());
-        }
+
         //availability for googleCal
         String availability;
         if (e.getFree()) {
@@ -261,7 +278,8 @@ public class TherapistService {
         } else {
             availability = "busy";
         }
-        if (eventDTO.getEndDateTime() != null && eventDTO.getEndDateTime() != null) {
+        //if date/time changed
+        if (!(eventDTO.getStartDateTime().isEqual(e.getStartDateTime())) || !(eventDTO.getEndDateTime().isEqual(e.getEndDateTime()))) {
 
             Event collidedEvent = therapistService.detectCollisionsByTherapist(eventDTO);
             if (collidedEvent != null) {
@@ -269,6 +287,7 @@ public class TherapistService {
                 m2.addObject("event", eventDAO.findByEventId(eventId));
                 m2.addObject("eventDTO", new EventDTO());
                 m2.addObject("types", getEventTypesId(eventTypeDAO.findAll(), eventId));
+                model.addObject("therapists",therapistDAO.findAll());
                 m2.addObject("collidedEvent", collidedEvent);
                 return m2;
             }
@@ -290,7 +309,7 @@ public class TherapistService {
                 exception.printStackTrace();
             }
         }
-        //when
+        //when time/date not changed
         else {
             try {
                 String therapistEmail = loginService.getPrincipal();
@@ -325,5 +344,4 @@ public class TherapistService {
         Collections.swap(types, 0, index);
         return types;
     }
-
 }

@@ -178,7 +178,6 @@ public class ClientService {
     public ModelAndView confirmationGet() {
         ModelAndView model = new ModelAndView("client/confirmation");
         model.addObject("confirmationCode", new ConfirmationCode());
-        model.addObject("info1","Twój unikalny kod wysłaliśmy na podany przy rezerwacji email.");
         model.addObject("pageTypeInfo","potwierdzić");
         model.addObject("info2","Potwierdzenie");
         return model;
@@ -190,8 +189,7 @@ public class ClientService {
         confirmationCodeValidator.validate(confirmationCode, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            model.addObject("info1","Twój unikalny kod wysłaliśmy na podany przy rezerwacji email.");
-            model.addObject("pageTypeInfo","potwierdzić");
+          model.addObject("pageTypeInfo","potwierdzić");
             model.addObject("info2","Potwierdzenie");
             return model;
         }
@@ -201,8 +199,6 @@ public class ClientService {
         if (reservation != null && reservation.isConfirmed()) {
             model.addObject("confirmationFailed", new String("Ta rezerwacja została już wcześniej " +
                     "potwierdzona"));
-            model.addObject("info1","Twój unikalny kod wysłaliśmy na podany przy rezerwacji email.");
-            model.addObject("pageTypeInfo","potwierdzić");
             model.addObject("info2","Potwierdzenie");;
 
         } else {
@@ -227,7 +223,6 @@ public class ClientService {
             } else {
                 model.addObject("confirmationFailed", "Nie odnaleziono rezerwacji. Sprawdź" +
                         " swój kod i spróbuj ponownie później");
-                model.addObject("info1","Twój unikalny kod wysłaliśmy na podany przy rezerwacji email.");
                 model.addObject("pageTypeInfo","potwierdzić");
                 model.addObject("info2","Potwierdzenie");
             }
@@ -238,7 +233,6 @@ public class ClientService {
     public ModelAndView myReservationGet() {
         ModelAndView model = new ModelAndView("client/confirmation");
         model.addObject("confirmationCode", new ConfirmationCode());
-        model.addObject("info1","Twój unikalny kod wysłaliśmy na podany przy rezerwacji email.");
         model.addObject("pageTypeInfo","edytować");
         model.addObject("info2","Edycja rezerwacji");
         return model;
@@ -250,7 +244,6 @@ public class ClientService {
         confirmationCodeValidator.validate(confirmationCode, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            model.addObject("info1","Twój unikalny kod wysłaliśmy na podany przy rezerwacji email.");
             model.addObject("pageTypeInfo","edytować");
             model.addObject("info2","Edycja rezerwacji");
             return model;
@@ -267,7 +260,6 @@ public class ClientService {
             model2.addObject("confirmationCode",reservation.getConfirmationCode());
             return model2;
         } else {
-            model.addObject("info1","Twój unikalny kod wysłaliśmy na podany przy rezerwacji email.");
             model.addObject("pageTypeInfo","edytować");
             model.addObject("info2","Edycja rezerwacji");
             model.addObject("confirmationFailed", "Nie odnaleziono rezerwacji. Sprawdź" +

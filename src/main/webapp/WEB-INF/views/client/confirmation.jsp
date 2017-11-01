@@ -79,8 +79,8 @@
             </ul>
             <!-- login button -->
             <%
-                if (session.getAttribute("loggedUser")=="anonymousUser"){
-            %>
+                if (session.getAttribute("loggedUser")=="anonymousUser" || session.getAttribute("loggedUser")==null){
+                    %>
             <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
                                                            href="/login"><span
                     class="mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>
@@ -147,7 +147,9 @@
                 <h3 class="mbr-section-subtitle align-center pb-5 mbr-light mbr-fonts-style display-5"><strong>
                     Tu możesz ${pageTypeInfo} swoją rezerwację, wystarczy podać unikalny kod rezerwacji.
                 </strong></h3>
-                <p class="mbr-section-subtitle align-center pb-5 mbr-light mbr-fonts-style display-5 small">${info1}</p>
+                <p class="mbr-section-subtitle align-center pb-5 mbr-light mbr-fonts-style display-5 small">
+                    Sprawdź swój email, wklej otrzymany od nas kod potwierdzenia i zakończ rezerwację.
+                </p>
             </div>
         </div>
 
@@ -159,8 +161,7 @@
                 <form:form class="form-group" method="POST" modelAttribute="confirmationCode">
                     <spring:bind path="code">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input type="text" path="code" class="form-control" placeholder="Kod"
-                                        autofocus="true"></form:input>
+                            <form:input type="text" path="code" class="form-control" placeholder="Kod"></form:input>
                             <form:errors path="code"></form:errors>
                         </div>
                     </spring:bind>

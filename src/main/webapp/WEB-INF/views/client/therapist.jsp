@@ -30,7 +30,7 @@
 
 </head>
 <body>
-<section class="menu cid-qz9d6i0EaI" once="menu" id="menu1-s" data-rv-view="47">
+<section class="menu cid-qz9d6i0EaI" once="menu" id="menu1-s" data-rv-view="84">
 
 
     <nav class="navbar navbar-expand beta-menu navbar-dropdown align-items-center navbar-fixed-top navbar-toggleable-sm">
@@ -80,8 +80,8 @@
             </ul>
             <!-- login button -->
             <%
-                if (session.getAttribute("loggedUser")=="anonymousUser"){
-            %>
+                if (session.getAttribute("loggedUser")=="anonymousUser" || session.getAttribute("loggedUser")==null){
+                    %>
             <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
                                                            href="/login"><span
                     class="mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>
@@ -134,11 +134,14 @@
         </div>
     </div>
 </div>
-<section class="engine"><a href="https://mobirise.co/d">free web software</a>
-</section><section class="countdown2 cid-qzc7TOs7aU" id="countdown2-1b" data-rv-view="103">
+</section><section class="countdown2 cid-qzc7TOs7aU" id="countdown2-1b" data-rv-view="863">
 
 
     <div class="container">
+        <br>
+        <br>
+        <br>
+        <br>
         <br>
         <br>
 
@@ -167,14 +170,14 @@
             <div class="minutesCountdown" title="Minut/y"></div>
             <div class="secondsCountdown" title="Sekund/y"></div>
             <div class="event-date align-left mbr-white">
-                <h5 class="mbr-fonts-style display-7">${events[0].startDateTime.year}/${events[0].startDateTime.monthValue}/${events[0].startDateTime.dayOfMonth}</h5>
+                <h5 class="mbr-fonts-style display-7" style="color: black;">${events[0].startDateTime.year}/${events[0].startDateTime.monthValue}/${events[0].startDateTime.dayOfMonth} godz. ${events[0].startDateTime.toLocalTime()}</h5>
             </div>
         </div>
     </div>
     </c:if>
 </section>
 
-<section class="section-table cid-qz9pczK0Ee mbr-parallax-background" id="table1-t" data-rv-view="241">
+<section class="section-table cid-qz9pczK0Ee mbr-parallax-background" id="table1-t" data-rv-view="89">
 
 
     <div class="container">
@@ -268,7 +271,7 @@
 
 <!-- footer -->
 
-<section class="cid-qz9d6nOi74" id="footer1-g" data-rv-view="686">
+<section class="cid-qz9pXLysRz" id="footer1-x" data-rv-view="146">
 
 
     <div class="container">

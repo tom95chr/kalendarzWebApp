@@ -23,73 +23,103 @@
 
     <link href="${contextPath}/resources/css/bootstrap.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
-    <link rel="stylesheet" href="resources/css/sutiStyle.css">
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-<!--    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>-->
-    <![endif]-->
 </head>
 <body>
 
 <div class="container">
-    <h1 style="color: red">${editError}</h1>
-    <c:if test="${collidedEvent != null}">
-        <h2 style="color: red">Collision found !</h2>
-        <h2 style="color: red">This room is occupied by ${collidedEvent.therapist.firstName} ${collidedEvent.therapist.lastName}
-            from: ${collidedEvent.startDateTime.toLocalDate()} godz. ${collidedEvent.startDateTime.toLocalTime()}
-            to: ${collidedEvent.endDateTime.toLocalDate()} ${collidedEvent.endDateTime.toLocalTime()}</h2>
-    </c:if>
-    <form:form method="POST" modelAttribute="eventDTO" id="formularz">
-        <h2 class="form-signin-heading">Edit and save</h2>
+    <div class="row">
 
-        <%--       <spring:bind path="name">
-                   <div class="form-group ${status.error ? 'has-error' : ''}">
-                       <form:input type="text" path="name" class="form-control" placeholder="Event name"></form:input>
-                       <form:errors path="name"></form:errors>
-                   </div>
-               </spring:bind>--%>
+        <div class="col-sm-5">
+            <a class="btn btn-primary" style="margin-top: 2%" href="/therapist-events">Powrót</a>
+            <h2>Edytuj wybrany termin spotkania</h2>
+            <h1 style="color: red">${editError}
+            <c:if test="${collidedEvent != null}">
+                NIE UTWORZONO SPOTKANIA !<br> Wybrana sala jest zajęta przez: <br>
+                ${collidedEvent.therapist.specialization} ${collidedEvent.therapist.firstName} ${collidedEvent.therapist.lastName}
+                <br>dnia ${collidedEvent.startDateTime.dayOfMonth}-${collidedEvent.startDateTime.monthValue}-${collidedEvent.startDateTime.year}
+                od godz: ${collidedEvent.startDateTime.toLocalTime()}
+                do godz. ${collidedEvent.endDateTime.toLocalTime()}
+                <c:if test="${!collidedEvent.startDateTime.toLocalDate().isEqual(collidedEvent.endDateTime.toLocalDate())}">
+                    dnia: ${collidedEvent.endDateTime.dayOfMonth}-${collidedEvent.endDateTime.monthValue}-${collidedEvent.endDateTime.year}
+                </c:if>
+            </c:if>
+            </h1>
+            <form:form method="POST" modelAttribute="eventDTO" class="form-signin">
+                <div class="form-group">
+                    <spring:bind path="eventType">
+                        <label style="font-weight: bold" for="typ">Wybierz typ spotkania</label>
+                        <form:select class="form-control" path="eventType" id="typ">
+                            <c:forEach items="${types}" var="type">
+                                <form:option value="${type}" label="${type}"></form:option>
+                            </c:forEach>
+                        </form:select>
+                    </spring:bind>
+                </div>
+                <spring:bind path="startDate">
+                    <label style="font-weight: bold" for="typ">
+                        Data przed zmianą: ${event.startDateTime.dayOfMonth}-${event.startDateTime.monthValue}-${event.startDateTime.year}
+                    </label>
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="date" path="startDate" class="form-control"
+                                    placeholder="Data"></form:input>
+                        <form:errors path="startDate"></form:errors>
+                    </div>
+                </spring:bind>
 
-        <br>Event type:
-        <spring:bind path="eventType">
-            <form:select path="eventType">
-                <c:forEach items="${types}" var="type"> <%--varStatus="status"--%>>
-                    <tr>
-                        <form:option value="${type}" label="${type}"/>
-                    </tr>
-                </c:forEach>
-            </form:select>
-        </spring:bind>
-        <br>
+                <spring:bind path="startTime">
+                    <label style="font-weight: bold" for="typ">
+                        Godzina przed zmianą: ${event.startDateTime.toLocalTime()}
+                    </label>
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="time" path="startTime" class="form-control"
+                                    placeholder="Godzina"></form:input>
+                        <form:errors path="startTime"></form:errors>
+                    </div>
+                </spring:bind>
 
-        <spring:bind path="startDateTime">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="date" path="startDateTime" class="form-control"
-                            placeholder="Start date/time: ${event.startDateTime.toLocalDate()} ${event.startDateTime.toLocalTime()}"></form:input>
-                    <%--autofocus="true"></form:input>--%>
-                <form:errors path="startDateTime"></form:errors>
+                <spring:bind path="duration">
+                    <label style="font-weight: bold" for="typ">
+                        Czas trwania przed zmianą: ${event.calculateDuration()}
+                    </label>
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="number" path="duration" min="5" max="180"
+                                    class="form-control "
+                                    placeholder="Czas trwania (minuty)"></form:input>
+                        <form:errors path="duration"></form:errors>
+                    </div>
+                </spring:bind>
+
+                <spring:bind path="room">
+                    <label style="font-weight: bold" for="typ">
+                        Sala przed zmianą: ${event.room}
+                    </label>
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="room" class="form-control"
+                                    placeholder="Sala"></form:input>
+                        <form:errors path="room"></form:errors>
+                    </div>
+                </spring:bind>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Potwierdź</button>
+            </form:form>
+
+        </div>
+        <div class="col-sm-6 col-6 col-lg-6" style="min-width: 200px">
+            <div class="container">
+                <div>
+                    <h4 class="mbr-section-title align-center pb-3 mbr-fonts-style display-5">
+                        <br>
+                        Kalendarz wizyt wszystkich terapeutów
+                    </h4>
+                </div>
+                <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showPrint=0&amp;showTabs=0&amp;
+showTz=0&amp;mode=WEEK&amp;height=600&amp;wkst=2&amp;hl=pl&amp;bgcolor=%23c0c0c0&amp;
+<c:forEach items="${therapists}" var="therapist">
+src=${therapist.googleCalendarId}&amp;color=${therapist.colour}&amp;
+</c:forEach>
+ctz=Europe%2FWarsaw" style="border-width:0" width="500" height="600" frameborder="0" scrolling="no"></iframe>
             </div>
-        </spring:bind>
-
-        <spring:bind path="endDateTime">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="date" path="endDateTime" class="form-control"
-                            placeholder="End date/time: ${event.endDateTime.toLocalDate()} ${event.endDateTime.toLocalTime()}"></form:input>
-                <form:errors path="endDateTime"></form:errors>
-            </div>
-        </spring:bind>
-
-        <spring:bind path="room">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="room" class="form-control" placeholder="Room: ${event.room}"></form:input>
-                <form:errors path="room"></form:errors>
-            </div>
-        </spring:bind>
-
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-    </form:form>
-
-
+        </div>
+    </div>
 </div>
 
 </body>

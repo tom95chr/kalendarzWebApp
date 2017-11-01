@@ -82,7 +82,7 @@ public class EmailService {
                     subject = "Modyfikacja spotkania";
                     text1 = "Witaj.\n\nSpotkanie z "+reservation.getEvent().getTherapist().getSpecialization()
                             + "<br>" +reservation.getEvent().getTherapist().getFirstName() + " " +
-                            reservation.getEvent().getTherapist().getLastName()+"zostało edytowane.";
+                            reservation.getEvent().getTherapist().getLastName()+" zostało edytowane.";
                     text2 = "Detale spotkania (po edycji):";
                     text3 = "Data: "+reservation.getEvent().getStartDateTime().toLocalDate()+"<br>Godzina "+
                             reservation.getEvent().getStartDateTime().toLocalTime()+"<br>Sala nr. "+

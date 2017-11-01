@@ -235,10 +235,10 @@ public class GoogleCalendar {
             event = setAvailability(event,availability);
 
             if (availability.equals("busy")){
-                event.setSummary("busy");
+                event.setSummary("zajety");
             }
             if (availability.equals("free")){
-                event.setSummary("free");
+                event.setSummary("wolny");
             }
             // Update the event
             Event updatedEvent = service.events().update(calendarId, event.getId(), event).execute();

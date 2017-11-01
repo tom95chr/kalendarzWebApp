@@ -80,8 +80,7 @@
             </ul>
             <!-- login button -->
             <%
-                if (session.getAttribute("loggedUser")=="anonymousUser"){
-            %>
+                if (session.getAttribute("loggedUser")=="anonymousUser" || session.getAttribute("loggedUser")==null){            %>
             <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
                                                            href="/login"><span
                     class="mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>
