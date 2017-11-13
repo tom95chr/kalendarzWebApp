@@ -27,7 +27,6 @@
     <link rel="stylesheet" href="resources/assets/mobirise/css/mbr-additional.css" type="text/css">
 
 
-
 </head>
 <body>
 <section class="menu cid-qz9d6i0EaI" once="menu" id="menu1-e" data-rv-view="684">
@@ -80,8 +79,8 @@
             </ul>
             <!-- login button -->
             <%
-                if (session.getAttribute("loggedUser")=="anonymousUser" || session.getAttribute("loggedUser")==null){
-                    %>
+                if (session.getAttribute("loggedUser") == "anonymousUser" || session.getAttribute("loggedUser") == null) {
+            %>
             <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
                                                            href="/login"><span
                     class="mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>
@@ -89,9 +88,10 @@
                 Login
             </a></div>
             <%
-            } else{
+            } else {
             %>
-            <div class="navbar-buttons mbr-section-btn"><a class=" btn btn-primary display-7" data-toggle="modal" data-target="#loginModal"><span
+            <div class="navbar-buttons mbr-section-btn"><a class=" btn btn-primary display-7" data-toggle="modal"
+                                                           data-target="#loginModal"><span
                     class="mbri-lock mbr-iconfont mbr-iconfont-btn"></span>
                 <%= session.getAttribute("loggedUser")%>
                 <%
@@ -117,7 +117,8 @@
 
             <!-- Modal body -->
             <div class="modal-body align-center">
-                <h5 class="modal-title" style="color: black; font-weight: bold"><%= session.getAttribute("loggedUser")%></h5>
+                <h5 class="modal-title" style="color: black; font-weight: bold"><%= session.getAttribute("loggedUser")%>
+                </h5>
                 <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
                                                                href="/logout"><span
                         class="mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>
@@ -134,121 +135,123 @@
         </div>
     </div>
 </div>
+<c:if test="${freeSlots>0}">
+    <section class="tabs2 cid-qzgWo7cLCL" id="tabs2-1e" data-rv-view="135">
 
-<section class="tabs2 cid-qzgWo7cLCL" id="tabs2-1e" data-rv-view="135">
 
-
-    <div class="container col-12">
-        <h2 class="mbr-section-title align-center pb-5 mbr-fonts-style display-2">
-            Zapisz się już teraz
-        </h2>
-        <div class="media-container-row">
-            <div class="card px-3 align-center col-sm-4">
-                <div class="panel-item p-3">
-                    <div class="card-text">
-                        <h4 style="color: #0f77f6">${therapist.specialization}</h4>
-                    </div>
-                    <div class="card-text">
-                        <h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
-                            <br>${therapist.firstName} ${therapist.lastName}
-                        </h4>
-                        <p class="mbr-content-text mbr-fonts-style display-7">
-                            email: ${therapist.email}<br>
-                            tel. ${therapist.telephone}
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="card px-3 align-center col-sm-4">
-                <div class="panel-item p-3">
-                    <div class="card-text">
-                        <h4 style="color: #0f77f6">Informacje</h4>
-                    </div>
-                    <div class="card-text">
-                        <%--<h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
-                        </h4>--%>
-                        <p class="mbr-content-text mbr-bold mbr-fonts-style display-7">
-                            Typ spotkania: ${event.eventType.eventTypeId}<br>
-                            Data: ${event.startDateTime.toLocalDate()}<br>
-                            Godzina: ${event.startDateTime.toLocalTime()}<br>
-                            Sala nr: ${event.room}<br>
-                        </p>
-
+        <div class="container col-12">
+            <h2 class="mbr-section-title align-center pb-5 mbr-fonts-style display-2">
+                Zapisz się już teraz
+            </h2>
+            <div class="media-container-row">
+                <div class="card px-3 align-center col-sm-4">
+                    <div class="panel-item p-3">
+                        <div class="card-text">
+                            <h4 style="color: #0f77f6">${therapist.specialization}</h4>
+                        </div>
+                        <div class="card-text">
+                            <h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
+                                <br>${therapist.firstName} ${therapist.lastName}
+                            </h4>
+                            <p class="mbr-content-text mbr-fonts-style display-7">
+                                email: ${therapist.email}<br>
+                                tel. ${therapist.telephone}
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card px-3 align-center col-sm-4">
-                <div class="panel-item p-3">
-                    <div class="card-text">
-                        <h4 style="color: #0f77f6">Wolne miejsca</h4>
-                    </div>
-                    <div class="card-text">
-                        <h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
-                            <br>Liczba wolnych miejsc: ${freeSlots}
-                        </h4>
-                        <p class="mbr-content-text mbr-fonts-style display-7">
-                            Maksymalna liczba uczestników: ${event.eventType.seats} <br>
+                <div class="card px-3 align-center col-sm-4">
+                    <div class="panel-item p-3">
+                        <div class="card-text">
+                            <h4 style="color: #0f77f6">Informacje</h4>
+                        </div>
+                        <div class="card-text">
+                                <%--<h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
+                                </h4>--%>
+                            <p class="mbr-content-text mbr-bold mbr-fonts-style display-7">
+                                Typ spotkania: ${event.eventType.eventTypeId}<br>
+                                Data: ${event.startDateTime.toLocalDate()}<br>
+                                Godzina: ${event.startDateTime.toLocalTime()}<br>
+                                Sala nr: ${event.room}<br>
+                            </p>
 
-                        </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card px-3 align-center col-sm-4">
+                    <div class="panel-item p-3">
+                        <div class="card-text">
+                            <h4 style="color: #0f77f6">Wolne miejsca</h4>
+                        </div>
+                        <div class="card-text">
+                            <h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
+                                <br>Liczba wolnych miejsc: ${freeSlots}
+                            </h4>
+                            <p class="mbr-content-text mbr-fonts-style display-7">
+                                Maksymalna liczba uczestników: ${event.eventType.seats} <br>
+
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section class="mbr-section form1 cid-qzgWxdEqVc" id="form1-1f" data-rv-view="138">
+    <section class="mbr-section form1 cid-qzgWxdEqVc" id="form1-1f" data-rv-view="138">
 
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="title col-12 col-lg-8">
-                <h2 class="mbr-section-title align-center pb-3 mbr-fonts-style display-2">
-                    DANE KONTAKTOWE
-                </h2>
-                <h3 class="mbr-section-subtitle align-center mbr-light pb-3 mbr-fonts-style display-5">
-                    Aby się zapisać na wybrany termin wystarczy, że podasz swój adres email. Upewnij się, podany email
-                    jest prawidłowy. Zostanie na niego wysłany kod potwierdzenia. Opcjonalnie możesz też dodać
-                    numer telefonu co ułatwi nam kontakt w razie ewentualnych zmian.
-                </h3>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="title col-12 col-lg-8">
+                    <h2 class="mbr-section-title align-center pb-3 mbr-fonts-style display-2">
+                        DANE KONTAKTOWE
+                    </h2>
+                    <h3 class="mbr-section-subtitle align-center mbr-light pb-3 mbr-fonts-style display-5">
+                        Aby się zapisać na wybrany termin wystarczy, że podasz swój adres email. Upewnij się, podany
+                        email
+                        jest prawidłowy. Zostanie na niego wysłany kod potwierdzenia. Opcjonalnie możesz też dodać
+                        numer telefonu co ułatwi nam kontakt w razie ewentualnych zmian.
+                    </h3>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="media-container-column col-lg-5" >
-                <form:form method="POST" modelAttribute="client" class="form-signin">
-                    <spring:bind path="email">
-                        <div class="form-group${status.error ? 'has-error' : ''}">
-                            <form:input type="text" path="email" class="form-control" placeholder="Adres email"
-                                        autofocus="true"></form:input>
-                            <form:errors path="email"></form:errors>
-                        </div>
-                    </spring:bind>
-                    <spring:bind path="emailConfirm">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input type="email" path="emailConfirm" class="form-control"
-                                        placeholder="Podaj email jeszcze raz"></form:input>
-                            <form:errors path="emailConfirm"></form:errors>
-                        </div>
-                    </spring:bind>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="media-container-column col-lg-5">
+                    <form:form method="POST" modelAttribute="client" class="form-signin">
+                        <spring:bind path="email">
+                            <div class="form-group${status.error ? 'has-error' : ''}">
+                                <form:input type="text" path="email" class="form-control"
+                                            placeholder="Adres email"></form:input>
+                                <form:errors path="email"></form:errors>
+                            </div>
+                        </spring:bind>
+                        <spring:bind path="emailConfirm">
+                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                                <form:input type="email" path="emailConfirm" class="form-control"
+                                            placeholder="Podaj email jeszcze raz"></form:input>
+                                <form:errors path="emailConfirm"></form:errors>
+                            </div>
+                        </spring:bind>
 
-                    <spring:bind path="telephone">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input type="text" path="telephone" class="form-control" placeholder="Telefon (opcjonalnie)"></form:input>
-                            <form:errors path="telephone"></form:errors>
-                        </div>
-                    </spring:bind>
+                        <spring:bind path="telephone">
+                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                                <form:input type="text" path="telephone" class="form-control"
+                                            placeholder="Telefon (opcjonalnie)"></form:input>
+                                <form:errors path="telephone"></form:errors>
+                            </div>
+                        </spring:bind>
 
-                    <span class="input-group-btn">
+                        <span class="input-group-btn">
                             <button href="" type="submit" class="btn btn-primary btn-form display-4">Wyślij</button>
                         </span>
-                </form:form>
+                    </form:form>
+                </div>
             </div>
         </div>
-    </div>
-</section>
-
+    </section>
+</c:if>
 <!-- footer -->
 
 <section class="cid-qz9d6nOi74" id="footer1-g" data-rv-view="686">
@@ -323,10 +326,10 @@
                     <p class="mbr-text mbr-fonts-style display-7">
                         © Copyright 2017</p>
                 </div>
-/
-                </div>
+
             </div>
         </div>
+    </div>
     </div>
 </section>
 

@@ -160,8 +160,11 @@ public class ClientService {
             reservationDAO.save(rr);
 
         }
+        System.out.println(event.nrOfParticipants()+" elo "+ eventTypeDAO.findByEventTypeId(
+                event.getEventType().getEventTypeId()).getSeats());
         //if number of participants is greater than seats then set event free to busy(false)
-        if (event.nrOfParticipants() >= eventTypeDAO.findByEventTypeId(
+        //plus current participant
+        if (event.nrOfParticipants()+1 >= eventTypeDAO.findByEventTypeId(
                 event.getEventType().getEventTypeId()).getSeats()) {
             event.setFree(Boolean.FALSE);
             try {
