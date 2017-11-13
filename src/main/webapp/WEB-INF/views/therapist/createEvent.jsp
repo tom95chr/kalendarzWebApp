@@ -191,7 +191,7 @@
                                 </div>
                                 <spring:bind path="startDate">
                                     <label style="font-weight: bold" for="typ">
-                                        Data: ( przykład 30-11-2017 )
+                                        Data: ( przykład 2017-11-30 )
                                     </label>
                                     <div class="form-group" ${status.error ? 'has-error' : ''}">
                                         <form:input type="date" path="startDate" class="form-control"

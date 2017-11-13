@@ -1,8 +1,8 @@
 package pl.pwsztar.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 import pl.pwsztar.event.eventType.EventType;
@@ -11,9 +11,9 @@ import pl.pwsztar.event.eventType.EventTypeValidator;
 import pl.pwsztar.therapists.TherapistDAO;
 
 import javax.servlet.http.HttpSession;
-import java.sql.SQLException;
 
 @Service
+@Transactional
 public class AdminService {
 
     @Autowired

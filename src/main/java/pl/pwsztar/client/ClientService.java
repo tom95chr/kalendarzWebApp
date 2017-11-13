@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 import pl.pwsztar.client.confirmation.ConfirmationCode;
@@ -26,6 +27,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Service
+@Transactional
 public class ClientService {
 
     @Autowired
