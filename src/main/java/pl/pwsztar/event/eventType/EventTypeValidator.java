@@ -25,7 +25,7 @@ public class EventTypeValidator implements Validator {
         EventType eventType = (EventType) o;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "eventTypeId", "NotEmpty");
-
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "seats", "NotEmpty");
         if (eventTypeDAO.findByEventTypeId(eventType.getEventTypeId()) != null) {
             errors.rejectValue("eventTypeId", "Duplicate.eventType.Id");
             System.out.println(eventType.getSeats());

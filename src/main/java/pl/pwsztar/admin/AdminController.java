@@ -26,10 +26,10 @@ public class AdminController {
     @Autowired
     LoginService loginService;
 
-    @RequestMapping("/admin/therapists")
+/*    @RequestMapping("/admin/therapists")
     public ModelAndView therapistsListAdmin() {
         return adminService.therapistList();
-    }
+    }*/
 
     @RequestMapping(value = "/admin/therapist-{therapistId}/",method = RequestMethod.GET)
     public ModelAndView therapistData(@PathVariable("therapistId") String therapistId) {
@@ -37,17 +37,17 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public String adminPage(ModelMap model) {
+    public ModelAndView adminPage(ModelMap model) {
         model.addAttribute("user", loginService.getPrincipal());
-        return "admin/admin";
+        return adminService.therapistList();
     }
 
-    @RequestMapping(value = "/admin/event-types", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin-event-types", method = RequestMethod.GET)
     public ModelAndView therapistSettingsGet(HttpSession session) {
         return  adminService.eventTypeSettingsGet(session);
     }
 
-    @RequestMapping(value = "/admin/event-types", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin-event-types", method = RequestMethod.POST)
     public ModelAndView therapistSettings(@ModelAttribute("eventType")EventType eventType, BindingResult bindingResult){
         return adminService.eventTypeSettingsPost(eventType,bindingResult);
     }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
+import pl.pwsztar.event.EventDAO;
 import pl.pwsztar.event.eventType.EventType;
 import pl.pwsztar.event.eventType.EventTypeDAO;
 import pl.pwsztar.event.eventType.EventTypeValidator;
@@ -24,6 +25,9 @@ public class AdminService {
 
     @Autowired
     EventTypeDAO eventTypeDAO;
+
+    @Autowired
+    EventDAO eventDAO;
 
     public ModelAndView therapistList(){
         ModelAndView model = new ModelAndView("admin/therapists");
@@ -56,14 +60,17 @@ public class AdminService {
 
     public ModelAndView dropEventType(String eventTypeId, HttpSession session){
 
-        ModelAndView model = new ModelAndView("redirect:/admin/event-types");
+        ModelAndView model = new ModelAndView("redirect:/admin-event-types");
+        Integer eventsNr = eventDAO.findByEventType_EventTypeId(eventTypeId).size();
+        if(eventsNr>0){
+            session.setAttribute("information","Nie można usunąć typu: '"+eventTypeId +
+                    "', ponieważ odnaleziono "+eventsNr+" istniejących wydarzeń tego typu.");
+            return model;
+        }
         try {
             eventTypeDAO.delete(eventTypeId);
-        }catch (RuntimeException e) {
-            session.setAttribute("information","Cannot drop type: '"+eventTypeId +
-                    "', because some events of this type found");
         }catch (Exception e){
-            session.setAttribute("information","Cannot drop this event type. Unexpected error");
+            session.setAttribute("information","Nieoczekiwany błąd. Spróbuj pnownie później");
             e.printStackTrace();
         }
         finally {

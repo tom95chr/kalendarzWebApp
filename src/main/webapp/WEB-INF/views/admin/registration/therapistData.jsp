@@ -70,8 +70,9 @@
 
         <spring:bind path="description">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="description" class="form-control" placeholder="Description"></form:input>
-                <form:errors path="description"></form:errors>
+                <form:input type="text" path="description" class="form-control" maxlength="250"
+                            placeholder="Description"></form:input>
+                <form:errors path="description" ></form:errors>
             </div>
         </spring:bind>
 

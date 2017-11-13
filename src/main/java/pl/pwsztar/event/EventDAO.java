@@ -12,8 +12,8 @@ public interface EventDAO extends CrudRepository<Event, String> {
     List<Event> findByTherapist_TherapistIdOrderByStartDateTime(String therapistId);
     List<Event> findByTherapist_EmailOrderByStartDateTime(String therapistId);
     List<Event> findByTherapist_Email(String email);
+    List<Event> findByEventType_EventTypeId(String eventTypeId);
 
     @Transactional
     void deleteByEventId(String eventId);
-
 }
