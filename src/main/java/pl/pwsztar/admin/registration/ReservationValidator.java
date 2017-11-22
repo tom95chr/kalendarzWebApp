@@ -9,22 +9,23 @@ import pl.pwsztar.therapists.Therapist;
 import pl.pwsztar.therapists.TherapistDAO;
 
 @Component
-public class TherapistValidator implements Validator {
+public class ReservationValidator implements Validator {
 
     @Autowired
     TherapistDAO therapistDAO;
 
     public boolean supports(Class<?> aClass) {
-        return Therapist.class.equals(aClass);
+        return RegistrationDTO.class.equals(aClass);
     }
 
     public void validate(Object o, Errors errors) {
-        Therapist t = (Therapist) o;
+        RegistrationDTO t = (RegistrationDTO) o;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "NotEmpty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "NotEmpty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "specialization", "NotEmpty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
         if (t.getEmail().length() < 6 || t.getEmail().length() > 32) {
             errors.rejectValue("email", "Size.therapist.email");
         }
@@ -32,8 +33,15 @@ public class TherapistValidator implements Validator {
             errors.rejectValue("email", "Duplicate.therapist.email");
         }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "telephone", "NotEmpty");
-        if (t.getTelephone().length() < 9) {
+        /*if (t.getTelephone().length() < 9) {
             errors.rejectValue("telephone", "Size.therapist.telephone");
+        }*/
+        if (t.getPassword().length() < 8 || t.getPassword().length() > 32) {
+            errors.rejectValue("password", "Size.userForm.password");
+        }
+
+        if (!t.getPasswordConfirm().equals(t.getPassword())) {
+            errors.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm");
         }
     }
 }

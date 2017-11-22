@@ -1,10 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<!DOCTYPE html>
 <html>
 <head>
     <!-- Site made with Mobirise Website Builder v4.3.5, https://mobirise.com -->
@@ -13,19 +12,17 @@
     <meta name="generator" content="Mobirise v4.3.5, mobirise.com">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="resources/assets/images/logo-418x449.png" type="image/x-icon">
-    <meta name="description" content="Web Page Maker Description">
-    <title>Typy spotkań</title>
+    <meta name="description" content="Web Site Maker Description">
+    <title>Zmień hasło</title>
     <link rel="stylesheet" href="resources/assets/web/assets/mobirise-icons/mobirise-icons.css">
     <link rel="stylesheet" href="resources/assets/tether/tether.min.css">
     <link rel="stylesheet" href="resources/assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="resources/assets/bootstrap/css/bootstrap-grid.min.css">
     <link rel="stylesheet" href="resources/assets/bootstrap/css/bootstrap-reboot.min.css">
     <link rel="stylesheet" href="resources/assets/socicon/css/styles.css">
-    <link rel="stylesheet" href="resources/assets/data-tables/data-tables.bootstrap4.min.css">
     <link rel="stylesheet" href="resources/assets/dropdown/css/style.css">
     <link rel="stylesheet" href="resources/assets/theme/css/style.css">
     <link rel="stylesheet" href="resources/assets/mobirise/css/mbr-additional.css" type="text/css">
-
 
 
 </head>
@@ -132,123 +129,69 @@
         </div>
     </div>
 </div>
+<section class="mbr-section form1 cid-qBshLy6RnJ" id="form1-1n" data-rv-view="281">
 
-<section class="section-table cid-qBsldcoDYf mbr-parallax-background" id="table1-1w" data-rv-view="354">
-
+    <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-2">
+        ${information}
+    </h2>
+<%--
     <div class="container">
-        <div class="row">
-
-            <div class="card col-sm-6">
-                <div class="container container-table">
-                    <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-2">
-                        Zarządzaj typami spotkań
-                    </h2>
-                    <c:if test="${info!=null}">
-                        <h3 class="mbr-section-subtitle mbr-fonts-style align-center pb-5 mbr-light display-5"
-                            style="color: red; font-weight: bold">
-                                ${info}
-                        </h3>
-                    </c:if>
-                    <div class="table-wrapper">
-                        <div class="container">
-                            <div class="row search">
-                                <div class="col-sm-6"></div>
-                                <div class="col-sm-6">
-                                    <div class="dataTables_filter">
-                                        <label class="searchInfo mbr-fonts-style display-7">Szukaj:</label>
-                                        <input class="form-control input-sm" disabled="">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="container scroll">
-                            <table class="table isSearch" cellspacing="0">
-                                <thead>
-                                <tr class="table-heads ">
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
-                                        Typ
-                                    </th>
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
-                                        Miejsca
-                                    </th>
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
-                                        Usuń
-                                    </th>
-                                </tr>
-                                </thead>
-
-                                <tbody>
-
-                                <c:forEach items="${eventTypes}" var="eventType" varStatus="status">
-                                    <tr>
-                                        <td class="body-item mbr-fonts-style display-7" style="font-size: small">${eventType.eventTypeId}</td>
-                                        <td class="body-item mbr-fonts-style display-7" style="font-size: small">${eventType.seats}</td>
-                                        <td class="body-item align-center" style="background-color:#ffe6e1 ">
-                                            <a href="<c:url value="/admin/event-types-${eventType.eventTypeId}/drop" />">usuń</a>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="container table-info-container">
-                            <div class="row info">
-                                <div class="col-sm-4">
-                                    <div class="dataTables_info mbr-fonts-style display-7">
-                                        <span class="infoBefore"> </span>
-                                        <span class="inactive infoRows"></span>
-                                        <span class="infoAfter">typ/y</span>
-                                        <span class="infoFilteredBefore">(przeszukano</span>
-                                        <span class="inactive infoRows"></span>
-                                        <span class="infoFilteredAfter"> typów)</span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card col-sm-6 col-md-6">
-                <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-2">
-                    Utwórz nowy typ
+        <div class="row justify-content-center">
+            <div class="title col-12 col-lg-8">
+                <h2 class="mbr-section-title align-center pb-3 mbr-fonts-style display-2">
+                    Utwórz nowego użytkownika
                 </h2>
-                <h3 class="mbr-section-subtitle mbr-fonts-style align-center pb-5 mbr-light display-5"></h3>
-                <form:form method="POST" modelAttribute="eventType" class="form-signin">
-                    <spring:bind path="eventTypeId">
-                        <label style="font-weight: bold" for="eType">
-                            Nazwa typu
-                        </label>
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input type="text" path="eventTypeId" id="eType" class="form-control"
-                                        placeholder="Nazwa"></form:input>
-                            <form:errors path="eventTypeId"></form:errors>
-                        </div>
-                    </spring:bind>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="media-container-column col-lg-8" data-form-type="formoid">
+                <div data-form-alert="" hidden="">
+                    Dziękujemy za wypełnienie formularza.
+                </div>
 
-                    <spring:bind path="seats">
-                        <label style="font-weight: bold" for="seatsId">
-                            Liczba miejsc
-                        </label>
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input type="number" path="seats" id="seatsId" min="1"
-                                        class="form-control "
-                                        placeholder="Miejsca"></form:input>
-                            <form:errors path="seats"></form:errors>
-                        </div>
-                    </spring:bind>
+                <form:form method="POST" modelAttribute="registrationDTO" class="form-signin">
+                    <div class="row row-sm-offset">
 
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Utwórz</button>
+                        <div class="col-md-6 multi-horizontal" data-for="password">
+                            <spring:bind path="password">
+                                <div class="form-group ${status.error ? 'has-error' : ''}">
+                                    <label class="form-control-label mbr-fonts-style display-7" for="password-form1-1n">Hasło</label>
+                                    <form:input type="password" path="password" class="form-control" placeholder="Hasło"
+                                                id="password-form1-1n" maxlength="50"></form:input>
+                                    <form:errors path="password"></form:errors>
+                                </div>
+                            </spring:bind>
+                        </div>
+
+                        <div class="col-md-6 multi-horizontal" data-for="passwordConfirm">
+                            <spring:bind path="passwordConfirm">
+                                <div class="form-group ${status.error ? 'has-error' : ''}">
+                                    <label class="form-control-label mbr-fonts-style display-7" for="password-form1-1n">Powtórz
+                                        hasło</label>
+                                    <form:input type="password" path="passwordConfirm" class="form-control"
+                                                placeholder="Powtórz hasło"
+                                                id="passwordConfirm-form1-1n" maxlength="50"></form:input>
+                                    <form:errors path="passwordConfirm"></form:errors>
+                                </div>
+                            </spring:bind>
+                        </div>
+
+                    <span class="input-group-btn">
+                            <button type="submit" class="btn btn-primary btn-form display-4">UTWÓRZ</button>
+                        </span>
                 </form:form>
             </div>
         </div>
     </div>
+
+    --%>
 </section>
 
 <!-- footer -->
 
-<section class="cid-qz9pXLysRz" id="footer1-x" data-rv-view="146">
+<section class="cid-qz9d6nOi74" id="footer1-g" data-rv-view="686">
 
 
     <div class="container">
@@ -328,20 +271,19 @@
     </div>
 </section>
 
-
 <script src="resources/assets/web/assets/jquery/jquery.min.js"></script>
 <script src="resources/assets/popper/popper.min.js"></script>
 <script src="resources/assets/tether/tether.min.js"></script>
 <script src="resources/assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="resources/assets/smooth-scroll/smooth-scroll.js"></script>
 <script src="resources/assets/touch-swipe/jquery.touch-swipe.min.js"></script>
+<script src="resources/assets/countdown/jquery.countdown.min.js"></script>
 <script src="resources/assets/data-tables/jquery.data-tables.min.js"></script>
 <script src="resources/assets/data-tables/data-tables.bootstrap4.min.js"></script>
 <script src="resources/assets/jarallax/jarallax.min.js"></script>
 <script src="resources/assets/dropdown/js/script.min.js"></script>
 <script src="resources/assets/theme/js/script.js"></script>
-<script src="resources/assets/formoid/formoid.min.js"></script>
-
 
 </body>
 </html>
+

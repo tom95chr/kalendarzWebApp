@@ -4,8 +4,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-
-<!DOCTYPE html>
 <html>
 <head>
     <!-- Site made with Mobirise Website Builder v4.3.5, https://mobirise.com -->
@@ -15,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="resources/assets/images/logo-418x449.png" type="image/x-icon">
     <meta name="description" content="Web Site Maker Description">
-    <title>Admin</title>
+    <title>Utwórz użytkownika</title>
     <link rel="stylesheet" href="resources/assets/web/assets/mobirise-icons/mobirise-icons.css">
     <link rel="stylesheet" href="resources/assets/tether/tether.min.css">
     <link rel="stylesheet" href="resources/assets/bootstrap/css/bootstrap.min.css">
@@ -60,7 +58,7 @@
                     <a class="nav-link link text-white display-4" href="/"><span
                             class="mbri-home mbr-iconfont mbr-iconfont-btn"></span>Home</a>
                 </li>
-                <li class="nav-item"><a class="nav-link link text-white display-4" href="/admin/registration"><span
+                <li class="nav-item"><a class="nav-link link text-white display-4" href="/admin-registration"><span
                         class="mbri-plus mbr-iconfont mbr-iconfont-btn"></span>
                     Utwórz użytkownika</a>
                 </li>
@@ -131,95 +129,157 @@
         </div>
     </div>
 </div>
+<section class="mbr-section form1 cid-qBshLy6RnJ" id="form1-1n" data-rv-view="281">
 
-<section class="section-table cid-qBsldcoDYf mbr-parallax-background" id="table1-1w" data-rv-view="354">
 
-    <div class="container container-table">
-        <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-2">
-            Zarządzaj kontami terapeutów
-        </h2>
-<%--        <h3 class="mbr-section-subtitle mbr-fonts-style align-center pb-5 mbr-light display-5">
-        </h3>--%>
-        <div class="table-wrapper">
-            <div class="container">
-                <div class="row search">
-                    <div class="col-md-12">
-                        <div class="dataTables_filter">
-                            <label class="searchInfo mbr-fonts-style display-7">Szukaj:</label>
-                            <input class="form-control input-sm" disabled="">
-                        </div>
-                    </div>
-                </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="title col-12 col-lg-8">
+                <h2 class="mbr-section-title align-center pb-3 mbr-fonts-style display-2">
+                    Utwórz nowego użytkownika
+                </h2>
             </div>
-
-            <div class="container scroll">
-                <table class="table isSearch" cellspacing="0">
-                    <thead>
-                    <tr class="table-heads ">
-                        <th class="head-item mbr-fonts-style display-7">
-                            Imię
-                        </th>
-                        <th class="head-item mbr-fonts-style display-7">
-                            Nazwisko
-                        </th>
-                        <th class="head-item mbr-fonts-style display-7">
-                            Specjalizacja
-                        </th>
-                        <th class="head-item mbr-fonts-style display-7">
-                            Email
-                        </th>
-                        <th class="head-item mbr-fonts-style display-7 align-center">
-                            Telefon
-                        </th>
-                        <th class="head-item mbr-fonts-style display-7 align-right">
-                            Wybierz
-                        </th>
-                        <th class="head-item mbr-fonts-style display-7 align-right">
-                            Edytuj
-                        </th>
-                        <th class="head-item mbr-fonts-style display-7 align-right">
-                            Usuń
-                        </th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    <c:forEach items="${therapists}" var="therapist" varStatus="status">
-                        <tr>
-                            <td class="body-item mbr-fonts-style display-7">${therapist.firstName}</td>
-                            <td class="body-item mbr-fonts-style display-7">${therapist.lastName}</td>
-                            <td class="body-item mbr-fonts-style display-7">${therapist.specialization}</td>
-                            <td class="body-item mbr-fonts-style display-7">${therapist.email}</td>
-                            <td class="body-item mbr-fonts-style display-7">${therapist.telephone}</td>
-
-                            <td class="body-item align-center" style="background-color: #d5ffc2 ">
-                                <a href="<c:url value="/therapist-${therapist.therapistId}" />">wybierz</a>
-                            </td>
-                            <td class="body-item align-center" style="background-color: #fffed6 ">
-                                <a href="<c:url value="/edit-therapist-${therapist.therapistId}" />">edytuj</a>
-                            </td>
-                            <td class="body-item align-center" style="background-color:#ffe6e1 ">
-                                <a href="<c:url value="therapist-${therapist.therapistId}/drop" />">usuń</a>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="container table-info-container">
-                <div class="row info">
-                    <div class="col-sm-12">
-                        <div class="dataTables_info mbr-fonts-style display-7">
-                            <span class="infoBefore"> </span>
-                            <span class="inactive infoRows"></span>
-                            <span class="infoAfter">terapeuta/ów</span>
-                            <span class="infoFilteredBefore">(przeszukano</span>
-                            <span class="inactive infoRows"></span>
-                            <span class="infoFilteredAfter"> terapeutów)</span>
-                        </div>
-                    </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="media-container-column col-lg-8" data-form-type="formoid">
+                <div data-form-alert="" hidden="">
+                    Dziękujemy za wypełnienie formularza.
                 </div>
+
+                <form:form method="POST" modelAttribute="registrationDTO" class="form-signin">
+                    <div class="row row-sm-offset">
+
+                        <div class="col-md-4 multi-horizontal" data-for="firstName">
+                            <spring:bind path="firstName">
+                                <div class="form-group ${status.error ? 'has-error' : ''}">
+                                    <label class="form-control-label mbr-fonts-style display-7"
+                                           for="firstName-form1-1n">Imię</label>
+                                    <form:input type="text" path="firstName" class="form-control" placeholder="Imię"
+                                                id="firstName-form1-1n" maxlength="50"></form:input>
+                                    <form:errors path="firstName"></form:errors>
+                                </div>
+                            </spring:bind>
+                        </div>
+
+                        <div class="col-md-4 multi-horizontal" data-for="lastName">
+                            <spring:bind path="lastName">
+                                <div class="form-group ${status.error ? 'has-error' : ''}">
+                                    <label class="form-control-label mbr-fonts-style display-7" for="lastName-form1-1n">Nazwisko</label>
+                                    <form:input type="text" path="lastName" class="form-control" placeholder="Nazwisko"
+                                                id="lastName-form1-1n" maxlength="50"></form:input>
+                                    <form:errors path="lastName"></form:errors>
+                                </div>
+                            </spring:bind>
+                        </div>
+
+                        <div class="col-md-4 multi-horizontal" data-for="specialization">
+                            <spring:bind path="specialization">
+                                <div class="form-group ${status.error ? 'has-error' : ''}">
+                                    <label class="form-control-label mbr-fonts-style display-7"
+                                           for="specialization-form1-1n">Specjalizacja</label>
+                                    <form:input type="text" path="specialization" class="form-control"
+                                                placeholder="Specjalizacja"
+                                                id="specialization-form1-1n" maxlength="50"></form:input>
+                                    <form:errors path="specialization"></form:errors>
+                                </div>
+                            </spring:bind>
+                        </div>
+
+                        <div class="col-md-8 multi-horizontal" data-for="email">
+                            <spring:bind path="email">
+                                <div class="form-group ${status.error ? 'has-error' : ''}">
+                                    <label class="form-control-label mbr-fonts-style display-7" for="email-form1-1n">Adres
+                                        email</label>
+                                    <form:input type="email" path="email" class="form-control" placeholder="Email"
+                                                id="email-form1-1n" maxlength="50"></form:input>
+                                    <form:errors path="email"></form:errors>
+                                </div>
+                            </spring:bind>
+                        </div>
+
+                        <div class="col-md-4 multi-horizontal" data-for="telephone">
+                            <spring:bind path="telephone">
+                                <div class="form-group ${status.error ? 'has-error' : ''}">
+                                    <label class="form-control-label mbr-fonts-style display-7"
+                                           for="telephone-form1-1n">Telefon</label>
+                                    <form:input type="tel" path="telephone" class="form-control" placeholder="Telefon"
+                                                id="telephone-form1-1n" maxlength="20"></form:input>
+                                    <form:errors path="telephone"></form:errors>
+                                </div>
+                            </spring:bind>
+                        </div>
+
+                        <div class="col-md-6 multi-horizontal" data-for="password">
+                            <spring:bind path="password">
+                                <div class="form-group ${status.error ? 'has-error' : ''}">
+                                    <label class="form-control-label mbr-fonts-style display-7" for="password-form1-1n">Hasło</label>
+                                    <form:input type="password" path="password" class="form-control" placeholder="Hasło"
+                                                id="password-form1-1n" maxlength="50"></form:input>
+                                    <form:errors path="password"></form:errors>
+                                </div>
+                            </spring:bind>
+                        </div>
+
+                        <div class="col-md-6 multi-horizontal" data-for="passwordConfirm">
+                            <spring:bind path="passwordConfirm">
+                                <div class="form-group ${status.error ? 'has-error' : ''}">
+                                    <label class="form-control-label mbr-fonts-style display-7" for="password-form1-1n">Powtórz
+                                        hasło</label>
+                                    <form:input type="password" path="passwordConfirm" class="form-control"
+                                                placeholder="Powtórz hasło"
+                                                id="passwordConfirm-form1-1n" maxlength="50"></form:input>
+                                    <form:errors path="passwordConfirm"></form:errors>
+                                </div>
+                            </spring:bind>
+                        </div>
+
+                        <div class="col-md-6 multi-horizontal" data-for="colour">
+                            <spring:bind path="colour">
+                                <div class="form-group ${status.error ? 'has-error' : ''}">
+                                    <label class="form-control-label mbr-fonts-style display-7" for="colour-form1-1n">Wybierz
+                                        kolor</label>
+                                    <form:select class="form-control" id="colour-form1-1n" name="colour" path="colour">
+                                        <c:forEach items="${colours}" var="colour" varStatus="status">
+                                            <option value="${colour.colourCode}">${colour.colourId}</option>
+                                        </c:forEach>
+                                    </form:select>
+                                </div>
+                            </spring:bind>
+                        </div>
+                        <div class="col-md-6 multi-horizontal" data-for="userRole">
+                            <spring:bind path="userRole">
+                                <div class="form-group ${status.error ? 'has-error' : ''}">
+                                    <label class="form-control-label mbr-fonts-style display-7" for="userRole-form1-1n">Wybierz
+                                        rolę</label>
+                                    <form:select class="form-control" id="userRole-form1-1n" name="userRole"
+                                                 path="userRole">
+                                        <option value="ROLE_DBA">Terapeuta</option>
+                                        <option value="ROLE_ADMIN">Admin</option>
+                                    </form:select>
+                                </div>
+                            </spring:bind>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group" data-for="description">
+                        <spring:bind path="description">
+                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                                <label class="form-control-label mbr-fonts-style display-7" for="description-form1-1n">Opis</label>
+                                <form:textarea type="text" path="description" class="form-control"
+                                               placeholder="Krótki opis działalności."
+                                               id="description-form1-1n" rows="5" maxlength="255"></form:textarea>
+                                <form:errors path="description"></form:errors>
+                            </div>
+                        </spring:bind>
+                    </div>
+
+                    <span class="input-group-btn">
+                            <button type="submit" class="btn btn-primary btn-form display-4">UTWÓRZ</button>
+                        </span>
+                </form:form>
             </div>
         </div>
     </div>

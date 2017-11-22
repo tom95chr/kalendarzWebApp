@@ -10,13 +10,10 @@
         <intercept-url pattern="/home" access="permitAll" />
         <!--admin-->
         <intercept-url pattern="/admin" access="hasRole('ADMIN')" />
-        <intercept-url pattern="/admin/registration" access="hasRole('ADMIN')" />
-        <intercept-url pattern="/admin/registration/login-details" access="hasRole('ADMIN')" />
+        <intercept-url pattern="/admin-registration" access="hasRole('ADMIN')" />
         <intercept-url pattern="/admin-event-types" access="hasRole('ADMIN')" />
-        <intercept-url pattern="/admin/therapist-{therapistId}/" access="hasRole('ADMIN')" />
+        <intercept-url pattern="/admin/therapist-{therapistId}" access="hasRole('ADMIN')" />
         <intercept-url pattern="/admin/event-types-{eventTypeId}/drop" access="hasRole('ADMIN')" />
-        <intercept-url pattern="/admin/registration/success" access="hasRole('ADMIN')" />
-        <intercept-url pattern="/admin/registration/fail" access="hasRole('ADMIN')" />
         <intercept-url pattern="admin/therapist-{therapistId}/drop" access="hasRole('ADMIN')" />
         <!--therapist and admin-->
         <intercept-url pattern="/therapist-events" access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')"/>

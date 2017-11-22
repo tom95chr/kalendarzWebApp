@@ -9,7 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 import pl.pwsztar.client.reservation.ReservationDAO;
 import pl.pwsztar.login.LoginDetails;
 import pl.pwsztar.login.LoginDetailsDAO;
-import pl.pwsztar.login.LoginValidator;
 import pl.pwsztar.mainServices.googleCalendar.GoogleCalendar;
 import pl.pwsztar.therapists.Therapist;
 import pl.pwsztar.therapists.TherapistDAO;
@@ -30,9 +29,6 @@ public class RegistrationService {
     GoogleCalendar googleCalendar;
 
     @Autowired
-    private LoginValidator loginValidator;
-
-    @Autowired
     private LoginDetailsDAO loginDetailsDAO;
 
     @Autowired
@@ -42,7 +38,7 @@ public class RegistrationService {
     private TherapistDAO therapistDAO;
 
     @Autowired
-    private TherapistValidator therapistValidator;
+    private ReservationValidator reservationValidator;
 
     @Autowired
     private ReservationDAO reservationDAO;
@@ -63,77 +59,78 @@ public class RegistrationService {
         return Boolean.FALSE;
     }
 
-    public ModelAndView registrationGet(){
-        ModelAndView model = new ModelAndView("admin/registration/loginDetails");
-        model.addObject("userForm", new LoginDetails());
-        return model;
-    }
-
-    public ModelAndView registrationPost(LoginDetails userForm, BindingResult bindingResult, String email) {
-        loginValidator.validate(userForm, bindingResult);
-        if (bindingResult.hasErrors()) {
-            return new ModelAndView("admin/registration/loginDetails");
-        }
-        userForm.setEmail(email);
-        userForm.setEnabled(Boolean.TRUE);
-        String password = passwordEncoder.encode(userForm.getPassword());
-        userForm.setPassword(password);
-        loginDetailsDAO.save(userForm);
-
-        return new ModelAndView("redirect:/admin/registration/success");
-    }
-
-    public ModelAndView personalDataGet(){
-        ModelAndView model = new ModelAndView("admin/registration/therapistData");
-        model.addObject("therapist", new Therapist());
+    public ModelAndView registerGet(){
+        ModelAndView model = new ModelAndView("admin/registration/userForm");
+        model.addObject("registrationDTO",new RegistrationDTO());
         List<TherapistColour> colours = therapistColourDAO.findAllByTaken(false);
         model.addObject("colours",colours);
         return model;
     }
 
-    public ModelAndView personalDataPost(Therapist therapist, BindingResult bindingResult){
+    public ModelAndView registerPost(RegistrationDTO registrationDTO, BindingResult bindingResult){
+
+        Therapist therapist = new Therapist();
+        LoginDetails loginDetails = new LoginDetails();
 
         //login
-        therapist.setTherapistId(therapist.getFirstName()+therapist.getLastName());
+        therapist.setTherapistId(registrationDTO.getFirstName()+registrationDTO.getLastName());
         //if therapist with the same name and surname existed
         if(therapistDAO.findByTherapistId(therapist.getTherapistId())!=null){
-            therapist.setTherapistId(therapist.getFirstName()+therapist.getLastName()+"1");
+            therapist.setTherapistId(registrationDTO.getFirstName()+registrationDTO.getLastName()+"1");
         }
-        therapistValidator.validate(therapist, bindingResult);
+        reservationValidator.validate(registrationDTO, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            ModelAndView m = new ModelAndView("admin/registration/therapistData");
+            ModelAndView m = new ModelAndView("admin/registration/userForm");
             m.addObject("colours", therapistColourDAO.findAllByTaken(false));
             return m;
         }
+        //google
         if (checkAvailability(therapist.getEmail())) {
             try{
-                therapist.setGoogleCalendarId(googleCalendar.createCalendar(therapist.getEmail()));
+                therapist.setGoogleCalendarId(googleCalendar.createCalendar(registrationDTO.getEmail()));
             }catch(Exception e){
-                e.printStackTrace();
+                ModelAndView modelAndView = new ModelAndView("admin/registration/result");
+                modelAndView.addObject("information","Wystapił błąd. Nie utworzono użytkownika.");
+                return modelAndView;
             }
         }
         else{
-            return new ModelAndView("redirect:/admin/registration/fail");
+            ModelAndView modelAndView = new ModelAndView("admin/registration/result");
+            modelAndView.addObject("information","Wystapił błąd. Nie utworzono użytkownika.");
+            return modelAndView;
         }
-
+        //therapist
+        therapist.setFirstName(registrationDTO.getFirstName());
+        therapist.setLastName(registrationDTO.getLastName());
+        therapist.setSpecialization(registrationDTO.getSpecialization());
+        therapist.setColour(registrationDTO.getColour());
+        therapist.setDescription(registrationDTO.getDescription());
+        therapist.setEmail(registrationDTO.getEmail());
+        therapist.setTelephone(registrationDTO.getTelephone());
         therapistDAO.save(therapist);
 
         //therapist colour
-        TherapistColour therapistColour = therapistColourDAO.findByColourCode(therapist.getColour());
+        TherapistColour therapistColour = therapistColourDAO.findByColourCode(registrationDTO.getColour());
         therapistColour.setTaken(true);
         therapistColourDAO.save(therapistColour);
 
-        String email = therapist.getEmail();
+        //login details
+        loginDetails.setEmail(registrationDTO.getEmail());
+        loginDetails.setEnabled(Boolean.TRUE);
+        String password = passwordEncoder.encode(registrationDTO.getPassword());
+        loginDetails.setPassword(password);
+        loginDetails.setUserRole(registrationDTO.getUserRole());
+        loginDetailsDAO.save(loginDetails);
 
 
-        ModelAndView modelAndView = new ModelAndView("redirect:/admin/registration/login-details");
-        modelAndView.addObject("email",email);
+        ModelAndView modelAndView = new ModelAndView("admin/registration/result");
+        modelAndView.addObject("information","Użytkownik został utworzony pomyślnie !");
         return modelAndView;
     }
 
     public ModelAndView dropTherapistById(String therapistId){
-        ModelAndView model = new ModelAndView("redirect:/admin/therapists");
+        ModelAndView model = new ModelAndView("redirect:/admin");
 
         Therapist t = therapistDAO.findByTherapistId(therapistId);
 
@@ -142,7 +139,6 @@ public class RegistrationService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(therapistId);
         reservationDAO.deleteReservationsByEvent_Therapist_TherapistId(therapistId);
         therapistDAO.delete(therapistId);
         loginDetailsDAO.delete(t.getEmail());

@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="resources/assets/images/logo-418x449.png" type="image/x-icon">
     <meta name="description" content="Web Page Maker Description">
-    <title>Typy spotkań</title>
+    <title>Rezultat</title>
     <link rel="stylesheet" href="resources/assets/web/assets/mobirise-icons/mobirise-icons.css">
     <link rel="stylesheet" href="resources/assets/tether/tether.min.css">
     <link rel="stylesheet" href="resources/assets/bootstrap/css/bootstrap.min.css">
@@ -135,115 +135,10 @@
 
 <section class="section-table cid-qBsldcoDYf mbr-parallax-background" id="table1-1w" data-rv-view="354">
 
-    <div class="container">
-        <div class="row">
+    <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-2">
+        ${information}
+    </h2>
 
-            <div class="card col-sm-6">
-                <div class="container container-table">
-                    <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-2">
-                        Zarządzaj typami spotkań
-                    </h2>
-                    <c:if test="${info!=null}">
-                        <h3 class="mbr-section-subtitle mbr-fonts-style align-center pb-5 mbr-light display-5"
-                            style="color: red; font-weight: bold">
-                                ${info}
-                        </h3>
-                    </c:if>
-                    <div class="table-wrapper">
-                        <div class="container">
-                            <div class="row search">
-                                <div class="col-sm-6"></div>
-                                <div class="col-sm-6">
-                                    <div class="dataTables_filter">
-                                        <label class="searchInfo mbr-fonts-style display-7">Szukaj:</label>
-                                        <input class="form-control input-sm" disabled="">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="container scroll">
-                            <table class="table isSearch" cellspacing="0">
-                                <thead>
-                                <tr class="table-heads ">
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
-                                        Typ
-                                    </th>
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
-                                        Miejsca
-                                    </th>
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
-                                        Usuń
-                                    </th>
-                                </tr>
-                                </thead>
-
-                                <tbody>
-
-                                <c:forEach items="${eventTypes}" var="eventType" varStatus="status">
-                                    <tr>
-                                        <td class="body-item mbr-fonts-style display-7" style="font-size: small">${eventType.eventTypeId}</td>
-                                        <td class="body-item mbr-fonts-style display-7" style="font-size: small">${eventType.seats}</td>
-                                        <td class="body-item align-center" style="background-color:#ffe6e1 ">
-                                            <a href="<c:url value="/admin/event-types-${eventType.eventTypeId}/drop" />">usuń</a>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="container table-info-container">
-                            <div class="row info">
-                                <div class="col-sm-4">
-                                    <div class="dataTables_info mbr-fonts-style display-7">
-                                        <span class="infoBefore"> </span>
-                                        <span class="inactive infoRows"></span>
-                                        <span class="infoAfter">typ/y</span>
-                                        <span class="infoFilteredBefore">(przeszukano</span>
-                                        <span class="inactive infoRows"></span>
-                                        <span class="infoFilteredAfter"> typów)</span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card col-sm-6 col-md-6">
-                <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-2">
-                    Utwórz nowy typ
-                </h2>
-                <h3 class="mbr-section-subtitle mbr-fonts-style align-center pb-5 mbr-light display-5"></h3>
-                <form:form method="POST" modelAttribute="eventType" class="form-signin">
-                    <spring:bind path="eventTypeId">
-                        <label style="font-weight: bold" for="eType">
-                            Nazwa typu
-                        </label>
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input type="text" path="eventTypeId" id="eType" class="form-control"
-                                        placeholder="Nazwa"></form:input>
-                            <form:errors path="eventTypeId"></form:errors>
-                        </div>
-                    </spring:bind>
-
-                    <spring:bind path="seats">
-                        <label style="font-weight: bold" for="seatsId">
-                            Liczba miejsc
-                        </label>
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input type="number" path="seats" id="seatsId" min="1"
-                                        class="form-control "
-                                        placeholder="Miejsca"></form:input>
-                            <form:errors path="seats"></form:errors>
-                        </div>
-                    </spring:bind>
-
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Utwórz</button>
-                </form:form>
-            </div>
-        </div>
-    </div>
 </section>
 
 <!-- footer -->

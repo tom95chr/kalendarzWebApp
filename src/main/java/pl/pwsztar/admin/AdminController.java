@@ -26,11 +26,6 @@ public class AdminController {
     @Autowired
     LoginService loginService;
 
-/*    @RequestMapping("/admin/therapists")
-    public ModelAndView therapistsListAdmin() {
-        return adminService.therapistList();
-    }*/
-
     @RequestMapping(value = "/admin/therapist-{therapistId}/",method = RequestMethod.GET)
     public ModelAndView therapistData(@PathVariable("therapistId") String therapistId) {
         return clientService.therapistData(therapistId);
@@ -55,5 +50,11 @@ public class AdminController {
     public ModelAndView dropEventType(@PathVariable("eventTypeId") String eventTypeId, HttpSession session){
         return adminService.dropEventType(eventTypeId,session);
     }
+
+    @RequestMapping("/changepswd-{therapistId}")
+    public ModelAndView changePassword(@PathVariable("therapistId") String therapistId, HttpSession session){
+        return adminService.changePassword(therapistId,session);
+    }
+
 
 }

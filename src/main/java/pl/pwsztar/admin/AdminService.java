@@ -30,7 +30,7 @@ public class AdminService {
     EventDAO eventDAO;
 
     public ModelAndView therapistList(){
-        ModelAndView model = new ModelAndView("admin/therapists");
+        ModelAndView model = new ModelAndView("admin/admin");
         model.addObject("therapists", therapistDAO.findAll());
         return model;
     }
@@ -76,5 +76,11 @@ public class AdminService {
         finally {
             return model;
         }
+    }
+
+    public ModelAndView changePassword(String therapistId, HttpSession session){
+        ModelAndView model = new ModelAndView("admin/registration/changePassword");
+        model.addObject("information","Strona w budowie");
+        return model;
     }
 }
