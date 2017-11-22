@@ -23,7 +23,7 @@ public class Therapist {
     private List<Event> events = new ArrayList<Event>();
     private LoginDetails loginDetails;
 
-    @Id
+
     @Column(name = "THERAPIST_ID")
     public String getTherapistId() {
         return therapistId;
@@ -48,7 +48,7 @@ public class Therapist {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
+    @Id
     @Column(name = "EMAIL")
     public String getEmail() {
         return email;
@@ -100,7 +100,9 @@ public class Therapist {
         this.events = events;
     }
 
-    @OneToOne(mappedBy = "therapist", fetch = FetchType.EAGER, orphanRemoval = true)
+    /*@OneToOne(mappedBy = "therapist", fetch = FetchType.EAGER, orphanRemoval = true)*/
+    @OneToOne(mappedBy = "therapist", cascade = CascadeType.ALL, orphanRemoval = true,
+            fetch = FetchType.EAGER, optional = false)
     public LoginDetails getLoginDetails() {
         return loginDetails;
     }

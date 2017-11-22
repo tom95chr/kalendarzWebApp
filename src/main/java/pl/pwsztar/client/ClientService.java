@@ -15,6 +15,7 @@ import pl.pwsztar.client.reservation.ReservationDAO;
 import pl.pwsztar.event.Event;
 import pl.pwsztar.event.EventDAO;
 import pl.pwsztar.event.eventType.EventTypeDAO;
+import pl.pwsztar.login.LoginDetailsDAO;
 import pl.pwsztar.login.LoginService;
 import pl.pwsztar.mainServices.EmailService;
 import pl.pwsztar.client.reservation.KeyGeneratorService;
@@ -65,6 +66,9 @@ public class ClientService {
 
     @Autowired
     LoginService loginService;
+
+    @Autowired
+    LoginDetailsDAO loginDetailsDAO;
 
 
     public ModelAndView therapistsList(HttpSession session) {

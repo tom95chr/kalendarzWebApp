@@ -33,9 +33,9 @@
         <authentication-provider>
             <jdbc-user-service data-source-ref="dataSource"
                                users-by-username-query=
-                                       "SELECT email, password, enabled FROM login_details WHERE email=?"
+                                       "SELECT therapist_email, password, enabled FROM login_details WHERE therapist_email=?"
                                authorities-by-username-query=
-                                       "SELECT email, user_role FROM login_details WHERE email =?  " />
+                                       "SELECT therapist_email, user_role FROM login_details WHERE therapist_email =?  " />
             <password-encoder ref="bcryptEncoder"/>
         </authentication-provider>
     </authentication-manager>

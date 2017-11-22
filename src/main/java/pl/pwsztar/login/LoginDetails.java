@@ -45,8 +45,10 @@ public class LoginDetails {
         this.userRole = userRole;
     }
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "email")
+    /*@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "email")*/
+    @OneToOne(fetch = FetchType.EAGER)
+    @MapsId
     public Therapist getTherapist() {
         return therapist;
     }

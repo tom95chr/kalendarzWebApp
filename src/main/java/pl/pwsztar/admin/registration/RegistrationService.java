@@ -100,6 +100,7 @@ public class RegistrationService {
             modelAndView.addObject("information","Wystapił błąd. Nie utworzono użytkownika.");
             return modelAndView;
         }
+
         //therapist
         therapist.setFirstName(registrationDTO.getFirstName());
         therapist.setLastName(registrationDTO.getLastName());
@@ -108,21 +109,22 @@ public class RegistrationService {
         therapist.setDescription(registrationDTO.getDescription());
         therapist.setEmail(registrationDTO.getEmail());
         therapist.setTelephone(registrationDTO.getTelephone());
-        therapistDAO.save(therapist);
+        therapist.setLoginDetails(loginDetails);
+        /*//therapistDAO.save(therapist);*/
+
+        //login details
+        /*loginDetails.setEmail(registrationDTO.getEmail());*/
+        loginDetails.setEnabled(Boolean.TRUE);
+        String password = passwordEncoder.encode(registrationDTO.getPassword());
+        loginDetails.setPassword(password);
+        loginDetails.setUserRole(registrationDTO.getUserRole());
+        loginDetails.setTherapist(therapist);
+        loginDetailsDAO.save(loginDetails);
 
         //therapist colour
         TherapistColour therapistColour = therapistColourDAO.findByColourCode(registrationDTO.getColour());
         therapistColour.setTaken(true);
         therapistColourDAO.save(therapistColour);
-
-        //login details
-        loginDetails.setEmail(registrationDTO.getEmail());
-        loginDetails.setEnabled(Boolean.TRUE);
-        String password = passwordEncoder.encode(registrationDTO.getPassword());
-        loginDetails.setPassword(password);
-        loginDetails.setUserRole(registrationDTO.getUserRole());
-        loginDetailsDAO.save(loginDetails);
-
 
         ModelAndView modelAndView = new ModelAndView("admin/registration/result");
         modelAndView.addObject("information","Użytkownik został utworzony pomyślnie !");
@@ -140,8 +142,10 @@ public class RegistrationService {
             e.printStackTrace();
         }
         reservationDAO.deleteReservationsByEvent_Therapist_TherapistId(therapistId);
-        therapistDAO.delete(therapistId);
-        loginDetailsDAO.delete(t.getEmail());
+        Therapist therapist = therapistDAO.findByTherapistId(therapistId);
+        therapist.setLoginDetails(loginDetailsDAO.findByEmail(therapistId));
+        therapistDAO.delete(therapist);
+
 
         TherapistColour therapistColour = therapistColourDAO.findByColourCode(t.getColour());
         therapistColour.setTaken(false);
