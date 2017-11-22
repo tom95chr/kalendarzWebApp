@@ -73,7 +73,9 @@ public class RegistrationService {
         LoginDetails loginDetails = new LoginDetails();
 
         //login
-        therapist.setTherapistId(registrationDTO.getFirstName()+registrationDTO.getLastName());
+        String id = registrationDTO.getFirstName()+registrationDTO.getLastName();
+        therapist.setTherapistId(id.replaceAll("\\s",""));
+
         //if therapist with the same name and surname existed
         if(therapistDAO.findByTherapistId(therapist.getTherapistId())!=null){
             therapist.setTherapistId(registrationDTO.getFirstName()+registrationDTO.getLastName()+"1");
