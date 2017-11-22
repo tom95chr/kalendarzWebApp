@@ -12,4 +12,5 @@ public interface TherapistDAO extends CrudRepository<Therapist, String> {
     Therapist findByTherapistId(String therapistId);
     List<Therapist> findAll();
     Therapist findByEmail(String email);
+    List<Therapist> findAllByLoginDetails_UserRole(String userRole);
 }

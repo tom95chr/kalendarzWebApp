@@ -73,7 +73,7 @@ public class ClientService {
 
     public ModelAndView therapistsList(HttpSession session) {
         ModelAndView model = new ModelAndView("home");
-        model.addObject("therapists", therapistDAO.findAll());
+        model.addObject("therapists", therapistDAO.findAllByLoginDetails_UserRole("ROLE_DBA"));
         session.setAttribute("loggedUser",loginService.getPrincipal());
         return model;
     }
