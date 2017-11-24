@@ -64,4 +64,6 @@
           p:defaultEncoding="UTF-8"
           p:basename="/resources/validation" />
 
+    <context:property-placeholder location="classpath:application.properties" />
+
 </beans>

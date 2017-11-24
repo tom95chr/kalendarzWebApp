@@ -217,18 +217,17 @@
             </div>
         </div>
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="media-container-column col-lg-5">
-                    <form:form method="POST" modelAttribute="client" class="form-signin">
+                    <form:form method="POST" modelAttribute="reservationDto" class="form-signin">
+                        <div class="row row-sm-offset">
                         <spring:bind path="email">
-                            <div class="form-group${status.error ? 'has-error' : ''}">
+                            <div class="form-group col-md-4 multi-horizontal" data-for="email ${status.error ? 'has-error' : ''}">
                                 <form:input type="text" path="email" class="form-control"
                                             placeholder="Adres email"></form:input>
                                 <form:errors path="email"></form:errors>
                             </div>
                         </spring:bind>
                         <spring:bind path="emailConfirm">
-                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <div class="form-group col-md-4 multi-horizontal" data-for="emailConfirm ${status.error ? 'has-error' : ''}">
                                 <form:input type="email" path="emailConfirm" class="form-control"
                                             placeholder="Podaj email jeszcze raz"></form:input>
                                 <form:errors path="emailConfirm"></form:errors>
@@ -236,19 +235,45 @@
                         </spring:bind>
 
                         <spring:bind path="telephone">
-                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <div class="form-group col-md-4 multi-horizontal" data-for="telephone ${status.error ? 'has-error' : ''}">
                                 <form:input type="text" path="telephone" class="form-control"
                                             placeholder="Telefon (opcjonalnie)"></form:input>
                                 <form:errors path="telephone"></form:errors>
                             </div>
                         </spring:bind>
-
-                        <span class="input-group-btn">
-                            <button href="" type="submit" class="btn btn-primary btn-form display-4">Wyślij</button>
-                        </span>
+                            <div class="form-group col-md-3 multi-horizontal">
+                            </div>
+                            <spring:bind path="recaptchaResponse">
+                                <div class="form-group col-md-4 multi-horizontal" data-for="recaptchaResponse ${status.error ? 'has-error' : ''}">
+                                    <div id="g-recaptcha"></div>
+                                    <form:hidden path="recaptchaResponse"/>
+                                    <script type="text/javascript">
+                                        var onloadCallback = function () {
+                                            grecaptcha.render('g-recaptcha', {
+                                                'sitekey': '<c:out value="${recaptchaSiteKey}" />',
+                                                'callback': function (response) {
+                                                    document.getElementById('recaptchaResponse').value = response;
+                                                    if(response){
+                                                        $('#submitButton').attr('disabled', false);
+                                                    }
+                                                },
+                                                'theme': 'light'
+                                            });
+                                        }
+                                    </script>
+                                    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async
+                                            defer></script>
+                                        <%--<form:errors path="recaptchaResponse" class="help-block"/>--%>
+                                    <form:errors path="recaptchaResponse" cssStyle="color: red"></form:errors>
+                                </div>
+                            </spring:bind>
+                            <span class="form-group col-md-4 multi-horizontal" data-for="recaptchaResponse input-group-btn ">
+                                <button id="submitButton" disabled type="submit" class="btn btn-primary display-4 justify-content-center">Zatwierdź</button>
+                            </span>
+                            <div class="form-group col-md-1 multi-horizontal">
+                            </div>
+                        </div>
                     </form:form>
-                </div>
-            </div>
         </div>
     </section>
 </c:if>

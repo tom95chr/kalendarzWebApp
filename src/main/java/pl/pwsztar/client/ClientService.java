@@ -1,9 +1,6 @@
 package pl.pwsztar.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -12,6 +9,7 @@ import pl.pwsztar.client.confirmation.ConfirmationCode;
 import pl.pwsztar.client.confirmation.ConfirmationCodeValidator;
 import pl.pwsztar.client.reservation.Reservation;
 import pl.pwsztar.client.reservation.ReservationDAO;
+import pl.pwsztar.client.reservation.ReservationDTO;
 import pl.pwsztar.event.Event;
 import pl.pwsztar.event.EventDAO;
 import pl.pwsztar.event.eventType.EventTypeDAO;
@@ -20,11 +18,11 @@ import pl.pwsztar.login.LoginService;
 import pl.pwsztar.mainServices.EmailService;
 import pl.pwsztar.client.reservation.KeyGeneratorService;
 import pl.pwsztar.mainServices.googleCalendar.GoogleCalendar;
+import pl.pwsztar.recaptcha.RecaptchaFormValidator;
 import pl.pwsztar.therapists.TherapistDAO;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Service
@@ -70,6 +68,9 @@ public class ClientService {
     @Autowired
     LoginDetailsDAO loginDetailsDAO;
 
+    @Autowired
+    RecaptchaFormValidator recaptchaFormValidator;
+
 
     public ModelAndView therapistsList(HttpSession session) {
         ModelAndView model = new ModelAndView("home");
@@ -101,7 +102,7 @@ public class ClientService {
 
     public ModelAndView eventReservationGet(String eventId) {
         ModelAndView model = new ModelAndView("client/reservation");
-        model.addObject("client", new Client());
+        model.addObject("reservationDto", new ReservationDTO());
         model.addObject("event", eventDAO.findByEventId(eventId));
         model.addObject("therapist", therapistDAO.findByTherapistId(eventDAO.findByEventId(eventId)
                 .getTherapist().getTherapistId()));
@@ -110,9 +111,10 @@ public class ClientService {
         return model;
     }
 
-    public ModelAndView eventReservationPost(Client client, BindingResult bindingResult,
+    public ModelAndView eventReservationPost(ReservationDTO reservationDTO, BindingResult bindingResult,
                                              String eventId) {
-        clientValidator.validate(client, bindingResult);
+        clientValidator.validate(reservationDTO, bindingResult);
+        recaptchaFormValidator.validate(reservationDTO, bindingResult);
         if (bindingResult.hasErrors()) {
             ModelAndView model = new ModelAndView("client/reservation");
             model.addObject("therapist", therapistDAO.findByTherapistId(eventDAO.findByEventId(eventId)
@@ -122,6 +124,10 @@ public class ClientService {
                     getSeats() - eventDAO.findByEventId(eventId).nrOfParticipants());
             return model;
         }
+        Client client = new Client();
+        client.setEmail(reservationDTO.getEmail());
+        client.setTelephone(reservationDTO.getTelephone());
+
         clientDAO.save(client);
         Event event = eventDAO.findByEventId(eventId);
         Reservation reservation = reservationDAO.findByClientAndEvent(client, event);
@@ -164,8 +170,6 @@ public class ClientService {
             reservationDAO.save(rr);
 
         }
-        System.out.println(event.nrOfParticipants()+" elo "+ eventTypeDAO.findByEventTypeId(
-                event.getEventType().getEventTypeId()).getSeats());
         //if number of participants is greater than seats then set event free to busy(false)
         //plus current participant
         if (event.nrOfParticipants()+1 >= eventTypeDAO.findByEventTypeId(
@@ -196,6 +200,7 @@ public class ClientService {
 
         ModelAndView model = new ModelAndView("client/confirmation");
         confirmationCodeValidator.validate(confirmationCode, bindingResult);
+        recaptchaFormValidator.validate(confirmationCode, bindingResult);
 
         if (bindingResult.hasErrors()) {
           model.addObject("pageTypeInfo","potwierdzić");
@@ -218,7 +223,7 @@ public class ClientService {
                 //inform therapist
                 emailService.sendEmail(reservation.getEvent().getTherapist().getEmail(),"Nowa rezerwacja",
                         "Witaj. \n Osoba o adresie email: "+reservation.getClient().getEmail()+
-                                " Zarezerwowała i potwierdziła swoją obecność na spotkaniu dnia: "+reservation.getEvent().getStartDateTime().toLocalDate()
+                                " Zarezerwowała i potwierdziła swoją obecność na spotkaniu, które odbędzie się dnia: "+reservation.getEvent().getStartDateTime().toLocalDate()
                                 +" o godzinie "+reservation.getEvent().getStartDateTime().toLocalTime()+"\nTyp spotkania: "
                                 +reservation.getEvent().getEventType().getEventTypeId());
                 reservationDAO.save(reservation);

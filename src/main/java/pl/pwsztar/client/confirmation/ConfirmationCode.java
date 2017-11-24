@@ -1,7 +1,9 @@
 package pl.pwsztar.client.confirmation;
 
 
-public class ConfirmationCode {
+import pl.pwsztar.recaptcha.RecaptchaForm;
+
+public class ConfirmationCode extends RecaptchaForm{
 
     private String code;
 

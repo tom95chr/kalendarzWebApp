@@ -241,7 +241,7 @@
                                     <div class="form-group" ${status.error ? 'has-error' : ''}">
                                         <form:input type="number" path="numberOfRepetitions" min="0" max="53"
                                                     class="form-control"
-                                                    placeholder="Ilość tygodni"></form:input>
+                                                    placeholder="Liczba tygodni"></form:input>
                                         <form:errors path="numberOfRepetitions"></form:errors>
                                     </div>
                                 </spring:bind>

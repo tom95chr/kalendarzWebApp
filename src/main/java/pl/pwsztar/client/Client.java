@@ -2,6 +2,7 @@ package pl.pwsztar.client;
 
 import pl.pwsztar.client.reservation.Reservation;
 import pl.pwsztar.event.Event;
+import pl.pwsztar.recaptcha.RecaptchaForm;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,7 +13,6 @@ import java.util.List;
 public class Client {
 
     private String email;
-    private String emailConfirm;
     private String telephone;
     private List<Reservation> reservations = new ArrayList<Reservation>();
 
@@ -43,12 +43,4 @@ public class Client {
         this.reservations = reservations;
     }
 
-    @Transient
-    public String getEmailConfirm() {
-        return emailConfirm;
-    }
-
-    public void setEmailConfirm(String emailConfirm) {
-        this.emailConfirm = emailConfirm;
-    }
 }

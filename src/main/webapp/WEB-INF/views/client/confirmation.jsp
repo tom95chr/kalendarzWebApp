@@ -148,7 +148,7 @@
                     Tu możesz ${pageTypeInfo} swoją rezerwację, wystarczy podać unikalny kod rezerwacji.
                 </strong></h3>
                 <p class="mbr-section-subtitle align-center pb-5 mbr-light mbr-fonts-style display-5 small">
-                    Sprawdź swój email, wklej otrzymany od nas kod potwierdzenia i zakończ rezerwację.
+                    Sprawdź swój email wklej otrzymany od nas kod potwierdzenia, kliknij ,,Zatwierdź" i zakończ rezerwację.
                 </p>
             </div>
         </div>
@@ -159,18 +159,47 @@
             <div class="col-12 col-lg-8  col-md-8 " data-form-type="formoid">
 
                 <form:form class="form-group" method="POST" modelAttribute="confirmationCode">
+                <div class="row row-sm-offset">
                     <spring:bind path="code">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <div class="form-group col-md-10 multi-horizontal" data-for="code ${status.error ? 'has-error' : ''}">
                             <form:input type="text" path="code" class="form-control" placeholder="Kod"></form:input>
                             <form:errors path="code"></form:errors>
                         </div>
                     </spring:bind>
-                    <p style="color: red">${confirmationFailed}</p>
-                    <span class="input-group-btn">
-                        <button type="submit" class="btn btn-primary display-4 justify-content-center">Zatwierdź</button>
-                    </span>
-                </form:form>
 
+
+                    <p style="color: red">${confirmationFailed}</p>
+
+                    <spring:bind path="recaptchaResponse">
+                        <div class="form-group col-md-6 multi-horizontal" data-for="recaptchaResponse ${status.error ? 'has-error' : ''}">
+                            <div id="g-recaptcha"></div>
+                            <form:hidden path="recaptchaResponse"/>
+                            <script type="text/javascript">
+                                var onloadCallback = function () {
+                                    grecaptcha.render('g-recaptcha', {
+                                        'sitekey': '<c:out value="${recaptchaSiteKey}" />',
+                                        'callback': function (response) {
+                                            document.getElementById('recaptchaResponse').value = response;
+                                            if(response){
+                                                $('#submitButton').attr('disabled', false);
+                                            }
+                                        },
+                                        'theme': 'light'
+                                    });
+                                }
+                            </script>
+                            <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async
+                                    defer></script>
+                                <%--<form:errors path="recaptchaResponse" class="help-block"/>--%>
+                            <form:errors path="recaptchaResponse" cssStyle="color: red"></form:errors>
+                        </div>
+                    </spring:bind>
+
+                    <span class="form-group col-md-4 multi-horizontal" data-for="recaptchaResponse input-group-btn ">
+                        <button id="submitButton" disabled type="submit" class="btn btn-primary display-4 justify-content-center">Zatwierdź</button>
+                    </span>
+                    </form:form>
+                    </div>
             </div>
         </div>
     </div>

@@ -1,11 +1,15 @@
 package pl.pwsztar.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.pwsztar.client.confirmation.ConfirmationCode;
+import pl.pwsztar.client.confirmation.ConfirmationCodeValidator;
+import pl.pwsztar.client.reservation.ReservationDTO;
+import pl.pwsztar.recaptcha.RecaptchaFormValidator;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,8 +17,28 @@ import javax.servlet.http.HttpSession;
 
 public class ClientController {
 
+
+    @Autowired
+    RecaptchaFormValidator recaptchaFormValidator;
+
     @Autowired
     ClientService clientService;
+
+    @Autowired
+    ConfirmationCodeValidator confirmationCodeValidator;
+    
+    @Autowired
+    public ClientController(ClientService clientService, ConfirmationCodeValidator confirmationCodeValidator,
+                                RecaptchaFormValidator recaptchaFormValidator) {
+        this.clientService = clientService;
+        this.confirmationCodeValidator = confirmationCodeValidator;
+        this.recaptchaFormValidator = recaptchaFormValidator;
+    }
+
+    @ModelAttribute("recaptchaSiteKey")
+    public String getRecaptchaSiteKey(@Value("${recaptcha.site-key}") String recaptchaSiteKey) {
+        return recaptchaSiteKey;
+    }
 
     @RequestMapping("/")
     public ModelAndView therapistsList(HttpSession session) {
@@ -33,10 +57,10 @@ public class ClientController {
     }
 
     @RequestMapping(value = "/therapist-event-{eventId}", method = RequestMethod.POST)
-    public ModelAndView eventReservationPost(@ModelAttribute("client")Client client, BindingResult bindingResult,
-                                   @PathVariable("eventId") String eventId) {
+    public ModelAndView eventReservationPost(@ModelAttribute("reservationDto")ReservationDTO reservationDTO, BindingResult bindingResult,
+                                             @PathVariable("eventId") String eventId) {
 
-        return clientService.eventReservationPost(client,bindingResult,eventId/*,therapistId*/);
+        return clientService.eventReservationPost(reservationDTO,bindingResult,eventId/*,therapistId*/);
     }
     @RequestMapping(value = "/confirm-reservation", method = RequestMethod.GET)
     public ModelAndView confirmationGet(){
