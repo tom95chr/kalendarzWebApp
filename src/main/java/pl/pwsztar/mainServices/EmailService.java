@@ -1,5 +1,6 @@
 package pl.pwsztar.mainServices;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pl.pwsztar.client.reservation.Reservation;
 
@@ -9,18 +10,19 @@ import javax.mail.internet.MimeMessage;
 import java.util.List;
 import java.util.Properties;
 
-/**
- * Created by Lapek on 19.05.2017.
- */
 @Service
 public class EmailService {
+
+    @Value("${email.username}")
+    protected String username;
+    @Value("${email.password}")
+    protected String password;
+    @Value("${email.username}")
+    protected String mailEmailFrom;
     protected String mailSmtpAuth = "true";
     protected String mailSmtpHost = "smtp.gmail.com";
     protected String mailSmtpPort = "587";
     protected String mailSmtpStarttlsEnable = "true";
-    protected String mailEmailFrom = "dzialpomocy.pwsztar@gmail.com ";
-    protected String username = "dzialpomocy.pwsztar@gmail.com";
-    protected String password = "1qazxsw23edc";
 
 
 /*    public static void main(String[] args) {
