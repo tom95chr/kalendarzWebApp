@@ -136,22 +136,16 @@
 </div>
 </section><section class="countdown2 cid-qzc7TOs7aU" id="countdown2-1b" data-rv-view="863">
 
-
+<br>
     <div class="container">
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
 
         <c:if test="${events.size()>0}">
-            <h2 class="mbr-section-subtitle align-center mbr-fonts-style display-5">
+            <h2 class="align-center pb-2 mbr-fonts-style display-2">
                 Nie czekaj aż ktoś inny Cię wyprzedzi. <br>Najbliższe spotkanie już za
             </h2>
         </c:if>
         <c:if test="${events.size()==0}">
-            <h2 class="mbr-section-subtitle align-center mbr-fonts-style display-5">
+            <h2 class="align-center pb-2 mbr-fonts-style display-2">
                 Aktualnie brak wolnych terminów u tego specjalisty. Przepraszamy
             </h2>
         </c:if>
