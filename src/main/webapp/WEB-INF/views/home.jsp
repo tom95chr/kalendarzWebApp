@@ -160,7 +160,7 @@
                 <div class="card-box">
                     <h4 class="card-title py-3 mbr-fonts-style display-7">
                         Studencie masz problem ?</h4>
-                    <p class="mbr-text mbr-fonts-style display-7">My pomożemy Ci go rozwiązać.</p>
+                    <p class="mbr-text mbr-fonts-style display-7">My pomożemy Ci go rozwiązać.<br><br><br></p>
                 </div>
             </div>
 
@@ -169,9 +169,9 @@
                     <span class="mbr-iconfont mbri-smile-face" media-simple="true"></span>
                 </div>
                 <div class="card-box">
-                    <h4 class="card-title py-3 mbr-fonts-style display-7">Spotkaj się z terapeutą...<br> ZA DARMO !</h4>
+                    <h4 class="card-title py-3 mbr-fonts-style display-7">Spotkaj się z terapeutą... <br>ZA DARMO !</h4>
                     <p class="mbr-text mbr-fonts-style display-7">Po prostu wybierz terapeutę poniżej i zapisz się na
-                        wizytę.</p>
+                        wizytę.<br></p>
                 </div>
             </div>
 

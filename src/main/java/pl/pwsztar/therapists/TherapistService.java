@@ -110,7 +110,7 @@ public class TherapistService {
             String startDate = eventDTO.getStartDateTime().format(formatter);
             String endDate = eventDTO.getEndDateTime().format(formatter);
             System.out.println(startDate);
-            Event collidedEvent = therapistService.detectCollisionsByTherapist(eventDTO);
+            Event collidedEvent = therapistService.detectCollisionsByTherapist(eventDTO, "");
 
             if (collidedEvent != null) {
                 model.addObject("collidedEvent", collidedEvent);
@@ -176,20 +176,24 @@ public class TherapistService {
     }
 
     //returns true if collisions found
-    public Event detectCollisionsByTherapist(EventDTO eventDTO) {
+    public Event detectCollisionsByTherapist(EventDTO eventDTO, String eventId) {
 
         List<Event> events = eventDAO.findAll();
 
         for (Event event : events) {
 
-            if (event.getRoom().equals(eventDTO.getRoom())
-                    && (
-                    (event.getStartDateTime().compareTo(eventDTO.getStartDateTime()) == 0)
-                            || (event.getEndDateTime().compareTo(eventDTO.getStartDateTime()) == 0)
-                            || ((eventDTO.getStartDateTime().isAfter(event.getStartDateTime()))
-                            && (eventDTO.getStartDateTime().isBefore(event.getEndDateTime()))))
-                    ) {
-                return event;
+            if (!event.getEventId().equals(eventId)) {
+                if (event.getRoom().equals(eventDTO.getRoom())
+                        && (
+                        (eventDTO.getStartDateTime().isBefore(event.getStartDateTime()) && eventDTO.getEndDateTime().isAfter(event.getStartDateTime())) ||
+                                (eventDTO.getStartDateTime().isBefore(event.getStartDateTime()) && eventDTO.getEndDateTime().isAfter(event.getEndDateTime())) ||
+                                (eventDTO.getStartDateTime().isBefore(event.getEndDateTime()) && eventDTO.getEndDateTime().isAfter(event.getEndDateTime())) ||
+                                (eventDTO.getStartDateTime().compareTo(event.getStartDateTime()) == 0 && eventDTO.getEndDateTime().compareTo(event.getEndDateTime())== 0) ||
+                                (eventDTO.getStartDateTime().isAfter(event.getStartDateTime()) && eventDTO.getEndDateTime().isBefore(event.getEndDateTime()))
+
+                        ) ){
+                    return event;
+                }
             }
         }
         return null;
@@ -233,13 +237,14 @@ public class TherapistService {
             eventDTO.setRoom(e.getRoom());
         }
 
+
         //endDateTime = startdate + startTime + duration
         eventDTO.setStartDateTime(LocalDateTime.of(eventDTO.getStartDate(), eventDTO.getStartTime()));
         LocalDateTime startPlusMins = eventDTO.getStartDateTime().plusMinutes(eventDTO.getDuration());
         eventDTO.setEndDateTime(startPlusMins);
 
         if (eventDTO.getStartDateTime().isEqual(e.getStartDateTime()) &&
-                eventDTO.getStartDateTime().isEqual(e.getStartDateTime()) &&
+                eventDTO.getEndDateTime().isEqual(e.getEndDateTime()) &&
                 eventDTO.getRoom().equals(e.getRoom()) &&
                 eventDTO.getEventType().equals(e.getEventType().getEventTypeId())){
             ModelAndView m2 = new ModelAndView("therapist/editEvent");
@@ -283,7 +288,7 @@ public class TherapistService {
         //if date/time changed
         if (!(eventDTO.getStartDateTime().isEqual(e.getStartDateTime())) || !(eventDTO.getEndDateTime().isEqual(e.getEndDateTime()))) {
 
-            Event collidedEvent = therapistService.detectCollisionsByTherapist(eventDTO);
+            Event collidedEvent = therapistService.detectCollisionsByTherapist(eventDTO, eventId);
             if (collidedEvent != null) {
                 ModelAndView m2 = new ModelAndView("therapist/editEvent");
                 m2.addObject("event", eventDAO.findByEventId(eventId));
