@@ -285,7 +285,9 @@ public class ClientService {
 
     public ModelAndView cancelReservation(String confirmationCode) {
 
-        ModelAndView modelAndView = new ModelAndView("client/cancelled");
+        ModelAndView modelAndView = new ModelAndView("result");
+        modelAndView.addObject("information","Spotkanie zostało anulowane pomyślnie." +
+                " Zapraszamy ponownie");
 
         Reservation r = reservationDAO.findByConfirmationCode(confirmationCode);
         Event event = r.getEvent();

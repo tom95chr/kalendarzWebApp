@@ -92,13 +92,13 @@ public class RegistrationService {
             try{
                 therapist.setGoogleCalendarId(googleCalendar.createCalendar(registrationDTO.getEmail()));
             }catch(Exception e){
-                ModelAndView modelAndView = new ModelAndView("admin/registration/result");
+                ModelAndView modelAndView = new ModelAndView("result");
                 modelAndView.addObject("information","Wystapił błąd. Nie utworzono użytkownika.");
                 return modelAndView;
             }
         }
         else{
-            ModelAndView modelAndView = new ModelAndView("admin/registration/result");
+            ModelAndView modelAndView = new ModelAndView("result");
             modelAndView.addObject("information","Wystapił błąd. Nie utworzono użytkownika.");
             return modelAndView;
         }
@@ -128,7 +128,7 @@ public class RegistrationService {
         therapistColour.setTaken(true);
         therapistColourDAO.save(therapistColour);
 
-        ModelAndView modelAndView = new ModelAndView("admin/registration/result");
+        ModelAndView modelAndView = new ModelAndView("result");
         modelAndView.addObject("information","Użytkownik został utworzony pomyślnie !");
         return modelAndView;
     }

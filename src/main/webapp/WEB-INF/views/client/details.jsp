@@ -248,8 +248,8 @@
                                         <!-- informacje dodatkowe pogrubione -->
                                     </h4>
                                     <p class="mbr-content-text mbr-fonts-style display-7">
-                                        Aby anulować swoją rezerwację, kliknij <a
-                                            href="/my-reservation-${confirmationCode}/cancel">tutaj</a>
+                                        Aby anulować swoją rezerwację, <a
+                                            href="/my-reservation-${confirmationCode}/cancel">kliknij tutaj</a>
                                     </p>
                                 </div>
                             </div>
