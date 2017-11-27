@@ -69,4 +69,9 @@ public class TherapistContoller {
                                       @PathVariable("eventId") String eventId){
         return therapistService.editEventPost(eventId,eventDTO,bindingResult);
     }
+
+    @RequestMapping("/drop-{confirmationCode}")
+    public ModelAndView dropParticipant(@PathVariable("confirmationCode") String confirmationCode){
+        return therapistService.dropParticipant(confirmationCode);
+    }
 }

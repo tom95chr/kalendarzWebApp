@@ -9,5 +9,5 @@ import java.util.List;
 public interface ClientDAO extends CrudRepository<Client, String> {
 
     List<Client> findAll();
-    List<Event> findAllByEmail(String email);
+    Client findByEmail(String email);
 }

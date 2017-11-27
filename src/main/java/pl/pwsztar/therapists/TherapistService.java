@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
+import pl.pwsztar.client.Client;
+import pl.pwsztar.client.ClientDAO;
 import pl.pwsztar.client.ClientService;
 import pl.pwsztar.client.reservation.Reservation;
 import pl.pwsztar.client.reservation.ReservationDAO;
@@ -56,6 +58,9 @@ public class TherapistService {
 
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    ClientDAO clientDAO;
 
     public ModelAndView therapistEventsGet() {
 
@@ -340,6 +345,14 @@ public class TherapistService {
         }
 
         return model;
+    }
+
+    public ModelAndView dropParticipant(String confirmationCode){
+        Reservation reservation = reservationDAO.findByConfirmationCode(confirmationCode);
+        String eventId = reservationDAO.findByConfirmationCode(confirmationCode).getEvent().getEventId();
+        ModelAndView modelAndView = new ModelAndView("redirect:/therapist-events-event-"+eventId+"-participants");
+        reservationDAO.delete(reservation);
+        return modelAndView;
     }
 
     public List<String> getEventTypesId(List<EventType> eventTypes, String eventId) {

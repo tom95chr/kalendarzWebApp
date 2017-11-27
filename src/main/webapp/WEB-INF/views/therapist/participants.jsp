@@ -203,7 +203,7 @@
                                         </td>
                                         <td class="body-item mbr-fonts-style display-7" style="font-size: small">${participant.confirmationCode}</td>
                                         <td class="body-item align-center" style="font-size: medium; background-color:#ffe7c1 ">
-                                            <a href="<c:url value="/cos" />">usuń</a>
+                                            <a href="<c:url value="/drop-${participant.confirmationCode}" />">usuń</a>
                                         </td>
                                     </tr>
                                 </c:forEach>
