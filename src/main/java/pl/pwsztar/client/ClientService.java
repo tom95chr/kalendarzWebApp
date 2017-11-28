@@ -12,6 +12,8 @@ import pl.pwsztar.client.reservation.ReservationDAO;
 import pl.pwsztar.client.reservation.ReservationDTO;
 import pl.pwsztar.event.Event;
 import pl.pwsztar.event.EventDAO;
+import pl.pwsztar.event.eventHistory.EventHistory;
+import pl.pwsztar.event.eventHistory.EventHistoryDAO;
 import pl.pwsztar.event.eventType.EventTypeDAO;
 import pl.pwsztar.login.LoginDetailsDAO;
 import pl.pwsztar.login.LoginService;
@@ -71,6 +73,9 @@ public class ClientService {
     @Autowired
     RecaptchaFormValidator recaptchaFormValidator;
 
+    @Autowired
+    EventHistoryDAO eventHistoryDAO;
+
 
     public ModelAndView therapistsList(HttpSession session) {
         ModelAndView model = new ModelAndView("home");
@@ -88,11 +93,31 @@ public class ClientService {
         //removing events where nr. of participants >= free seats
         Iterator<Event> it = events.iterator();
         LocalDateTime now = LocalDateTime.now();
+        //deleting events older than "now"
+        //!!!! ONLY PERFORMED EVENTS ARE STORED IN event_history !!!
         while (it.hasNext()) {
             Event e = it.next();
             if (e.getFree() != Boolean.TRUE || e.getStartDateTime().isBefore(now)) {
+                //remove from view list
                 it.remove();
             }
+            if (e.getStartDateTime().isBefore(now)) {
+                //create new EventHistory obj.
+                EventHistory eventHistory = new EventHistory();
+                eventHistory.setEventId(e.getEventId());
+                eventHistory.setTherapistEmail(e.getTherapist().getEmail());
+                eventHistory.setStartDateTime(e.getStartDateTime());
+                eventHistory.setEndDateTime(e.getEndDateTime());
+                eventHistory.setRoom(e.getRoom());
+                eventHistory.setParticipantsNr(e.nrOfParticipants());
+                //save
+                eventHistoryDAO.save(eventHistory);
+                //delete event reservations
+                reservationDAO.deleteReservationsByEvent_EventId(e.getEventId());
+                //delete event
+                eventDAO.delete(e);
+            }
+
         }
 
         model.addObject("events", events);

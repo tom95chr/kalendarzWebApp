@@ -190,11 +190,14 @@ public class TherapistService {
             if (!event.getEventId().equals(eventId)) {
                 if (event.getRoom().equals(eventDTO.getRoom())
                         && (
+                        //All collision(1-7) types are showed on kolizje.png
                         (eventDTO.getStartDateTime().isBefore(event.getStartDateTime()) && eventDTO.getEndDateTime().isAfter(event.getStartDateTime())) ||
                                 (eventDTO.getStartDateTime().isBefore(event.getStartDateTime()) && eventDTO.getEndDateTime().isAfter(event.getEndDateTime())) ||
                                 (eventDTO.getStartDateTime().isBefore(event.getEndDateTime()) && eventDTO.getEndDateTime().isAfter(event.getEndDateTime())) ||
                                 (eventDTO.getStartDateTime().compareTo(event.getStartDateTime()) == 0 && eventDTO.getEndDateTime().compareTo(event.getEndDateTime())== 0) ||
-                                (eventDTO.getStartDateTime().isAfter(event.getStartDateTime()) && eventDTO.getEndDateTime().isBefore(event.getEndDateTime()))
+                                (eventDTO.getStartDateTime().isAfter(event.getStartDateTime()) && eventDTO.getEndDateTime().isBefore(event.getEndDateTime())) ||
+                                (eventDTO.getStartDateTime().compareTo(event.getStartDateTime()) == 0 && eventDTO.getEndDateTime().isBefore(event.getEndDateTime())) ||
+                                (eventDTO.getStartDateTime().isAfter(event.getStartDateTime()) && eventDTO.getEndDateTime().compareTo(event.getEndDateTime()) == 0)
 
                         ) ){
                     return event;
@@ -351,6 +354,10 @@ public class TherapistService {
         Reservation reservation = reservationDAO.findByConfirmationCode(confirmationCode);
         String eventId = reservationDAO.findByConfirmationCode(confirmationCode).getEvent().getEventId();
         ModelAndView modelAndView = new ModelAndView("redirect:/therapist-events-event-"+eventId+"-participants");
+        Event event = eventDAO.findByEventId(eventId);
+        if (event.nrOfParticipants() - 1 < event.getEventType().getSeats()){
+            event.setFree(Boolean.TRUE);
+        }
         reservationDAO.delete(reservation);
         return modelAndView;
     }
