@@ -195,7 +195,7 @@
                                 </div>
                                 <spring:bind path="startDate">
                                     <label style="font-weight: bold" for="typ">
-                                        Data: ( przykład 2017-11-30 )
+                                        Data:
                                     </label>
                                     <div class="form-group" ${status.error ? 'has-error' : ''}">
                                         <form:input type="date" path="startDate" class="form-control"
@@ -206,7 +206,7 @@
 
                                 <spring:bind path="startTime">
                                     <label style="font-weight: bold" for="typ">
-                                        Godzina: ( przykład 08:30 )
+                                        Godzina:
                                     </label>
                                     <div class="form-group" ${status.error ? 'has-error' : ''}">
                                         <form:input type="time" path="startTime" class="form-control"

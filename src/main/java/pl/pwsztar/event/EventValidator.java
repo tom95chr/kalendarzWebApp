@@ -9,6 +9,8 @@ import pl.pwsztar.event.EventDAO;
 import pl.pwsztar.therapists.Therapist;
 import pl.pwsztar.therapists.TherapistDAO;
 
+import java.time.LocalDateTime;
+
 @Component
 public class EventValidator implements Validator {
 
@@ -27,5 +29,11 @@ public class EventValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "room", "NotEmpty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "duration", "NotEmpty");
 
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime start = LocalDateTime.of(e.getStartDate(), e.getStartTime());
+
+        if (start.isBefore(now)){
+            errors.rejectValue("startDate","event.StartDateTimeisBeforeNow");
+        }
     }
 }

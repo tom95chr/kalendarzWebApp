@@ -271,6 +271,7 @@ public class TherapistService {
         LocalDateTime startPlusMins = eventDTO.getStartDateTime().plusMinutes(eventDTO.getDuration());
         eventDTO.setEndDateTime(startPlusMins);
 
+        //if notching changed
         if (eventDTO.getStartDateTime().isEqual(e.getStartDateTime()) &&
                 eventDTO.getEndDateTime().isEqual(e.getEndDateTime()) &&
                 eventDTO.getRoom().equals(e.getRoom()) &&
