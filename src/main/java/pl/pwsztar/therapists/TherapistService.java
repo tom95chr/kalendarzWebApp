@@ -12,6 +12,8 @@ import pl.pwsztar.client.ClientService;
 import pl.pwsztar.client.reservation.Reservation;
 import pl.pwsztar.client.reservation.ReservationDAO;
 import pl.pwsztar.event.*;
+import pl.pwsztar.event.eventHistory.EventHistory;
+import pl.pwsztar.event.eventHistory.EventHistoryDAO;
 import pl.pwsztar.event.eventType.EventType;
 import pl.pwsztar.event.eventType.EventTypeDAO;
 import pl.pwsztar.login.LoginDetails;
@@ -70,6 +72,12 @@ public class TherapistService {
     @Autowired
     EditProfileValidator editProfileValidator;
 
+    @Autowired
+    EventHistoryDAO eventHistoryDAO;
+
+    @Autowired
+    EventService eventService;
+
     public ModelAndView therapistEventsGet() {
 
         ModelAndView model = new ModelAndView("therapist/therapistEvents");
@@ -79,11 +87,15 @@ public class TherapistService {
         model.addObject("events", events);
         model.addObject("therapists", therapistDAO.findAll());
 
-        //number of participants
+        LocalDateTime now = LocalDateTime.now();
+        //move to history and create participant list
         List<Integer> participants = new ArrayList<Integer>();
         for (Event e : events
                 ) {
             participants.add(new Integer(e.nrOfParticipants()));
+            if (e.getStartDateTime().isBefore(now)){
+                eventService.moveToHistory(e);
+            }
         }
         model.addObject("participants", participants);
         return model;

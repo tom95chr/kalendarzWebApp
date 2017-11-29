@@ -12,6 +12,7 @@ import pl.pwsztar.client.reservation.ReservationDAO;
 import pl.pwsztar.client.reservation.ReservationDTO;
 import pl.pwsztar.event.Event;
 import pl.pwsztar.event.EventDAO;
+import pl.pwsztar.event.EventService;
 import pl.pwsztar.event.eventHistory.EventHistory;
 import pl.pwsztar.event.eventHistory.EventHistoryDAO;
 import pl.pwsztar.event.eventType.EventTypeDAO;
@@ -74,7 +75,7 @@ public class ClientService {
     RecaptchaFormValidator recaptchaFormValidator;
 
     @Autowired
-    EventHistoryDAO eventHistoryDAO;
+    EventService eventService;
 
 
     public ModelAndView therapistsList(HttpSession session) {
@@ -102,22 +103,8 @@ public class ClientService {
                 it.remove();
             }
             if (e.getStartDateTime().isBefore(now)) {
-                //create new EventHistory obj.
-                EventHistory eventHistory = new EventHistory();
-                eventHistory.setEventId(e.getEventId());
-                eventHistory.setTherapistEmail(e.getTherapist().getEmail());
-                eventHistory.setStartDateTime(e.getStartDateTime());
-                eventHistory.setEndDateTime(e.getEndDateTime());
-                eventHistory.setRoom(e.getRoom());
-                eventHistory.setParticipantsNr(e.nrOfParticipants());
-                //save
-                eventHistoryDAO.save(eventHistory);
-                //delete event reservations
-                reservationDAO.deleteReservationsByEvent_EventId(e.getEventId());
-                //delete event
-                eventDAO.delete(e);
+                eventService.moveToHistory(e);
             }
-
         }
 
         model.addObject("events", events);
