@@ -27,9 +27,7 @@
 <body>
 
 <div class="container">
-    <div class="row">
 
-        <div class="col-sm-5">
             <a class="btn btn-primary" style="margin-top: 2%" href="/therapist-events">Powrót</a>
             <h2>Edytuj wybrany termin spotkania</h2>
             <h1 style="color: red">${editError}

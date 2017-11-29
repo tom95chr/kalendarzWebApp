@@ -200,7 +200,7 @@
         <div class="row">
 
             <c:forEach items="${therapists}" var="therapist" varStatus="status">
-                <div class="card col-sm-4">
+                <div class="card col-sm-4 col-md-6 col-lg-4">
                     <div class="card-img">
                         <span class="mbr-iconfont mbri-users" media-simple="true"></span>
                     </div>

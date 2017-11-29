@@ -9,7 +9,7 @@ import pl.pwsztar.therapists.Therapist;
 import pl.pwsztar.therapists.TherapistDAO;
 
 @Component
-public class ReservationValidator implements Validator {
+public class RegistrationValidator implements Validator {
 
     @Autowired
     TherapistDAO therapistDAO;

@@ -21,6 +21,7 @@
         <intercept-url pattern="/event-{eventId}/drop" access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')"/>
         <intercept-url pattern="/therapist-events/event-{eventId}/participants" access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')"/>
         <intercept-url pattern="/therapist-events/event-{eventId}/edit" access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')"/>
+        <intercept-url pattern="/edit-profile" access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')"/>
 
         <form-login  login-page="/login"
                      username-parameter="ssoId"

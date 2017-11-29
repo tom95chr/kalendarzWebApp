@@ -13,10 +13,14 @@ import pl.pwsztar.client.reservation.ReservationDAO;
 import pl.pwsztar.event.*;
 import pl.pwsztar.event.eventType.EventType;
 import pl.pwsztar.event.eventType.EventTypeDAO;
+import pl.pwsztar.login.LoginDetails;
 import pl.pwsztar.login.LoginDetailsDAO;
 import pl.pwsztar.login.LoginService;
 import pl.pwsztar.mainServices.EmailService;
 import pl.pwsztar.mainServices.googleCalendar.GoogleCalendar;
+import pl.pwsztar.therapists.editProfile.EditProfileDTO;
+import pl.pwsztar.therapists.editProfile.EditProfileValidator;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -61,6 +65,9 @@ public class TherapistService {
 
     @Autowired
     ClientDAO clientDAO;
+
+    @Autowired
+    EditProfileValidator editProfileValidator;
 
     public ModelAndView therapistEventsGet() {
 
@@ -360,6 +367,50 @@ public class TherapistService {
         }
         reservationDAO.delete(reservation);
         return modelAndView;
+    }
+
+    public ModelAndView editProfileGet(){
+        ModelAndView modelAndView = new ModelAndView("/therapist/editProfile");
+        modelAndView.addObject("therapist", therapistDAO.findByEmail(loginService.getPrincipal()));
+        modelAndView.addObject("editProfileDTO",new EditProfileDTO());
+        return modelAndView;
+    }
+
+    public ModelAndView editProfilePost(EditProfileDTO editProfileDTO, BindingResult bindingResult){
+        ModelAndView model = new ModelAndView("/therapist/editProfile");
+        Therapist therapist = therapistDAO.findByEmail(loginService.getPrincipal());
+        model.addObject("therapist", therapist);
+        model.addObject("editProfileDTO",new EditProfileDTO());
+
+        editProfileValidator.validate(editProfileDTO,bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return  model;
+        }
+
+        //if editData equals therapistData
+        if (!editProfileDTO.getFirstName().equals("")){
+            therapist.setFirstName(editProfileDTO.getFirstName());
+        }
+        if (!editProfileDTO.getLastName().equals("")){
+            therapist.setLastName(editProfileDTO.getLastName());
+        }
+        if (!editProfileDTO.getSpecialization().equals("")){
+            therapist.setSpecialization(editProfileDTO.getSpecialization());
+        }
+        if (!editProfileDTO.getTelephone().equals("")){
+            therapist.setTelephone(editProfileDTO.getTelephone());
+        }
+        if (!editProfileDTO.getDescription().equals("")){
+            therapist.setDescription(editProfileDTO.getDescription());
+        }
+        if (!editProfileDTO.getEmail().equals("")){
+            therapist.setEmail(editProfileDTO.getEmail());
+        }
+
+        therapistDAO.save(therapist);
+
+        return model;
     }
 
     public List<String> getEventTypesId(List<EventType> eventTypes, String eventId) {

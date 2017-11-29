@@ -38,7 +38,7 @@ public class RegistrationService {
     private TherapistDAO therapistDAO;
 
     @Autowired
-    private ReservationValidator reservationValidator;
+    private RegistrationValidator registrationValidator;
 
     @Autowired
     private ReservationDAO reservationDAO;
@@ -80,7 +80,7 @@ public class RegistrationService {
         if(therapistDAO.findByTherapistId(therapist.getTherapistId())!=null){
             therapist.setTherapistId(registrationDTO.getFirstName()+registrationDTO.getLastName()+"1");
         }
-        reservationValidator.validate(registrationDTO, bindingResult);
+        registrationValidator.validate(registrationDTO, bindingResult);
 
         if (bindingResult.hasErrors()) {
             ModelAndView m = new ModelAndView("admin/registration/userForm");

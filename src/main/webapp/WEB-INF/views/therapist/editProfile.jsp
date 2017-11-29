@@ -4,8 +4,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-
-<!DOCTYPE html>
 <html>
 <head>
     <!-- Site made with Mobirise Website Builder v4.3.5, https://mobirise.com -->
@@ -15,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="resources/assets/images/logo-418x449.png" type="image/x-icon">
     <meta name="description" content="Web Site Maker Description">
-    <title>Nowe spotkanie</title>
+    <title>Edutuj profil</title>
     <link rel="stylesheet" href="resources/assets/web/assets/mobirise-icons/mobirise-icons.css">
     <link rel="stylesheet" href="resources/assets/tether/tether.min.css">
     <link rel="stylesheet" href="resources/assets/bootstrap/css/bootstrap.min.css">
@@ -83,8 +81,7 @@
             </ul>
             <!-- login button -->
             <%
-                if (session.getAttribute("loggedUser")=="anonymousUser" || session.getAttribute("loggedUser")==null){
-                    %>
+                if (session.getAttribute("loggedUser") == "anonymousUser" || session.getAttribute("loggedUser") == null) { %>
             <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
                                                            href="/login"><span
                     class="mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>
@@ -140,145 +137,148 @@
     </div>
 </div>
 
-</section>
+<section class="features8 cid-qz9i5WARlL mbr-parallax-background" id="features8-m" data-rv-view="68">
 
-<section class="mbr-section form1 cid-qz9pErsY1P" id="form1-1h" data-rv-view="183">
-
+    <div class="mbr-overlay" style="opacity: 0.2; background-color: rgb(35, 35, 35);">
+    </div>
     <div class="container">
         <div class="row">
-            <div class="card col-sm-6" style="min-width: 200px">
+            <div class="container">
                 <div class="row justify-content-center">
-                    <div>
-                        <h2 class="mbr-section-title align-center pb-3 mbr-fonts-style display-2">
-                            Wprowadź dane i utwórz spotkanie
+                    <div class="title col-12 col-lg-8">
+                        <h2 class="mbr-section-title align-center pb-3 mbr-fonts-style display-2"
+                            style="color: white; font-weight: bold">
+                            <br>
+                            Edytuj swój profil
                         </h2>
-                        <h3 class="mbr-section-subtitle align-center mbr-light pb-3 mbr-fonts-style display-5"
-                            style="color: red;font-weight: bold">
-
-                            <c:if test="${collidedEvent != null}">
-                                NIE UTWORZONO SPOTKANIA !<br> Wybrana sala jest zajęta przez: <br>
-                                ${collidedEvent.therapist.specialization} ${collidedEvent.therapist.firstName} ${collidedEvent.therapist.lastName}
-                                <br>dnia ${collidedEvent.startDateTime.dayOfMonth}-${collidedEvent.startDateTime.monthValue}-${collidedEvent.startDateTime.year}
-                                od godz: ${collidedEvent.startDateTime.toLocalTime()}
-                                do godz. ${collidedEvent.endDateTime.toLocalTime()}
-                                <c:if test="${!collidedEvent.startDateTime.toLocalDate().isEqual(collidedEvent.endDateTime.toLocalDate())}">
-                                    dnia: ${collidedEvent.endDateTime.dayOfMonth}-${collidedEvent.endDateTime.monthValue}-${collidedEvent.endDateTime.year}
-                                </c:if>
-                                <br>${info}
-
-                            </c:if>
-                        </h3>
-                        <c:if test="${collidedEvent == null}">
-                            <h3 class="mbr-section-subtitle align-center mbr-light pb-3 mbr-fonts-style display-5"
-                                style="color: #1f00ff; font-weight: 600">
-                                    ${successInfo}
-                            </h3>
-                        </c:if>
                     </div>
                 </div>
-
-                <div class="container">
+            </div>
+            <div class="card col-sm-4 col-md-6 col-lg-4">
+                <div class="card-img">
+                    <span class="mbr-iconfont mbri-users" media-simple="true"></span>
+                </div>
+                <div class="card-box align-center">
+                    <h4 class="card-title mbr-fonts-style display-7">
+                        ${therapist.firstName} ${therapist.lastName}
+                    </h4>
+                    <p class="mbr-text mbr-fonts-style display-7">${therapist.specialization}</p>
+                    <p class="mbr-text mbr-fonts-style display-7">
+                        ${therapist.description}
+                    </p>
+                    <div class="mbr-section-btn text-center"><a href=/therapist-${therapist.therapistId}
+                                                                class="btn btn-secondary display-4 disabled">
+                        Wybierz</a></div>
+                </div>
+            </div>
+            <%-- form--%>
+            <div class="col-sm-8">
+                <div class="container" style="color: white">
                     <div class="row justify-content-center">
-                        <div class="media-container-column">
+                        <div class="media-container-column col-lg-8" data-form-type="formoid">
+                            <div data-form-alert="" hidden="">
+                                Dziękujemy za wypełnienie formularza.
+                            </div>
 
-                            <form:form method="POST" modelAttribute="eventDTO" class="form-signin">
-                                <div class="form-group" style="min-width: 200px">
-                                    <spring:bind path="eventType">
-                                        <label style="font-weight: bold" for="typ">Wybierz typ spotkania</label>
-                                        <form:select class="form-control" path="eventType" id="typ">
-                                            <c:forEach items="${eventTypes}" var="event">
-                                                <form:option value="${event.eventTypeId}"
-                                                             label="${event.eventTypeId}"></form:option>
-                                            </c:forEach>
-                                        </form:select>
+                            <form:form method="POST" modelAttribute="editProfileDTO" class="form-signin">
+                                <div class="row row-sm-offset">
+
+                                    <div class="col-md-6 multi-horizontal" data-for="firstName">
+                                        <spring:bind path="firstName">
+                                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                                                <label class="form-control-label mbr-fonts-style display-7"
+                                                       for="firstName-form1-1n">Imię</label>
+                                                <form:input type="text" path="firstName" class="form-control"
+                                                            placeholder="${therapist.firstName}"
+                                                            id="firstName-form1-1n" maxlength="50"></form:input>
+                                                <form:errors path="firstName"></form:errors>
+                                            </div>
+                                        </spring:bind>
+                                    </div>
+
+                                    <div class="col-md-6 multi-horizontal" data-for="lastName">
+                                        <spring:bind path="lastName">
+                                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                                                <label class="form-control-label mbr-fonts-style display-7"
+                                                       for="lastName-form1-1n">Nazwisko</label>
+                                                <form:input type="text" path="lastName" class="form-control"
+                                                            placeholder="${therapist.lastName}"
+                                                            id="lastName-form1-1n" maxlength="50"></form:input>
+                                                <form:errors path="lastName"></form:errors>
+                                            </div>
+                                        </spring:bind>
+                                    </div>
+
+                                    <div class="col-md-6 multi-horizontal" data-for="email">
+                                        <spring:bind path="email">
+                                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                                                <label class="form-control-label mbr-fonts-style display-7"
+                                                       for="email-form1-1n">Adres email</label>
+                                                <form:input type="email" path="email" class="form-control"
+                                                            placeholder="${therapist.email}"
+                                                            id="email-form1-1n" maxlength="50"></form:input>
+                                                <form:errors path="email"></form:errors>
+                                            </div>
+                                        </spring:bind>
+                                    </div>
+
+                                    <div class="col-md-6 multi-horizontal" data-for="telephone">
+                                        <spring:bind path="telephone">
+                                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                                                <label class="form-control-label mbr-fonts-style display-7"
+                                                       for="telephone-form1-1n">Telefon</label>
+                                                <form:input type="tel" path="telephone" class="form-control"
+                                                            placeholder="${therapist.telephone}"
+                                                            id="telephone-form1-1n" maxlength="20"></form:input>
+                                                <form:errors path="telephone"></form:errors>
+                                            </div>
+                                        </spring:bind>
+                                    </div>
+                                    <div class="col-md-12 multi-horizontal" data-for="specialization">
+                                        <spring:bind path="specialization">
+                                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                                                <label class="form-control-label mbr-fonts-style display-7"
+                                                       for="specialization-form1-1n">Specjalizacja</label>
+                                                <form:input type="text" path="specialization" class="form-control"
+                                                            placeholder="${therapist.specialization}"
+                                                            id="specialization-form1-1n" maxlength="50"></form:input>
+                                                <form:errors path="specialization"></form:errors>
+                                            </div>
+                                        </spring:bind>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group" data-for="description">
+                                    <spring:bind path="description">
+                                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                                            <label class="form-control-label mbr-fonts-style display-7"
+                                                   for="description-form1-1n">Opis</label>
+                                            <form:textarea type="text" path="description" class="form-control"
+                                                           placeholder="${therapist.description}"
+                                                           id="description-form1-1n" rows="5"
+                                                           maxlength="255"></form:textarea>
+                                            <form:errors path="description"></form:errors>
+                                        </div>
                                     </spring:bind>
                                 </div>
-                                <spring:bind path="startDate">
-                                    <label style="font-weight: bold" for="typ">
-                                        Data: ( przykład 2017-11-30 )
-                                    </label>
-                                    <div class="form-group" ${status.error ? 'has-error' : ''}">
-                                        <form:input type="date" path="startDate" class="form-control"
-                                                    placeholder="Data"></form:input>
-                                        <form:errors path="startDate"></form:errors>
-                                    </div>
-                                </spring:bind>
 
-                                <spring:bind path="startTime">
-                                    <label style="font-weight: bold" for="typ">
-                                        Godzina: ( przykład 08:30 )
-                                    </label>
-                                    <div class="form-group" ${status.error ? 'has-error' : ''}">
-                                        <form:input type="time" path="startTime" class="form-control"
-                                                    placeholder="Godzina"></form:input>
-                                        <form:errors path="startTime"></form:errors>
-                                    </div>
-                                </spring:bind>
-
-                                <spring:bind path="duration">
-                                    <label style="font-weight: bold" for="typ">
-                                        Czas trwania w minutach
-                                    </label>
-                                    <div class="form-group" ${status.error ? 'has-error' : ''}">
-                                        <form:input type="number" path="duration" min="5" max="180"
-                                                    class="form-control "
-                                                    placeholder="Czas trwania (minuty)"></form:input>
-                                        <form:errors path="duration"></form:errors>
-                                    </div>
-                                </spring:bind>
-
-                                <spring:bind path="room">
-                                    <label style="font-weight: bold" for="typ">
-                                        Sala:
-                                    </label>
-                                    <div class="form-group" ${status.error ? 'has-error' : ''}">
-                                        <form:input type="text" path="room" class="form-control"
-                                                    placeholder="Sala"></form:input>
-                                        <form:errors path="room"></form:errors>
-                                    </div>
-                                </spring:bind>
-
-                                <spring:bind path="numberOfRepetitions">
-                                    <label style="font-weight: bold" for="typ">
-                                        Czy powtarzać spotkanie ?
-                                    </label>
-                                    <div class="form-group" ${status.error ? 'has-error' : ''}">
-                                        <form:input type="number" path="numberOfRepetitions" min="0" max="53"
-                                                    class="form-control"
-                                                    placeholder="Liczba tygodni"></form:input>
-                                        <form:errors path="numberOfRepetitions"></form:errors>
-                                    </div>
-                                </spring:bind>
-                                <button class="btn btn-lg btn-primary btn-block" type="submit">Utwórz</button>
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-primary btn-form display-4">WYŚLIJ</button>
+                                </span>
                             </form:form>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="col-sm-6 col-6 col-lg-6" style="min-width: 200px">
-                <div class="container">
-                    <div>
-                        <h4 class="mbr-section-title align-center pb-3 mbr-fonts-style display-5">
-                            <br>
-                            Kalendarz wizyt wszystkich terapeutów
-                        </h4>
-                    </div>
-                    <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showPrint=0&amp;showTabs=0&amp;
-showTz=0&amp;mode=WEEK&amp;height=600&amp;wkst=2&amp;hl=pl&amp;bgcolor=%23c0c0c0&amp;
-<c:forEach items="${therapists}" var="therapist">
-src=${therapist.googleCalendarId}&amp;color=${therapist.colour}&amp;
-</c:forEach>
-ctz=Europe%2FWarsaw" style="border-width:0" width="500" height="600" frameborder="0" scrolling="no"></iframe>
-                </div>
-            </div>
+            <%--formend--%>
         </div>
     </div>
 </section>
 
 <!-- footer -->
 
-<section class="cid-qz9pV4HiBN" id="footer1-1i" data-rv-view="186">
+<section class="cid-qz9d6nOi74" id="footer1-g" data-rv-view="686">
 
 
     <div class="container">
@@ -358,17 +358,18 @@ ctz=Europe%2FWarsaw" style="border-width:0" width="500" height="600" frameborder
     </div>
 </section>
 
-
 <script src="resources/assets/web/assets/jquery/jquery.min.js"></script>
 <script src="resources/assets/popper/popper.min.js"></script>
 <script src="resources/assets/tether/tether.min.js"></script>
 <script src="resources/assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="resources/assets/dropdown/js/script.min.js"></script>
-<script src="resources/assets/touch-swipe/jquery.touch-swipe.min.js"></script>
 <script src="resources/assets/smooth-scroll/smooth-scroll.js"></script>
+<script src="resources/assets/touch-swipe/jquery.touch-swipe.min.js"></script>
+<script src="resources/assets/countdown/jquery.countdown.min.js"></script>
+<script src="resources/assets/data-tables/jquery.data-tables.min.js"></script>
+<script src="resources/assets/data-tables/data-tables.bootstrap4.min.js"></script>
+<script src="resources/assets/jarallax/jarallax.min.js"></script>
+<script src="resources/assets/dropdown/js/script.min.js"></script>
 <script src="resources/assets/theme/js/script.js"></script>
-<script src="resources/assets/formoid/formoid.min.js"></script>
-
 
 </body>
 </html>

@@ -18,11 +18,14 @@ import pl.pwsztar.event.EventDTO;
 import pl.pwsztar.event.eventType.EventType;
 import pl.pwsztar.event.eventType.EventTypeDAO;
 import pl.pwsztar.event.eventType.EventTypeValidator;
+import pl.pwsztar.login.LoginDetails;
 import pl.pwsztar.login.LoginDetailsDAO;
 import pl.pwsztar.login.LoginService;
 import pl.pwsztar.mainServices.googleCalendar.GoogleCalendar;
+import pl.pwsztar.therapists.editProfile.EditProfileDTO;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.text.Format;
@@ -73,5 +76,15 @@ public class TherapistContoller {
     @RequestMapping("/drop-{confirmationCode}")
     public ModelAndView dropParticipant(@PathVariable("confirmationCode") String confirmationCode){
         return therapistService.dropParticipant(confirmationCode);
+    }
+
+    @RequestMapping(value = "/edit-profile", method = RequestMethod.GET)
+    public ModelAndView editProfileGet(){
+        return therapistService.editProfileGet();
+    }
+
+    @RequestMapping(value = "/edit-profile", method = RequestMethod.POST)
+    public ModelAndView editProfilePost(@ModelAttribute("therapistDTO")EditProfileDTO editProfileDTO, BindingResult bindingResult){
+        return therapistService.editProfilePost(editProfileDTO, bindingResult);
     }
 }
