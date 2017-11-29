@@ -17,10 +17,10 @@
         <intercept-url pattern="admin/therapist-{therapistId}/drop" access="hasRole('ADMIN')" />
         <!--therapist and admin-->
         <intercept-url pattern="/therapist-events" access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')"/>
-        <intercept-url pattern="/therapist-events-createEvent" access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')"/>
+        <intercept-url pattern="therapist-createEvent" access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')"/>
         <intercept-url pattern="/event-{eventId}/drop" access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')"/>
-        <intercept-url pattern="/therapist-events/event-{eventId}/participants" access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')"/>
-        <intercept-url pattern="/therapist-events/event-{eventId}/edit" access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')"/>
+        <intercept-url pattern="/therapist-events/event-{eventId}-participants" access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')"/>
+        <intercept-url pattern="/edit-{eventId}" access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')"/>
         <intercept-url pattern="/edit-profile" access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')"/>
 
         <form-login  login-page="/login"

@@ -221,7 +221,7 @@
                                         </td>
                                         <td class="body-item align-center"
                                             style="font-size: medium; background-color: #d0ffc7 ">
-                                            <a href="<c:url value="/therapist-events/event-${event.eventId}/edit" />">edytuj</a>
+                                            <a href="<c:url value="edit-${event.eventId}" />">edytuj</a>
                                         </td>
                                         <td class="body-item align-center" style="font-size: medium; background-color:#ffe7c1 ">
                                             <a href="<c:url value="/event-${event.eventId}/drop" />">usuń</a>

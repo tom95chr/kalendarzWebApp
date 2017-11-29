@@ -62,12 +62,12 @@ public class TherapistContoller {
         return therapistService.eventParticipants(eventId);
     }
 
-    @RequestMapping(value = "/therapist-events/event-{eventId}/edit",method = RequestMethod.GET)
+    @RequestMapping(value = "/edit-{eventId}",method = RequestMethod.GET)
     public ModelAndView editEventGet(@PathVariable("eventId") String eventId){
         return therapistService.editEventGet(eventId);
     }
 
-    @RequestMapping(value = "/therapist-events/event-{eventId}/edit",method = RequestMethod.POST)
+    @RequestMapping(value = "/edit-{eventId}",method = RequestMethod.POST)
     public ModelAndView editEventPost(@ModelAttribute("eventDTO") EventDTO eventDTO, BindingResult bindingResult,
                                       @PathVariable("eventId") String eventId){
         return therapistService.editEventPost(eventId,eventDTO,bindingResult);
