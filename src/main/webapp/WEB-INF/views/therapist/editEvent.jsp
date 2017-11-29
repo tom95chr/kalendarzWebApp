@@ -32,7 +32,7 @@
             <h2>Edytuj wybrany termin spotkania</h2>
             <h1 style="color: red">${editError}
             <c:if test="${collidedEvent != null}">
-                NIE UTWORZONO SPOTKANIA !<br> Wybrana sala jest zajęta przez: <br>
+                BŁĄD EDYCJI SPOTKANIA !<br> Wybrana sala jest zajęta przez: <br>
                 ${collidedEvent.therapist.specialization} ${collidedEvent.therapist.firstName} ${collidedEvent.therapist.lastName}
                 <br>dnia ${collidedEvent.startDateTime.dayOfMonth}-${collidedEvent.startDateTime.monthValue}-${collidedEvent.startDateTime.year}
                 od godz: ${collidedEvent.startDateTime.toLocalTime()}

@@ -34,9 +34,11 @@
         <authentication-provider>
             <jdbc-user-service data-source-ref="dataSource"
                                users-by-username-query=
-                                       "SELECT therapist_email, password, enabled FROM login_details WHERE therapist_email=?"
+                                       "SELECT email, password, enabled FROM login_details join therapist on
+                                       (therapist_id = login_details.therapist_therapist_id) WHERE email=?"
                                authorities-by-username-query=
-                                       "SELECT therapist_email, user_role FROM login_details WHERE therapist_email =?  " />
+                                       "SELECT email,user_role FROM login_details join therapist on
+                                       (therapist_id = login_details.therapist_therapist_id) WHERE email=?" />
             <password-encoder ref="bcryptEncoder"/>
         </authentication-provider>
     </authentication-manager>

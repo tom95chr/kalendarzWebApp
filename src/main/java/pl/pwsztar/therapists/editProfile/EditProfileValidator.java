@@ -19,5 +19,8 @@ public class EditProfileValidator implements Validator {
     public void validate(Object o, Errors errors) {
         EditProfileDTO t = (EditProfileDTO) o;
 
+        if (therapistDAO.findByEmail(t.getEmail()) != null){
+            errors.rejectValue("email", "Duplicate.therapist.email");
+        }
     }
 }

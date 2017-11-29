@@ -26,7 +26,7 @@ public class RegistrationValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "specialization", "NotEmpty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
-        if (t.getEmail().length() < 6 || t.getEmail().length() > 32) {
+        if (t.getEmail().length() < 4 || t.getEmail().length() > 100) {
             errors.rejectValue("email", "Size.therapist.email");
         }
         if (therapistDAO.findByEmail(t.getEmail()) != null) {

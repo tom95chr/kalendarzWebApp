@@ -151,6 +151,12 @@
                             <br>
                             Edytuj swój profil
                         </h2>
+                        <c:if test="${emailChanged}">
+                        <h2 class="mbr-section-title align-center pb-3 mbr-fonts-style display-2"
+                            style="color: red; font-weight: bold">
+                            Zmieniłeś adres email. Wyloguj się aby zatwierdzić zmiany.
+                        </h2>
+                        </c:if>
                     </div>
                 </div>
             </div>
@@ -214,9 +220,7 @@
                                             <div class="form-group ${status.error ? 'has-error' : ''}">
                                                 <label class="form-control-label mbr-fonts-style display-7"
                                                        for="email-form1-1n">Adres email</label>
-                                                <form:input type="email" path="email" class="form-control"
-                                                            placeholder="${therapist.email}"
-                                                            id="email-form1-1n" maxlength="50"></form:input>
+                                                <form:input type="email" path="email" class="form-control" placeholder="${therapist.email}" id="email-form1-1n" maxlength="50"></form:input>
                                                 <form:errors path="email"></form:errors>
                                             </div>
                                         </spring:bind>

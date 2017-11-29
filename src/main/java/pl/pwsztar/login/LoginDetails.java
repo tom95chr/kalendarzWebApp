@@ -3,6 +3,7 @@ package pl.pwsztar.login;
 import pl.pwsztar.therapists.Therapist;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by Lapek on 01.07.2017.
@@ -12,21 +13,22 @@ import javax.persistence.*;
 @Table(name = "login_details")
 public class LoginDetails {
 
-    private String email;
+    private String therapist_id;
     private String password;
     private Boolean enabled;
     private String userRole;
     private Therapist therapist;
 
     @Id
-    @Column(name = "email")
-    public String getEmail() {
-        return email;
+    @Column(name = "therapist_id")
+    public String getTherapist_id() {
+        return therapist_id;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setTherapist_id(String therapist_id) {
+        this.therapist_id = therapist_id;
     }
+
     @Column(name = "password")
     public String getPassword() {
         return password;
@@ -45,8 +47,6 @@ public class LoginDetails {
         this.userRole = userRole;
     }
 
-    /*@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "email")*/
     @OneToOne(fetch = FetchType.EAGER)
     @MapsId
     public Therapist getTherapist() {

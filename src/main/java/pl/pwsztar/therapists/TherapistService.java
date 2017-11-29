@@ -1,5 +1,6 @@
 package pl.pwsztar.therapists;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -132,8 +133,8 @@ public class TherapistService {
             } else {
                 try {
                     String eventId = googleCalendar.createEvent(therapistDAO.findByEmail(loginService.getPrincipal()).getGoogleCalendarId(),
-                            "wolny", "free", startDate + ":00.000+02:00",
-                            endDate + ":00.000+02:00");
+                            "wolny", "free", startDate + ":00.000+01:00",
+                            endDate + ":00.000+01:00");
 
                     Event event = new Event();
                     event.setEventId(eventId);
@@ -323,7 +324,7 @@ public class TherapistService {
             String therapistEmail = loginService.getPrincipal();
             try {
                 Boolean isUpdated = googleCalendar.editEvent(therapistEmail, eventId, startDate +
-                        ":59.000+02:00", endDate + ":59.000+02:00", availability);
+                        ":59.000+01:00", endDate + ":59.000+01:00", availability);
 
             } catch (IOException ioException) {
                 ioException.printStackTrace();
@@ -406,6 +407,7 @@ public class TherapistService {
         }
         if (!editProfileDTO.getEmail().equals("")){
             therapist.setEmail(editProfileDTO.getEmail());
+            model.addObject("emailChanged", Boolean.TRUE);
         }
 
         therapistDAO.save(therapist);

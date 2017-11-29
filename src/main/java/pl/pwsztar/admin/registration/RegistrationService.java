@@ -145,9 +145,8 @@ public class RegistrationService {
         }
         reservationDAO.deleteReservationsByEvent_Therapist_TherapistId(therapistId);
         Therapist therapist = therapistDAO.findByTherapistId(therapistId);
-        therapist.setLoginDetails(loginDetailsDAO.findByEmail(therapistId));
+        loginDetailsDAO.delete(therapistId);
         therapistDAO.delete(therapist);
-
 
         TherapistColour therapistColour = therapistColourDAO.findByColourCode(t.getColour());
         therapistColour.setTaken(false);
