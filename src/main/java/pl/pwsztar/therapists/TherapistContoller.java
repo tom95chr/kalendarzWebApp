@@ -57,7 +57,7 @@ public class TherapistContoller {
         return therapistService.dropEvent(eventId);
     }
 
-    @RequestMapping("/therapist-events-event-{eventId}-participants")
+    @RequestMapping("/event-{eventId}-participants")
     public ModelAndView eventParticipants(@PathVariable("eventId") String eventId){
         return therapistService.eventParticipants(eventId);
     }

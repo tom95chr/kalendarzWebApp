@@ -209,7 +209,7 @@
                                         <td class="body-item mbr-fonts-style display-7" style="font-size: small">${event.calculateDuration()}min.</td>
                                         <td class="body-item mbr-fonts-style display-7" style="font-size: small">${event.room}</td>
                                         <td class="body-item mbr-fonts-style display-7 align-center" style="font-size: small">
-                                            <a href="<c:url value="/therapist-events-event-${event.eventId}-participants" />">${event.nrOfParticipants()}</a>
+                                            <a href="<c:url value="/event-${event.eventId}-participants" />">${event.nrOfParticipants()}</a>
                                         </td>
                                         <td class="body-item mbr-fonts-style display-7 align-center" style="font-size: small">
                                             <c:if test="${event.free}">
