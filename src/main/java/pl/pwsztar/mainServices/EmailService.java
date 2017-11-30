@@ -116,6 +116,52 @@ public class EmailService {
         }
     }
 
+    public void resetPasswordEmail(String recipientEmail, String subject, String token, String emailToken) {
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", mailSmtpAuth);
+        props.put("mail.smtp.starttls.enable", mailSmtpStarttlsEnable);
+        props.put("mail.smtp.host", mailSmtpHost);
+        props.put("mail.smtp.port", mailSmtpPort);
+        props.put("mail.smtp.ssl.trust", mailSmtpHost);
+
+        // Get the Session object.
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+
+        try {
+            // Create a default MimeMessage object.
+            Message message = new MimeMessage(session);
+
+            // Set From: header field of the header.
+            message.setFrom(new InternetAddress(mailEmailFrom));
+
+            // Set To: header field of the header.
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(recipientEmail));
+
+            // Set Subject: header field
+            message.setSubject(subject);
+
+            // Send the actual HTML message, as big as you like
+            message.setContent("<head></head><body><a href=http://localhost:8080/reset-"+token+"-"+emailToken+">" +
+                            "Kliknij tutaj aby zresetować hasło</a><br><p>Zostaniesz przekierowany do " +
+                            "formularza odzyskiwania hasła.</p>",
+                    "text/html; charset=utf-8");
+
+            // Send message
+            Transport.send(message);
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public void sendHtmlEmail(String recipientEmail, String subject, String text1, String text2, String text3,
                               String confirmPageUrl, String text4, String confirmationLinkName, String code) {

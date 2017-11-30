@@ -50,11 +50,4 @@ public class AdminController {
     public ModelAndView dropEventType(@PathVariable("eventTypeId") String eventTypeId, HttpSession session){
         return adminService.dropEventType(eventTypeId,session);
     }
-
-    @RequestMapping("/changepswd-{therapistId}")
-    public ModelAndView changePassword(@PathVariable("therapistId") String therapistId, HttpSession session){
-        return adminService.changePassword(therapistId,session);
-    }
-
-
 }

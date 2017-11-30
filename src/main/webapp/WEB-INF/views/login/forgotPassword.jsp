@@ -4,6 +4,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
+
+<!DOCTYPE html>
 <html>
 <head>
     <!-- Site made with Mobirise Website Builder v4.3.5, https://mobirise.com -->
@@ -13,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="resources/assets/images/logo-418x449.png" type="image/x-icon">
     <meta name="description" content="Web Site Maker Description">
-    <title>Zmień hasło</title>
+    <title>Przypomnij hasło</title>
     <link rel="stylesheet" href="resources/assets/web/assets/mobirise-icons/mobirise-icons.css">
     <link rel="stylesheet" href="resources/assets/tether/tether.min.css">
     <link rel="stylesheet" href="resources/assets/bootstrap/css/bootstrap.min.css">
@@ -27,7 +29,7 @@
 
 </head>
 <body>
-<section class="menu cid-qz9d6i0EaI" once="menu" id="menu1-1p" data-rv-view="394">
+<section class="menu cid-qz9d6i0EaI" once="menu" id="menu1-e" data-rv-view="684">
 
 
     <nav class="navbar navbar-expand beta-menu navbar-dropdown align-items-center navbar-fixed-top navbar-toggleable-sm">
@@ -56,16 +58,20 @@
             <ul class="navbar-nav nav-dropdown" data-app-modern-menu="true">
                 <li class="nav-item">
                     <a class="nav-link link text-white display-4" href="/"><span
-                            class="mbri-home mbr-iconfont mbr-iconfont-btn"></span>Home</a>
+                            class="mbri-home mbr-iconfont mbr-iconfont-btn"></span>&nbsp;Home</a>
                 </li>
-                <li class="nav-item"><a class="nav-link link text-white display-4" href="/admin-registration"><span
-                        class="mbri-plus mbr-iconfont mbr-iconfont-btn"></span>
-                    Utwórz użytkownika</a>
+                <li class="nav-item">
+                    <a class="nav-link link text-white display-4" href="/confirm-reservation"><span
+                            class="mbri-success mbr-iconfont mbr-iconfont-btn"></span>
+                        Potwierdzenie</a>
                 </li>
-                <li class="nav-item"><a class="nav-link link text-white display-4" href="/admin-event-types"><span
-                        class="mbri-bookmark mbr-iconfont mbr-iconfont-btn"></span>
-                    Typy spotkań</a>
-                </li>
+                <li class="nav-item"><a class="nav-link link text-white display-4" href="/my-reservation"><span
+                        class="mbri-desktop mbr-iconfont mbr-iconfont-btn"></span>
+                    &nbsp;Moja rezerwacja</a></li>
+                <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
+                    <li class="nav-item"><a class="nav-link link text-white display-4" href="/therapist-events"><span
+                            class="mbri-smile-face mbr-iconfont mbr-iconfont-btn"></span>Terapeuta</a></li>
+                </sec:authorize>
                 <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
                     <li class="nav-item"><a class="nav-link link text-white display-4" href="/admin"><span
                             class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>Admin</a></li>
@@ -73,7 +79,7 @@
             </ul>
             <!-- login button -->
             <%
-                if (session.getAttribute("loggedUser")=="anonymousUser" || session.getAttribute("loggedUser")==null){
+                if (session.getAttribute("loggedUser") == "anonymousUser" || session.getAttribute("loggedUser") == null) {
             %>
             <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
                                                            href="/login"><span
@@ -129,66 +135,81 @@
         </div>
     </div>
 </div>
-<section class="mbr-section form1 cid-qBshLy6RnJ" id="form1-1n" data-rv-view="281">
 
-    <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-2">
-        ${information}
-    </h2>
-<%--
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="title col-12 col-lg-8">
-                <h2 class="mbr-section-title align-center pb-3 mbr-fonts-style display-2">
-                    Utwórz nowego użytkownika
-                </h2>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="media-container-column col-lg-8" data-form-type="formoid">
-                <div data-form-alert="" hidden="">
-                    Dziękujemy za wypełnienie formularza.
+
+<section class="mbr-section form1 cid-qzgWxdEqVc" id="form1-1f" data-rv-view="138">
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="title col-12 col-lg-8">
+                    <h2 class="mbr-section-title align-center pb-3 mbr-fonts-style display-2">
+                        Formularz odzyskiwania hasła
+                    </h2>
+                    <h3 class="mbr-section-subtitle align-center mbr-light pb-3 mbr-fonts-style display-5">
+                        Podaj nowe hasło.
+                    </h3>
                 </div>
-
-                <form:form method="POST" modelAttribute="registrationDTO" class="form-signin">
-                    <div class="row row-sm-offset">
-
-                        <div class="col-md-6 multi-horizontal" data-for="password">
-                            <spring:bind path="password">
-                                <div class="form-group ${status.error ? 'has-error' : ''}">
-                                    <label class="form-control-label mbr-fonts-style display-7" for="password-form1-1n">Hasło</label>
-                                    <form:input type="password" path="password" class="form-control" placeholder="Hasło"
-                                                id="password-form1-1n" maxlength="50"></form:input>
-                                    <form:errors path="password"></form:errors>
-                                </div>
-                            </spring:bind>
-                        </div>
-
-                        <div class="col-md-6 multi-horizontal" data-for="passwordConfirm">
-                            <spring:bind path="passwordConfirm">
-                                <div class="form-group ${status.error ? 'has-error' : ''}">
-                                    <label class="form-control-label mbr-fonts-style display-7" for="password-form1-1n">Powtórz
-                                        hasło</label>
-                                    <form:input type="password" path="passwordConfirm" class="form-control"
-                                                placeholder="Powtórz hasło"
-                                                id="passwordConfirm-form1-1n" maxlength="50"></form:input>
-                                    <form:errors path="passwordConfirm"></form:errors>
-                                </div>
-                            </spring:bind>
-                        </div>
-
-                    <span class="input-group-btn">
-                            <button type="submit" class="btn btn-primary btn-form display-4">UTWÓRZ</button>
-                        </span>
-                </form:form>
             </div>
         </div>
-    </div>
+        <div class="container justify-content-center">
+            <form:form method="POST" modelAttribute="forgotPasswordDTO" class="form-signin">
+                <div class="row row-sm-offset">
+                    <spring:bind path="newPassword">
+                        <div class="form-group col-md-4 multi-horizontal"
+                             data-for="email ${status.error ? 'has-error' : ''}">
+                            <form:input type="password" path="newPassword" class="form-control"
+                                        placeholder="Hasło"></form:input>
+                            <form:errors path="newPassword"></form:errors>
+                        </div>
+                    </spring:bind>
+                    <spring:bind path="confirmPassword">
+                        <div class="form-group col-md-4 multi-horizontal"
+                             data-for="email ${status.error ? 'has-error' : ''}">
+                            <form:input type="password" path="confirmPassword" class="form-control"
+                                        placeholder="Powtórz hasło"></form:input>
+                            <form:errors path="confirmPassword"></form:errors>
+                        </div>
+                    </spring:bind>
 
-    --%>
+                    <div class="form-group col-md-3 multi-horizontal">
+                    </div>
+                    <spring:bind path="recaptchaResponse">
+                        <div class="form-group col-md-4 multi-horizontal"
+                             data-for="recaptchaResponse ${status.error ? 'has-error' : ''}">
+                            <div id="g-recaptcha"></div>
+                            <form:hidden path="recaptchaResponse"/>
+                            <script type="text/javascript">
+                                var onloadCallback = function () {
+                                    grecaptcha.render('g-recaptcha', {
+                                        'sitekey': '<c:out value="${recaptchaSiteKey}" />',
+                                        'callback': function (response) {
+                                            document.getElementById('recaptchaResponse').value = response;
+                                            if (response) {
+                                                $('#submitButton').attr('disabled', false);
+                                            }
+                                        },
+                                        'theme': 'light'
+                                    });
+                                }
+                            </script>
+                            <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+                                    async
+                                    defer></script>
+                                <%--<form:errors path="recaptchaResponse" class="help-block"/>--%>
+                            <form:errors path="recaptchaResponse" cssStyle="color: red"></form:errors>
+                        </div>
+                    </spring:bind>
+                    <span class="form-group col-md-4 multi-horizontal" data-for="recaptchaResponse input-group-btn ">
+                                <button id="submitButton" disabled type="submit"
+                                        class="btn btn-primary display-4 justify-content-center">Zatwierdź</button>
+                            </span>
+                    <div class="form-group col-md-1 multi-horizontal">
+                    </div>
+                </div>
+            </form:form>
+        </div>
+
 </section>
-
 <!-- footer -->
 
 <section class="cid-qz9d6nOi74" id="footer1-g" data-rv-view="686">
@@ -263,27 +284,24 @@
                     <p class="mbr-text mbr-fonts-style display-7">
                         © Copyright 2017</p>
                 </div>
-                <div class="col-md-6">
 
-                </div>
             </div>
         </div>
     </div>
+    </div>
 </section>
+
 
 <script src="resources/assets/web/assets/jquery/jquery.min.js"></script>
 <script src="resources/assets/popper/popper.min.js"></script>
 <script src="resources/assets/tether/tether.min.js"></script>
 <script src="resources/assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="resources/assets/smooth-scroll/smooth-scroll.js"></script>
-<script src="resources/assets/touch-swipe/jquery.touch-swipe.min.js"></script>
-<script src="resources/assets/countdown/jquery.countdown.min.js"></script>
-<script src="resources/assets/data-tables/jquery.data-tables.min.js"></script>
-<script src="resources/assets/data-tables/data-tables.bootstrap4.min.js"></script>
-<script src="resources/assets/jarallax/jarallax.min.js"></script>
 <script src="resources/assets/dropdown/js/script.min.js"></script>
+<script src="resources/assets/touch-swipe/jquery.touch-swipe.min.js"></script>
+<script src="resources/assets/smooth-scroll/smooth-scroll.js"></script>
 <script src="resources/assets/theme/js/script.js"></script>
+<script src="resources/assets/formoid/formoid.min.js"></script>
+
 
 </body>
 </html>
-

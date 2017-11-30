@@ -142,21 +142,21 @@
                                 <p style="color: black; font-size: large">Nieprawidłowy login lub hasło</p>
                             </div>
                         </c:if>
-                        <div class="align-center ">
-
+                        <div class="align-center">
                             <div>
                                 <label for="email"></label>
-                                <input type="text" class="form-control m-2" id="email" name="ssoId" placeholder="Login"
+                                <input type="text" class="form-control m-2" id="email" name="ssoId" placeholder="Adres email"
                                        required>
                             </div>
                             <div class="input-group">
                                 <label for="password"></label>
                                 <input type="password" class="form-control m-2" id="password" name="password"
-                                       placeholder="Hasło"
-                                       required>
+                                       placeholder="Hasło" required>
                             </div>
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-
+                            <div class="input-group">
+                                <a class="link"href="/remind-password">Nie pamiętam hasła</a>
+                            </div>
                             <div class="form-actions">
                                 <input type="submit" class="btn btn-sm btn-primary display-7" value="Zaloguj">
                             </div>

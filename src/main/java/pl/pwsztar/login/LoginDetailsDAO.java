@@ -8,4 +8,5 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public interface LoginDetailsDAO extends CrudRepository<LoginDetails, String> {
     LoginDetails findByTherapist_TherapistId(String therapistId);
+    LoginDetails findByTherapist_Email(String email);
 }

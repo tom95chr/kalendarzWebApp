@@ -77,10 +77,4 @@ public class AdminService {
             return model;
         }
     }
-
-    public ModelAndView changePassword(String therapistId, HttpSession session){
-        ModelAndView model = new ModelAndView("admin/registration/changePassword");
-        model.addObject("information","Strona w budowie");
-        return model;
-    }
 }
