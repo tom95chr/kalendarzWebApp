@@ -17,7 +17,6 @@ public class Therapist {
     private String email;
     private String specialization;
     private String description;
-    private String googleCalendarId;
     private String telephone;
     private String colour;
     private List<Event> events = new ArrayList<Event>();
@@ -64,14 +63,6 @@ public class Therapist {
 
     public void setSpecialization(String specialization) {
         this.specialization = specialization;
-    }
-    @Column(name = "GOOGLE_CALENDAR_ID")
-    public String getGoogleCalendarId() {
-        return googleCalendarId;
-    }
-
-    public void setGoogleCalendarId(String googleCalendarId) {
-        this.googleCalendarId = googleCalendarId;
     }
 
     public String getDescription() {

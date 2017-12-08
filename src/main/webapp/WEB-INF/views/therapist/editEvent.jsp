@@ -147,9 +147,7 @@
                 Edytuj spotkanie
             </h2>
     </div>
-</section>
 
-<section class="section-table cid-qz9pczK0Ee mbr-parallax-background" id="table1-t" data-rv-view="89">
 
 
     <div class="container">
@@ -171,71 +169,124 @@
                         </c:if>
                     </h2>
                     <form:form method="POST" modelAttribute="eventDTO" class="form-signin">
-                        <div class="form-group">
-                            <spring:bind path="eventType">
-                                <label style="font-weight: bold" for="typ">Wybierz typ spotkania</label>
-                                <form:select class="form-control" path="eventType" id="typ">
-                                    <c:forEach items="${types}" var="type">
-                                        <form:option value="${type}" label="${type}"></form:option>
-                                    </c:forEach>
-                                </form:select>
-                            </spring:bind>
+                        <div class="row row-sm-offset">
+
+                            <div class="col-md-6 multi-horizontal" data-for="eventType">
+                                <spring:bind path="eventType">
+                                    <label style="font-weight: bold" for="typ">Wybierz typ spotkania</label>
+                                    <form:select class="form-control" path="eventType" id="typ">
+                                        <c:forEach items="${types}" var="type">
+                                            <form:option value="${type}" label="${type}"></form:option>
+                                        </c:forEach>
+                                    </form:select>
+                                </spring:bind>
+                            </div>
+
+                            <div class="col-md-6 multi-horizontal" data-for="empty"></div>
+
+                            <div class="col-md-6 multi-horizontal" data-for="startDate">
+                                <spring:bind path="startDate">
+                                    <label style="font-weight: bold" for="typ">
+                                        Data przed zmianą: ${event.startDateTime.dayOfMonth}-${event.startDateTime.monthValue}-${event.startDateTime.year}
+                                    </label>
+                                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                                        <form:input type="date" path="startDate" class="form-control"
+                                                    placeholder="Data"></form:input>
+                                        <form:errors path="startDate"></form:errors>
+                                    </div>
+                                </spring:bind>
+                            </div>
+
+                            <div class="col-md-6 multi-horizontal" data-for="startTime">
+                                <spring:bind path="startTime">
+                                    <label style="font-weight: bold" for="typ">
+                                        Godzina przed zmianą: ${event.startDateTime.toLocalTime()}
+                                    </label>
+                                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                                        <form:input type="time" path="startTime" class="form-control"
+                                                    placeholder="Godzina"></form:input>
+                                        <form:errors path="startTime"></form:errors>
+                                    </div>
+                                </spring:bind>
+                            </div>
+
+                            <div class="col-md-6 multi-horizontal" data-for="duration">
+                                <spring:bind path="duration">
+                                    <label style="font-weight: bold" for="typ">
+                                        Czas trwania przed zmianą: ${event.calculateDuration()}
+                                    </label>
+                                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                                        <form:input type="number" path="duration" min="5" max="180"
+                                                    class="form-control "
+                                                    placeholder="Czas trwania (minuty)"></form:input>
+                                        <form:errors path="duration"></form:errors>
+                                    </div>
+                                </spring:bind>
+                            </div>
+                            <div class="col-md-6 multi-horizontal" data-for="room">
+                                <spring:bind path="room">
+                                    <label style="font-weight: bold" for="typ">
+                                        Sala przed zmianą: ${event.room}
+                                    </label>
+                                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                                        <form:input type="text" path="room" class="form-control"
+                                                    placeholder="Sala"></form:input>
+                                        <form:errors path="room"></form:errors>
+                                    </div>
+                                </spring:bind>
+                            </div>
                         </div>
-                        <spring:bind path="startDate">
-                            <label style="font-weight: bold" for="typ">
-                                Data przed zmianą: ${event.startDateTime.dayOfMonth}-${event.startDateTime.monthValue}-${event.startDateTime.year}
-                            </label>
-                            <div class="form-group ${status.error ? 'has-error' : ''}">
-                                <form:input type="date" path="startDate" class="form-control"
-                                            placeholder="Data"></form:input>
-                                <form:errors path="startDate"></form:errors>
-                            </div>
-                        </spring:bind>
-
-                        <spring:bind path="startTime">
-                            <label style="font-weight: bold" for="typ">
-                                Godzina przed zmianą: ${event.startDateTime.toLocalTime()}
-                            </label>
-                            <div class="form-group ${status.error ? 'has-error' : ''}">
-                                <form:input type="time" path="startTime" class="form-control"
-                                            placeholder="Godzina"></form:input>
-                                <form:errors path="startTime"></form:errors>
-                            </div>
-                        </spring:bind>
-
-                        <spring:bind path="duration">
-                            <label style="font-weight: bold" for="typ">
-                                Czas trwania przed zmianą: ${event.calculateDuration()}
-                            </label>
-                            <div class="form-group ${status.error ? 'has-error' : ''}">
-                                <form:input type="number" path="duration" min="5" max="180"
-                                            class="form-control "
-                                            placeholder="Czas trwania (minuty)"></form:input>
-                                <form:errors path="duration"></form:errors>
-                            </div>
-                        </spring:bind>
-
-                        <spring:bind path="room">
-                            <label style="font-weight: bold" for="typ">
-                                Sala przed zmianą: ${event.room}
-                            </label>
-                            <div class="form-group ${status.error ? 'has-error' : ''}">
-                                <form:input type="text" path="room" class="form-control"
-                                            placeholder="Sala"></form:input>
-                                <form:errors path="room"></form:errors>
-                            </div>
-                        </spring:bind>
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">Potwierdź</button>
+                        <span class="col-md-12 multi-horizontal input-group-btn justify-content-center">
+                                    <button type="submit" class="btn btn-primary btn-form display-4">Potwierdź</button>
+                                </span>
                     </form:form>
                 </div>
             </div>
             <div class="card col-sm-6 col-md-6">
-                <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showPrint=0&amp;showTabs=0&amp;
-showTz=0&amp;mode=WEEK&amp;height=600&amp;wkst=2&amp;hl=pl&amp;bgcolor=%23c0c0c0&amp;
-<c:forEach items="${therapists}" var="therapist">
-src=${therapist.googleCalendarId}&amp;color=${therapist.colour}&amp;
-</c:forEach>
-ctz=Europe%2FWarsaw" style="border-width:0" width="500" height="600" frameborder="0" scrolling="no"></iframe>
+                <div class="container">
+                    <div>
+                        <h4 class="mbr-section-title align-center pb-3 mbr-fonts-style display-5">
+                            <br>
+                            Twoje spotkania
+                        </h4>
+                    </div>
+                    <div class="container scroll">
+                        <table class="table isSearch" cellspacing="0">
+                            <thead>
+                            <tr class="table-heads ">
+                                <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
+                                    Typ
+                                </th>
+                                <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
+                                    Data
+                                </th>
+                                <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
+                                    Godz.
+                                </th>
+                                <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
+                                    Trwa
+                                </th>
+                                <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
+                                    Sala
+                                </th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+
+                            <c:forEach items="${events}" var="event" varStatus="status">
+                                <tr>
+                                    <td class="body-item mbr-fonts-style display-7" style="font-size: small">${event.eventType.eventTypeId}</td>
+                                    <td class="body-item mbr-fonts-style display-7 align-right" style="font-size: small">${event.startDateTime.dayOfMonth}-${event.startDateTime.monthValue}-${event.startDateTime.year}</td>
+                                    <td class="body-item mbr-fonts-style display-7" style="font-size: small">${event.startDateTime.toLocalTime()}</td>
+                                    <td class="body-item mbr-fonts-style display-7" style="font-size: small">${event.calculateDuration()}min.</td>
+                                    <td class="body-item mbr-fonts-style display-7" style="font-size: small">${event.room}</td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

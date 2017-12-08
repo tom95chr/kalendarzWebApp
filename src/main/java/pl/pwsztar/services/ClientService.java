@@ -50,9 +50,6 @@ public class ClientService {
     ClientService clientService;
 
     @Autowired
-    GoogleCalendar googleCalendar;
-
-    @Autowired
     ConfirmationCodeValidator confirmationCodeValidator;
 
     @Autowired
@@ -183,13 +180,6 @@ public class ClientService {
         if (event.nrOfParticipants()+1 >= eventTypeDAO.findByEventTypeId(
                 event.getEventType().getEventTypeId()).getSeats()) {
             event.setFree(Boolean.FALSE);
-            try {
-                googleCalendar.changeEventAvailabilityAndName(therapistDAO.findByTherapistId(event.getTherapist().
-                                getTherapistId()).getEmail(),
-                        event.getEventId(), "busy", "zajety");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
             eventDAO.save(event);
         }
 
@@ -313,13 +303,6 @@ public class ClientService {
         if (event.nrOfParticipants() < eventTypeDAO.findByEventTypeId(
                 event.getEventType().getEventTypeId()).getSeats()) {
             event.setFree(Boolean.TRUE);
-            try {
-                googleCalendar.changeEventAvailabilityAndName(therapistDAO.findByTherapistId(event.getTherapist().
-                                getTherapistId()).getEmail(),
-                        event.getEventId(), "free", "wolny");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
             eventDAO.save(event);
         }
 

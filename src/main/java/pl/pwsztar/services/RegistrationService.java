@@ -19,15 +19,9 @@ import pl.pwsztar.daos.TherapistColourDAO;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Created by Lapek on 12.07.2017.
- */
 @Service
 @Transactional
 public class RegistrationService {
-
-    @Autowired
-    GoogleCalendar googleCalendar;
 
     @Autowired
     private LoginDetailsDAO loginDetailsDAO;
@@ -46,19 +40,6 @@ public class RegistrationService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    public Boolean checkAvailability(String googleCalendarId) {
-
-        try {
-            if (googleCalendar.checkCalendarNameAvailability(googleCalendarId)) {
-                return Boolean.TRUE;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return Boolean.FALSE;
-        }
-        return Boolean.FALSE;
-    }
 
     public ModelAndView registerGet(){
         ModelAndView model = new ModelAndView("admin/registration/userForm");
@@ -87,21 +68,6 @@ public class RegistrationService {
             ModelAndView m = new ModelAndView("admin/registration/userForm");
             m.addObject("colours", therapistColourDAO.findAllByTaken(false));
             return m;
-        }
-        //google
-        if (checkAvailability(therapist.getEmail())) {
-            try{
-                therapist.setGoogleCalendarId(googleCalendar.createCalendar(registrationDTO.getEmail()));
-            }catch(Exception e){
-                ModelAndView modelAndView = new ModelAndView("result");
-                modelAndView.addObject("information","Wystapił błąd. Nie utworzono użytkownika.");
-                return modelAndView;
-            }
-        }
-        else{
-            ModelAndView modelAndView = new ModelAndView("result");
-            modelAndView.addObject("information","Wystapił błąd. Nie utworzono użytkownika.");
-            return modelAndView;
         }
 
         //therapist
@@ -139,11 +105,6 @@ public class RegistrationService {
 
         Therapist t = therapistDAO.findByTherapistId(therapistId);
 
-        try {
-            googleCalendar.deleteCalendar(t.getGoogleCalendarId());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         reservationDAO.deleteReservationsByEvent_Therapist_TherapistId(therapistId);
         Therapist therapist = therapistDAO.findByTherapistId(therapistId);
         loginDetailsDAO.delete(therapistId);

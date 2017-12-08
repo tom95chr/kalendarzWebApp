@@ -254,26 +254,6 @@
     </div>
 </section>
 
-<section class="countdown2 cid-qzc7TOs7aU" id="countdown2-1b" data-rv-view="103">
-    <div class="container">
-        <div class="row">
-            <div class="card col-12 justify-content-center">
-                <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-2">
-                    WYDARZENIA WSZYSTKICH TERAPEUTÓW
-                </h2>
-                <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showPrint=0&amp;showTabs=0&amp;
-showTz=0&amp;mode=WEEK&amp;height=600&amp;wkst=2&amp;hl=pl&amp;bgcolor=%23c0c0c0&amp;
-<c:forEach items="${therapists}" var="therapist">
-src=${therapist.googleCalendarId}&amp;color=${therapist.colour}&amp;
-</c:forEach>
-ctz=Europe%2FWarsaw" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
-            </div>
-        </div>
-    </div>
-
-</section>
-
-
 <!-- footer -->
 
 <section class="cid-qz9d6nOi74" id="footer1-g" data-rv-view="686">

@@ -177,7 +177,7 @@
     <div class="container">
         <div class="row">
 
-            <div class="card col-sm-6">
+            <div class="card col-sm-12">
                 <div class="container container-table">
                     <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-2">
                         Dostępne terminy
@@ -202,20 +202,23 @@
                             <table class="table isSearch" cellspacing="0">
                                 <thead>
                                 <tr class="table-heads ">
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
-                                        Wybierz
-                                    </th>
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
+                                    <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
                                         Typ
                                     </th>
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
+                                    <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
                                         Data
                                     </th>
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
-                                        Godz.
+                                    <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
+                                        Godzina
                                     </th>
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
-                                        Trwa
+                                    <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
+                                        Czas trwania
+                                    </th>
+                                    <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
+                                        Zajęte miejsca:
+                                    </th>
+                                    <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
+                                        Wybierz
                                     </th>
                                 </tr>
                                 </thead>
@@ -224,13 +227,14 @@
 
                                 <c:forEach items="${events}" var="event" varStatus="status">
                                     <tr>
+                                        <td class="body-item mbr-fonts-style display-7 align-center" style="font-size: small">${event.eventType.eventTypeId}</td>
+                                        <td class="body-item mbr-fonts-style display-7 align-center" style="font-size: small">${event.startDateTime.dayOfMonth}-${event.startDateTime.monthValue}-${event.startDateTime.year}</td>
+                                        <td class="body-item mbr-fonts-style display-7 align-center" style="font-size: small">${event.startDateTime.toLocalTime()}</td>
+                                        <td class="body-item mbr-fonts-style display-7 align-center" style="font-size: small">${event.calculateDuration()}min.</td>
+                                        <td class="body-item mbr-fonts-style display-7 align-center" style="font-size: small">${event.nrOfParticipants()}</td>
                                         <td class="body-item bg-success align-center" style="font-size: medium">
                                             <a href="/therapist-event-${event.eventId}">wybierz</a>
                                         </td>
-                                        <td class="body-item mbr-fonts-style display-7" style="font-size: small">${event.eventType.eventTypeId}</td>
-                                        <td class="body-item mbr-fonts-style display-7 align-right" style="font-size: small">${event.startDateTime.dayOfMonth}-${event.startDateTime.monthValue}-${event.startDateTime.year}</td>
-                                        <td class="body-item mbr-fonts-style display-7" style="font-size: small">${event.startDateTime.toLocalTime()}</td>
-                                        <td class="body-item mbr-fonts-style display-7" style="font-size: small">${event.calculateDuration()}min.</td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -253,11 +257,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="card col-sm-6 col-md-6">
-                <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showPrint=0&amp;showTabs=0&amp;
-            showCalendars=1&amp;showTz=0&amp;mode=WEEK&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=${therapist.googleCalendarId}&amp;color=%235229A3&amp;ctz=Europe%2FWarsaw"
-                        style="border-width:0" width="500" height="600" frameborder="0" scrolling="no"></iframe>
             </div>
         </div>
     </div>
