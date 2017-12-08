@@ -303,10 +303,9 @@
             <div class="col-12 col-md-3 mbr-fonts-style display-7">
                 <h5 class="pb-3">Linki</h5>
                 <p class="mbr-text">
-                    <a class="text-primary" href="https://mobirise.com/">Website builder</a>
-                    <br><a class="text-primary" href="https://mobirise.com/mobirise-free-win.zip">Download for
-                    Windows</a>
-                    <br><a class="text-primary" href="https://mobirise.com/mobirise-free-mac.zip">Download for Mac</a>
+                    <a class="text-primary" href="https://pwsztar.edu.pl/">PWSZ w Tarnowie</a>
+                    <br><a class="text-primary" href=""></a>
+                    <br><a class="text-primary" href=""></a>
                 </p>
             </div>
             <div class="col-12 col-md-3 mbr-fonts-style display-7">
