@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="resources/assets/images/logo-418x449.png" type="image/x-icon">
     <meta name="description" content="">
-    <title>Poradnia</title>
+    <title>Uczelniane Centrum Wsparcia</title>
     <link rel="stylesheet" href="resources/assets/web/assets/mobirise-icons/mobirise-icons.css">
     <link rel="stylesheet" href="resources/assets/tether/tether.min.css">
     <link rel="stylesheet" href="resources/assets/bootstrap/css/bootstrap.min.css">
@@ -42,7 +42,7 @@
             <div class="navbar-brand">
                 <span class="navbar-logo">
                     <a href="/">
-                         <img src="resources/assets/images/logo-418x449.png" alt="Poradnia" title="" media-simple="true"
+                         <img src="resources/assets/images/logo-418x449.png" alt="Centrum Wsparcia" title="" media-simple="true"
                               style="height: 4.8rem;">
                     </a>
                 </span>
@@ -135,11 +135,11 @@
     <div class="container">
         <div class="row justify-content-md-center">
             <div class="mbr-white col-md-10">
-                <h1 class="mbr-section-title align-center mbr-bold pb-3 mbr-fonts-style display-2">Poradnia
-                    Terapeutyczna&nbsp;</h1>
+                <h1 class="mbr-section-title align-center mbr-bold pb-3 mbr-fonts-style display-2">
+                    Uczelniane Centrum Wsparcia&nbsp;</h1>
                 <h3 class="mbr-section-subtitle align-center mbr-light pb-3 mbr-fonts-style display-2"></h3>
-                <p class="mbr-text align-center pb-3 mbr-fonts-style display-5">Witaj na stronie głównej poradni
-                    terapeutycznej<br> przy PWSZ w Tarnowie<br><br></p>
+                <p class="mbr-text align-center pb-3 mbr-fonts-style display-5 font-weight-bold">Witaj na stronie głównej Uczelnianego
+                    Centrum Wsparcia<br> przy PWSZ w Tarnowie<br><br></p>
 
             </div>
         </div>
@@ -183,7 +183,7 @@
                     <h4 class="card-title py-3 mbr-fonts-style display-7">
                         Pełna anonimowość</h4>
                     <p class="mbr-text mbr-fonts-style display-7">Bez obaw, nie gromadzimy Twoich danych. Do zapisu
-                        potrzebny jest jedynie adres email.</p>
+                        wymagane są jedynie email i telefon.</p>
                 </div>
             </div>
         </div>
@@ -239,7 +239,7 @@
             <div class="col-12 col-md-3 mbr-fonts-style display-7">
                 <h5 class="pb-3">
                     Adres</h5>
-                <p class="mbr-text">Poradnia Terapeutyczna<br>PWSZ Tarnów<br>ul. Mickiewicza 8,<br> 33-100 Tarnów<br>
+                <p class="mbr-text">Uczelniane Centrum Wsparcia<br>PWSZ Tarnów<br>ul. Mickiewicza 8,<br> 33-100 Tarnów<br>
                 </p>
             </div>
             <div class="col-12 col-md-3 mbr-fonts-style display-7">
