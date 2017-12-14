@@ -245,8 +245,8 @@ public class ClientService {
     public ModelAndView myReservationGet() {
         ModelAndView model = new ModelAndView("client/confirmation");
         model.addObject("confirmationCode", new ConfirmationCode());
-        model.addObject("pageTypeInfo","edytować");
-        model.addObject("info2","Edycja rezerwacji");
+        model.addObject("pageTypeInfo","podglądnąć");
+        model.addObject("info2","Podgląd rezerwacji");
         return model;
     }
 
@@ -256,8 +256,8 @@ public class ClientService {
         confirmationCodeValidator.validate(confirmationCode, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            model.addObject("pageTypeInfo","edytować");
-            model.addObject("info2","Edycja rezerwacji");
+            model.addObject("pageTypeInfo","podglądnąć");
+            model.addObject("info2","Podgląd rezerwacji");
             return model;
         }
         Reservation reservation = reservationDAO.findByConfirmationCode(confirmationCode.getCode());
