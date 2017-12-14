@@ -158,7 +158,7 @@
                                            for="firstName-form1-1n">Imię</label>
                                     <form:input type="text" path="firstName" class="form-control" placeholder="Imię"
                                                 id="firstName-form1-1n" maxlength="50"></form:input>
-                                    <form:errors path="firstName"></form:errors>
+                                    <form:errors path="firstName" cssStyle="color: red"></form:errors>
                                 </div>
                             </spring:bind>
                         </div>
@@ -169,7 +169,7 @@
                                     <label class="form-control-label mbr-fonts-style display-7" for="lastName-form1-1n">Nazwisko</label>
                                     <form:input type="text" path="lastName" class="form-control" placeholder="Nazwisko"
                                                 id="lastName-form1-1n" maxlength="50"></form:input>
-                                    <form:errors path="lastName"></form:errors>
+                                    <form:errors path="lastName" cssStyle="color: red"></form:errors>
                                 </div>
                             </spring:bind>
                         </div>
@@ -182,7 +182,7 @@
                                     <form:input type="text" path="specialization" class="form-control"
                                                 placeholder="Specjalizacja"
                                                 id="specialization-form1-1n" maxlength="50"></form:input>
-                                    <form:errors path="specialization"></form:errors>
+                                    <form:errors path="specialization" cssStyle="color: red"></form:errors>
                                 </div>
                             </spring:bind>
                         </div>
@@ -194,7 +194,7 @@
                                         email</label>
                                     <form:input type="email" path="email" class="form-control" placeholder="Email"
                                                 id="email-form1-1n" maxlength="50"></form:input>
-                                    <form:errors path="email"></form:errors>
+                                    <form:errors path="email" cssStyle="color: red"></form:errors>
                                 </div>
                             </spring:bind>
                         </div>
@@ -206,7 +206,7 @@
                                            for="telephone-form1-1n">Telefon</label>
                                     <form:input type="tel" path="telephone" class="form-control" placeholder="Telefon"
                                                 id="telephone-form1-1n" maxlength="20"></form:input>
-                                    <form:errors path="telephone"></form:errors>
+                                    <form:errors path="telephone" cssStyle="color: red"></form:errors>
                                 </div>
                             </spring:bind>
                         </div>
@@ -217,7 +217,7 @@
                                     <label class="form-control-label mbr-fonts-style display-7" for="password-form1-1n">Hasło</label>
                                     <form:input type="password" path="password" class="form-control" placeholder="Hasło"
                                                 id="password-form1-1n" maxlength="50"></form:input>
-                                    <form:errors path="password"></form:errors>
+                                    <form:errors path="password" cssStyle="color: red"></form:errors>
                                 </div>
                             </spring:bind>
                         </div>
@@ -230,29 +230,16 @@
                                     <form:input type="password" path="passwordConfirm" class="form-control"
                                                 placeholder="Powtórz hasło"
                                                 id="passwordConfirm-form1-1n" maxlength="50"></form:input>
-                                    <form:errors path="passwordConfirm"></form:errors>
+                                    <form:errors path="passwordConfirm" cssStyle="color: red"></form:errors>
                                 </div>
                             </spring:bind>
                         </div>
 
-                        <div class="col-md-6 multi-horizontal" data-for="colour">
-                            <spring:bind path="colour">
-                                <div class="form-group ${status.error ? 'has-error' : ''}">
-                                    <label class="form-control-label mbr-fonts-style display-7" for="colour-form1-1n">Wybierz
-                                        kolor</label>
-                                    <form:select class="form-control" id="colour-form1-1n" name="colour" path="colour">
-                                        <c:forEach items="${colours}" var="colour" varStatus="status">
-                                            <option value="${colour.colourCode}">${colour.colourId}</option>
-                                        </c:forEach>
-                                    </form:select>
-                                </div>
-                            </spring:bind>
-                        </div>
                         <div class="col-md-6 multi-horizontal" data-for="userRole">
                             <spring:bind path="userRole">
                                 <div class="form-group ${status.error ? 'has-error' : ''}">
                                     <label class="form-control-label mbr-fonts-style display-7" for="userRole-form1-1n">Wybierz
-                                        rolę</label>
+                                        rolę użytkownika</label>
                                     <form:select class="form-control" id="userRole-form1-1n" name="userRole"
                                                  path="userRole">
                                         <option value="ROLE_DBA">Terapeuta</option>
@@ -260,6 +247,8 @@
                                     </form:select>
                                 </div>
                             </spring:bind>
+                        </div>
+                        <div class="col-md-6 multi-horizontal" data-for="whiteSpace">
                         </div>
 
                     </div>

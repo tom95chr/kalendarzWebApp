@@ -200,7 +200,11 @@
                                     </h4>
                                     <p class="mbr-content-text mbr-fonts-style display-7">
                                         email: ${therapist.email}<br>
-                                        tel. ${therapist.telephone}
+                                        tel.
+                                        <c:if test="${therapist.telephone.length()==0}">
+                                                brak
+                                        </c:if>
+                                        ${therapist.telephone}
                                     </p>
                                 </div>
                             </div>

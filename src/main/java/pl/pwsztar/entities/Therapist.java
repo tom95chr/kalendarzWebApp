@@ -18,7 +18,6 @@ public class Therapist {
     private String specialization;
     private String description;
     private String telephone;
-    private String colour;
     private List<Event> events = new ArrayList<Event>();
     private LoginDetails loginDetails;
 
@@ -102,11 +101,4 @@ public class Therapist {
         this.loginDetails = loginDetails;
     }
 
-    public String getColour() {
-        return colour;
-    }
-
-    public void setColour(String colour) {
-        this.colour = colour;
-    }
 }

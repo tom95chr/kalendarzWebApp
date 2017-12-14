@@ -32,10 +32,7 @@ public class RegistrationValidator implements Validator {
         if (therapistDAO.findByEmail(t.getEmail()) != null) {
             errors.rejectValue("email", "Duplicate.therapist.email");
         }
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "telephone", "NotEmpty");
-        /*if (t.getTelephone().length() < 9) {
-            errors.rejectValue("telephone", "Size.therapist.telephone");
-        }*/
+
         if (t.getPassword().length() < 8 || t.getPassword().length() > 32) {
             errors.rejectValue("password", "Size.userForm.password");
         }
