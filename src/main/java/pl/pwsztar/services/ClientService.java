@@ -272,8 +272,8 @@ public class ClientService {
             model2.addObject("confirmationCode",reservation.getConfirmationCode());
             return model2;
         } else {
-            model.addObject("pageTypeInfo","edytować");
-            model.addObject("info2","Edycja rezerwacji");
+            model.addObject("pageTypeInfo","podglądnąć");
+            model.addObject("info2","Podgląd rezerwacji");
             model.addObject("confirmationFailed", "Nie odnaleziono rezerwacji. Sprawdź" +
                     " swój kod i spróbuj ponownie później");
         }

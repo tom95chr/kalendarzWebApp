@@ -163,7 +163,7 @@
                     <spring:bind path="code">
                         <div class="form-group col-md-10 multi-horizontal" data-for="code ${status.error ? 'has-error' : ''}">
                             <form:input type="text" path="code" class="form-control" placeholder="Kod"></form:input>
-                            <form:errors path="code"></form:errors>
+                            <form:errors path="code" cssStyle="color: red"></form:errors>
                         </div>
                     </spring:bind>
 

@@ -226,22 +226,22 @@
                             <div class="form-group col-md-4 multi-horizontal" data-for="email ${status.error ? 'has-error' : ''}">
                                 <form:input type="text" path="email" class="form-control"
                                             placeholder="Adres email"></form:input>
-                                <form:errors path="email"></form:errors>
+                                <form:errors path="email" cssStyle="color: red"></form:errors>
                             </div>
                         </spring:bind>
                         <spring:bind path="emailConfirm">
                             <div class="form-group col-md-4 multi-horizontal" data-for="emailConfirm ${status.error ? 'has-error' : ''}">
                                 <form:input type="email" path="emailConfirm" class="form-control"
                                             placeholder="Podaj email jeszcze raz"></form:input>
-                                <form:errors path="emailConfirm"></form:errors>
+                                <form:errors path="emailConfirm" cssStyle="color: red"></form:errors>
                             </div>
                         </spring:bind>
 
                         <spring:bind path="telephone">
                             <div class="form-group col-md-4 multi-horizontal" data-for="telephone ${status.error ? 'has-error' : ''}">
-                                <form:input type="text" path="telephone" class="form-control"
-                                            placeholder="Telefon (opcjonalnie)"></form:input>
-                                <form:errors path="telephone"></form:errors>
+                                <form:input type="tel" path="telephone" class="form-control"
+                                            placeholder="Telefon"></form:input>
+                                <form:errors path="telephone" cssStyle="color: red"></form:errors>
                             </div>
                         </spring:bind>
                             <div class="form-group col-md-3 multi-horizontal">
