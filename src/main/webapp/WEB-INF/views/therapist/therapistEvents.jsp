@@ -207,7 +207,7 @@
                                         <td class="body-item mbr-fonts-style display-7 align-right" style="font-size: small">${event.startDateTime.dayOfMonth}-${event.startDateTime.monthValue}-${event.startDateTime.year}</td>
                                         <td class="body-item mbr-fonts-style display-7" style="font-size: small">${event.startDateTime.toLocalTime()}</td>
                                         <td class="body-item mbr-fonts-style display-7" style="font-size: small">${event.calculateDuration()}min.</td>
-                                        <td class="body-item mbr-fonts-style display-7" style="font-size: small">${event.room}</td>
+                                        <td class="body-item mbr-fonts-style display-7 align-center" style="font-size: small">${event.room}</td>
                                         <td class="body-item mbr-fonts-style display-7 align-center" style="font-size: small">
                                             <a href="<c:url value="/event-${event.eventId}-participants" />">${event.nrOfParticipants()}</a>
                                         </td>

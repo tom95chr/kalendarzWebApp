@@ -141,12 +141,12 @@
 
         <c:if test="${events.size()>0}">
             <h2 class="align-center pb-2 mbr-fonts-style display-2">
-                Nie czekaj aż ktoś inny Cię wyprzedzi. <br>Najbliższe spotkanie już za
+                Nie czekaj aż ktoś inny Cię wyprzedzi. <br>Najbliższe spotkanie już za:
             </h2>
         </c:if>
         <c:if test="${events.size()==0}">
             <h2 class="align-center pb-2 mbr-fonts-style display-2">
-                Aktualnie brak wolnych terminów u tego specjalisty. Przepraszamy
+                Aktualnie brak wolnych terminów u tego specjalisty. Przepraszamy.
             </h2>
         </c:if>
 
@@ -171,6 +171,7 @@
     </c:if>
 </section>
 
+<c:if test="${events.size()>0}">
 <section class="section-table cid-qz9pczK0Ee mbr-parallax-background" id="table1-t" data-rv-view="89">
 
 
@@ -203,7 +204,7 @@
                                 <thead>
                                 <tr class="table-heads ">
                                     <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
-                                        Typ
+                                        Typ spotkania
                                     </th>
                                     <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
                                         Data
@@ -215,7 +216,7 @@
                                         Czas trwania
                                     </th>
                                     <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
-                                        Zajęte miejsca:
+                                        Wolne miejsca:
                                     </th>
                                     <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
                                         Wybierz
@@ -231,7 +232,7 @@
                                         <td class="body-item mbr-fonts-style display-7 align-center" style="font-size: small">${event.startDateTime.dayOfMonth}-${event.startDateTime.monthValue}-${event.startDateTime.year}</td>
                                         <td class="body-item mbr-fonts-style display-7 align-center" style="font-size: small">${event.startDateTime.toLocalTime()}</td>
                                         <td class="body-item mbr-fonts-style display-7 align-center" style="font-size: small">${event.calculateDuration()}min.</td>
-                                        <td class="body-item mbr-fonts-style display-7 align-center" style="font-size: small">${event.nrOfParticipants()}</td>
+                                        <td class="body-item mbr-fonts-style display-7 align-center" style="font-size: small">${event.eventType.seats-event.nrOfParticipants()}</td>
                                         <td class="body-item bg-success align-center" style="font-size: medium">
                                             <a href="/therapist-event-${event.eventId}">wybierz</a>
                                         </td>
@@ -261,6 +262,7 @@
         </div>
     </div>
 </section>
+</c:if>
 
 <!-- footer -->
 
