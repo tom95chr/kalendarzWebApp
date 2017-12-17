@@ -149,7 +149,8 @@
         <c:if test="${events.size()>0}">
             <h3 class="mbr-section-subtitle mbr-fonts-style align-center pb-5 mbr-light display-5"
                 style="font-weight: bold; color: black">
-                <br>Nie czekaj aż ktoś inny Cię wyprzedzi. Zarezerwuj termin już teraz.
+                <br>Nie czekaj aż ktoś inny Cię wyprzedzi. Zarezerwuj termin już teraz. Możliwość zapisu zostanie
+                wyłączona 24 godziny przed rozpoczęciem spotkania.
             </h3>
         </c:if>
         <c:if test="${events.size()==0}">

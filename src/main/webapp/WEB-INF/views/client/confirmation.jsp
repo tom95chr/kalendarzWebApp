@@ -148,7 +148,8 @@
                     Tu możesz ${pageTypeInfo} swoją rezerwację, wystarczy podać unikalny kod rezerwacji.
                 </strong></h3>
                 <p class="mbr-section-subtitle align-center pb-5 mbr-light mbr-fonts-style display-5 small">
-                    Sprawdź swój email wklej otrzymany od nas kod rezerwacji i kliknij ,,Zatwierdź".
+                    Sprawdź swój email, wklej otrzymany od nas kod rezerwacji i kliknij ,,Zatwierdź" lub załatw to
+                    jednym kliknięciem w przycisk ,,Potwierdź/Zobacz rezerwację'' dostępny w wiadomości email.
                 </p>
             </div>
         </div>
