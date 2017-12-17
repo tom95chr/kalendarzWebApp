@@ -162,7 +162,9 @@ public class TherapistService {
         ModelAndView model = new ModelAndView("redirect:/therapist-events");
         List<Reservation> listOfParticipants = reservationDAO.findAllByEvent(eventDAO.findByEventId(eventId));
         //c = cancellation
-        emailService.sendMultiple(listOfParticipants, 'c');
+        for (Reservation reservation : listOfParticipants) {
+            emailService.sendHtmlEmail(reservation,reservation.getClient().getEmail(),'c',"");
+        }
         try {
             reservationDAO.deleteReservationsByEvent_EventId(eventId);
             eventDAO.deleteByEventId(eventId);
@@ -325,20 +327,25 @@ public class TherapistService {
         List<Reservation> r = reservationDAO.findAllByEvent(e);
         if (r.size() > 0) {
             //e = edited
-            emailService.sendMultiple(r, 'e');
+            for (Reservation reservation : r) {
+                emailService.sendHtmlEmail(reservation,reservation.getClient().getEmail(),'e',"");
+            }
         }
-
         return model;
     }
 
     public ModelAndView dropParticipant(String confirmationCode){
         Reservation reservation = reservationDAO.findByConfirmationCode(confirmationCode);
         String eventId = reservationDAO.findByConfirmationCode(confirmationCode).getEvent().getEventId();
-        ModelAndView modelAndView = new ModelAndView("redirect:/therapist-events-event-"+eventId+"-participants");
+        ModelAndView modelAndView = new ModelAndView("redirect:/event-"+eventId+"-participants");
         Event event = eventDAO.findByEventId(eventId);
+        //set event - free, when nr of participants < free seats
         if (event.nrOfParticipants() - 1 < event.getEventType().getSeats()){
             event.setFree(Boolean.TRUE);
         }
+        //inform participant
+        emailService.sendHtmlEmail(reservation,reservation.getClient().getEmail(),'c',"");
+        //delete reservation
         reservationDAO.delete(reservation);
         return modelAndView;
     }

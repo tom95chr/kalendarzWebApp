@@ -133,136 +133,140 @@
     </div>
 </div>
 
+<section class="countdown2 cid-qzbXDziNBS" id="countdown2-1a" data-rv-view="311">
 
-    <section class="engine"><a href="https://mobirise.co/f">free bootstrap builder</a></section>
-    <section class="countdown2 cid-qzbXDziNBS" id="countdown2-1a" data-rv-view="311">
+    <div class="container">
+        <h3 class="mbr-section-subtitle align-center mbr-fonts-style display-5">
 
-
-        <div class="container">
-            <h3 class="mbr-section-subtitle align-center mbr-fonts-style display-5">
-
-            </h3>
-            <h2 class="mbr-section-title pb-3 align-center mbr-fonts-style display-2 font-weight-bold"
-                style="color: white; background-color:rgba(0, 0, 0, 0.8)">
-                Szczegóły Twojej rezerwacji
-            </h2>
-        </div>
-        <div class="container pt-5 mt-2">
-            <div class=" countdown-cont align-center p-4">
-                <div class="event-name align-left mbr-white ">
-                    <h4 class="mbr-fonts-style display-5" style="color: black;">Do rozpoczęcia spotkania pozostało</h4>
-                </div>
-                <div class="countdown align-center py-2" data-due-date="${event.startDateTime.year}/${event.startDateTime.monthValue}/${event.startDateTime.dayOfMonth}/${event.startDateTime.hour}:${event.startDateTime.minute}">
+        </h3>
+        <h2 class="mbr-section-title pb-3 align-center mbr-fonts-style display-2 font-weight-bold"
+            style="color: white; background-color:rgba(0, 0, 0, 0.8)">
+            Szczegóły Twojej rezerwacji
+        </h2>
+    </div>
+    <div class="container pt-5 mt-2">
+        <div class=" countdown-cont align-center p-4">
+            <div class="event-name align-left mbr-white ">
+                <h4 class="mbr-fonts-style display-5" style="color: black;">Do rozpoczęcia spotkania pozostało</h4>
+            </div>
+            <div class="countdown align-center py-2"
+                 data-due-date="${event.startDateTime.year}/${event.startDateTime.monthValue}/${event.startDateTime.dayOfMonth}/${event.startDateTime.hour}:${event.startDateTime.minute}">
             </div>
             <div class="daysCountdown" title="Dni"></div>
             <div class="hoursCountdown" title="Godzin"></div>
             <div class="minutesCountdown" title="Minut"></div>
             <div class="secondsCountdown" title="Sekund"></div>
             <div class="event-date align-left mbr-white">
-                <h5 class="mbr-fonts-style display-7" style="color: black;">${event.startDateTime.year}/${event.startDateTime.monthValue}/${event.startDateTime.dayOfMonth} godz. ${event.getStartDateTime().toLocalTime()}
+                <h5 class="mbr-fonts-style display-7"
+                    style="color: black;">${event.startDateTime.year}/${event.startDateTime.monthValue}/${event.startDateTime.dayOfMonth}
+                    godz. ${event.getStartDateTime().toLocalTime()}
             </div>
         </div>
+    </div>
+</section>
 
-        </div>
-    </section>
+<section class="counters2 counters cid-qzbW9mqBmg" id="counters2-18" data-rv-view="314">
 
-    <section class="counters2 counters cid-qzbW9mqBmg" id="counters2-18" data-rv-view="314">
+    <div class="container pt-4 mt-2">
+        <div class="media-container-row">
+            <div class="media-block" style="width: 50%;">
+                <h2 class="mbr-section-title pb-3 align-left mbr-fonts-style display-2">
+                    Wskazówki dojazdu
+                </h2>
+                <h3 class="mbr-section-subtitle pb-5 align-left mbr-fonts-style display-5">
 
-        <div class="container pt-4 mt-2">
-            <div class="media-container-row">
-                <div class="media-block" style="width: 50%;">
-                    <h2 class="mbr-section-title pb-3 align-left mbr-fonts-style display-2">
-                        Wskazówki dojazdu
-                    </h2>
-                         <h3 class="mbr-section-subtitle pb-5 align-left mbr-fonts-style display-5">
-
-                         </h3>
-                    <div class="mbr-figure">
-                        <div class="google-map"><iframe frameborder="0" style="border:0; height: 400px"  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0Dx_boXQiwvdz8sJHoYeZNVTdoWONYkU&amp;q=place_id:ChIJaaxo_lSDPUcRno-mYFwjFrA" allowfullscreen=""></iframe></div>
-                    </div>
-                </div>
-                <div class="cards-block">
-                    <h2 class="mbr-section-title mb-3" style="color: red"> Twoja rezerwacja została potwierdzona pomyślnie !
-                    </h2>
-                    <p class="mb-5">Dziękujemy za skorzystanie z naszj strony.
-                        Zapraszamy na spotkanie. Poniżej znajdziesz szczegóły Twojej rezerwacji.
-                    </p>
-                    <div class="cards-container">
-
-                        <div class="card px-3 align-center col-12 col-md-6">
-                            <div class="panel-item p-3">
-                                <div class="card-text">
-                                    <h4 style="color: #0f77f6">${therapist.specialization}</h4>
-                                </div>
-                                <div class="card-text">
-                                    <h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
-                                        <br>${therapist.firstName} ${therapist.lastName}
-                                    </h4>
-                                    <p class="mbr-content-text mbr-fonts-style display-7">
-                                        email: ${therapist.email}<br>
-                                        tel.
-                                        <c:if test="${therapist.telephone.length()==0}">
-                                                brak
-                                        </c:if>
-                                        ${therapist.telephone}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card px-3 align-center col-12 col-md-6">
-                            <div class="panel-item p-3">
-                                <div class="card-text">
-                                    <h4 style="color: #0f77f6">Typ spotkania</h4>
-                                </div>
-                                <div class="card-text">
-                                    <h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
-                                        <br>${event.eventType.eventTypeId}
-                                    </h4>
-                                    <p class="mbr-content-text mbr-fonts-style display-7">
-                                        Maksymalna liczba uczestników : ${event.eventType.seats} <br>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card px-3 align-center col-12 col-md-6">
-                            <div class="panel-item p-3">
-                                <div class="card-text">
-                                    <h4 style="color: #0f77f6">Czas i miejsce spotkania</h4>
-                                </div>
-                                <div class="card-text">
-           <%--                         <h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
-
-                                    </h4>--%>
-                                    <p class="mbr-content-text mbr-fonts-style display-7">
-                                        <br>Data: ${event.startDateTime.dayOfMonth} - ${event.startDateTime.monthValue} - ${event.startDateTime.year}
-                                        <br>Godzina: ${event.getStartDateTime().toLocalTime()}
-                                        <br>Sala nr: ${event.room}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card px-3 align-center col-12 col-md-6">
-                            <div class="panel-item p-3">
-                                <div class="card-text">
-                                    <h4 style="color: red">Anuluj rezerwację</h4>
-                                </div>
-                                <div class="card-text">
-                                    <h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
-                                        <!-- informacje dodatkowe pogrubione -->
-                                    </h4>
-                                    <p class="mbr-content-text mbr-fonts-style display-7">
-                                        Aby anulować swoją rezerwację, <a
-                                            href="/my-reservation-${confirmationCode}/cancel">kliknij tutaj</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                </h3>
+                <div class="mbr-figure">
+                    <div class="google-map">
+                        <iframe frameborder="0" style="border:0; height: 400px"
+                                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0Dx_boXQiwvdz8sJHoYeZNVTdoWONYkU&amp;q=place_id:ChIJaaxo_lSDPUcRno-mYFwjFrA"
+                                allowfullscreen=""></iframe>
                     </div>
                 </div>
             </div>
+            <div class="cards-block">
+                <h2 class="mbr-section-title mb-3 align-center" style="color: red"> Twoja rezerwacja została potwierdzona pomyślnie !
+                </h2>
+                <p class="mb-5 align-center">Dziękujemy za skorzystanie z naszj strony.
+                    Zapraszamy na spotkanie. Poniżej znajdziesz szczegóły Twojej rezerwacji.
+                </p>
+                <div class="cards-container">
+
+                    <div class="card px-3 align-center col-12 col-md-6">
+                        <div class="panel-item p-3">
+                            <div class="card-text">
+                                <h4 style="color: #0f77f6">${therapist.specialization}</h4>
+                            </div>
+                            <div class="card-text">
+                                <h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
+                                    <br>${therapist.firstName} ${therapist.lastName}
+                                </h4>
+                                <p class="mbr-content-text mbr-fonts-style display-7">
+                                    email: ${therapist.email}<br>
+                                    tel.
+                                    <c:if test="${therapist.telephone.length()==0}">
+                                        brak
+                                    </c:if>
+                                    ${therapist.telephone}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card px-3 align-center col-12 col-md-6">
+                        <div class="panel-item p-3">
+                            <div class="card-text">
+                                <h4 style="color: #0f77f6">Typ spotkania</h4>
+                            </div>
+                            <div class="card-text">
+                                <h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
+                                    <br>${event.eventType.eventTypeId}
+                                </h4>
+                                <p class="mbr-content-text mbr-fonts-style display-7">
+                                    Maksymalna liczba uczestników : ${event.eventType.seats} <br>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card px-3 align-center col-12 col-md-6">
+                        <div class="panel-item p-3">
+                            <div class="card-text">
+                                <h4 style="color: #0f77f6">Czas i miejsce spotkania</h4>
+                            </div>
+                            <div class="card-text">
+                                <%--                         <h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
+
+                                                         </h4>--%>
+                                <p class="mbr-content-text mbr-fonts-style display-7">
+                                    <br>Data: ${event.startDateTime.dayOfMonth} - ${event.startDateTime.monthValue}
+                                    - ${event.startDateTime.year}
+                                    <br>Godzina: ${event.getStartDateTime().toLocalTime()}
+                                    <br>Sala nr: ${event.room}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card px-3 align-center col-12 col-md-6">
+                        <div class="panel-item p-3">
+                            <div class="card-text">
+                                <h4 style="color: red">Anuluj rezerwację</h4>
+                            </div>
+                            <div class="card-text">
+                                <h4 class="mbr-content-title mbr-bold mbr-fonts-style display-7">
+                                    <!-- informacje dodatkowe pogrubione -->
+                                </h4>
+                                <p class="mbr-content-text mbr-fonts-style display-7">
+                                    Aby anulować swoją rezerwację, <a
+                                        href="/my-reservation-${confirmationCode}/cancel">kliknij tutaj</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
+</section>
 
 <!-- footer -->
 

@@ -70,7 +70,6 @@ public class ClientService {
     @Autowired
     EventService eventService;
 
-
     public ModelAndView therapistsList(HttpSession session) {
         ModelAndView model = new ModelAndView("home");
         model.addObject("therapists", therapistDAO.findAllByLoginDetails_UserRole("ROLE_DBA"));
@@ -155,24 +154,16 @@ public class ClientService {
         } else {
             //generate confirmationCode
             String key = keyGeneratorService.generate(eventId + (client.getEmail()));
-            //send key to client's email
-            String text1 = "Gratulacje. Udało Ci się zarezerwować termin spotkania.<br>"+event.getTherapist().getSpecialization()+
-                    " "+event.getTherapist().getFirstName()+" "+event.getTherapist().getLastName()+". <br>Data: " +
-                    event.getStartDateTime().toLocalDate()+" godz. " +event.getStartDateTime().toLocalTime()+"<br>Sala nr: "+event.getRoom()+
-                    "<br><br>Teraz prosimy o potwierdzenie obecności. <br> ";
-            String text2 = "Oto Twój kod potwierdzenia: ";
-            String text3 = "Aby potwierdzić swoją obecność przejdź na ";
-            String confirmPageUrl = "http://localhost:8080/confirm-reservation";
-            String text4 = " i wprowadź swój kod rezerwacji. W przeciwnym razie Twoja rezerwacja zostanie automatycznie usunięta.";
-            String confirmationLinkName = "stronę potwierdzenia";
-            emailService.sendHtmlEmail(client.getEmail(), "Potwierdź swoją rezerwację",text1,text2,text3,
-                    confirmPageUrl,text4,confirmationLinkName, key);
+            //save reservation
             Reservation rr = new Reservation();
             rr.setClient(client);
             rr.setEvent(event);
             rr.setConfirmed(false);
             rr.setConfirmationCode(key);
             reservationDAO.save(rr);
+            //send confirmation email to client
+            String confirmPageUrl = "http://localhost:8080/confirm-reservation";
+            emailService.sendHtmlEmail(rr, client.getEmail(), 'n', confirmPageUrl);
 
         }
         //if number of participants is greater than seats then set event free to busy(false)
@@ -221,9 +212,13 @@ public class ClientService {
                 //inform therapist
                 emailService.sendEmail(reservation.getEvent().getTherapist().getEmail(),"Nowa rezerwacja",
                         "Witaj. \n Osoba o adresie email: "+reservation.getClient().getEmail()+
-                                " Zarezerwowała i potwierdziła swoją obecność na spotkaniu, które odbędzie się dnia: "+reservation.getEvent().getStartDateTime().toLocalDate()
-                                +" o godzinie "+reservation.getEvent().getStartDateTime().toLocalTime()+"\nTyp spotkania: "
+                                " numerze telefonu: "+reservation.getClient().getTelephone()+
+                                " Zarezerwowała i potwierdziła swoją obecność na spotkaniu, które odbędzie się dnia: "+
+                                reservation.getEvent().getStartDateTime().toLocalDate() +" o godzinie "+
+                                reservation.getEvent().getStartDateTime().toLocalTime()+"\nTyp spotkania: "
                                 +reservation.getEvent().getEventType().getEventTypeId());
+
+                //save reservation
                 reservationDAO.save(reservation);
                 ModelAndView model2 = new ModelAndView("client/details");
                 model2.addObject("information", new String("Rezerwacja potwierdzona"));
@@ -293,10 +288,13 @@ public class ClientService {
         //inform therapist
         emailService.sendEmail(r.getEvent().getTherapist().getEmail(),"Odwołano rezerwację",
                 "Witaj. \n Osoba o adresie email: "+r.getClient().getEmail()+
+                        " numerze telefonu: "+r.getClient().getTelephone()+
                         " ODWOŁAŁA REZERWACJĘ z dnia: "+r.getEvent().getStartDateTime().toLocalDate()
                         +" godz. "+r.getEvent().getStartDateTime().toLocalTime()+"\nTyp spotkania: "
                         +r.getEvent().getEventType().getEventTypeId());
 
+        //inform client
+        emailService.sendHtmlEmail(r,r.getClient().getEmail(),'c',"");
         //delete reservation
         reservationDAO.deleteReservationsByConfirmationCode(confirmationCode);
         //if number of participants is greater than seats then set event free to busy(false)
@@ -306,8 +304,6 @@ public class ClientService {
             eventDAO.save(event);
         }
 
-
         return modelAndView;
     }
-
 }
