@@ -216,7 +216,7 @@ public class ClientService {
                 reservation.setConfirmed(true);
                 //inform therapist
                 emailService.sendEmail(reservation.getEvent().getTherapist().getEmail(), "Nowa rezerwacja",
-                        "Witaj. \n Osoba o adresie email: " + reservation.getClient().getEmail() +
+                        "Witaj. \nOsoba o adresie email: " + reservation.getClient().getEmail() +
                                 " numerze telefonu: " + reservation.getClient().getTelephone() +
                                 " Zarezerwowała i potwierdziła swoją obecność na spotkaniu, które odbędzie się dnia: " +
                                 reservation.getEvent().getStartDateTime().toLocalDate() + " o godzinie " +
@@ -292,7 +292,7 @@ public class ClientService {
 
         //inform therapist
         emailService.sendEmail(r.getEvent().getTherapist().getEmail(), "Odwołano rezerwację",
-                "Witaj. \n Osoba o adresie email: " + r.getClient().getEmail() +
+                "Witaj. \nOsoba o adresie email: " + r.getClient().getEmail() +
                         " numerze telefonu: " + r.getClient().getTelephone() +
                         " ODWOŁAŁA REZERWACJĘ z dnia: " + r.getEvent().getStartDateTime().toLocalDate()
                         + " godz. " + r.getEvent().getStartDateTime().toLocalTime() + "\nTyp spotkania: "
@@ -303,8 +303,7 @@ public class ClientService {
         //delete reservation
         reservationDAO.deleteReservationsByConfirmationCode(confirmationCode);
         //if number of participants is greater than seats then set event free to busy(false)
-        if (event.nrOfParticipants() < eventTypeDAO.findByEventTypeId(
-                event.getEventType().getEventTypeId()).getSeats()) {
+        if (event.nrOfParticipants() - 1 < event.getEventType().getSeats()){
             event.setFree(Boolean.TRUE);
             eventDAO.save(event);
         }
@@ -325,6 +324,14 @@ public class ClientService {
             if (!reservation.isConfirmed()) {
                 reservation.setConfirmed(Boolean.TRUE);
             }
+            //inform therapist
+            emailService.sendEmail(reservation.getEvent().getTherapist().getEmail(), "Nowa rezerwacja",
+                    "Witaj. \nOsoba o adresie email: " + reservation.getClient().getEmail() +
+                            " numerze telefonu: " + reservation.getClient().getTelephone() +
+                            " Zarezerwowała i potwierdziła swoją obecność na spotkaniu, które odbędzie się dnia: " +
+                            reservation.getEvent().getStartDateTime().toLocalDate() + " o godzinie " +
+                            reservation.getEvent().getStartDateTime().toLocalTime() + "\nTyp spotkania: "
+                            + reservation.getEvent().getEventType().getEventTypeId());
             model.addObject("information", ("Rezerwacja potwierdzona"));
             model.addObject("therapist", therapistDAO.findByTherapistId(reservation.getEvent().
                     getTherapist().getTherapistId()));

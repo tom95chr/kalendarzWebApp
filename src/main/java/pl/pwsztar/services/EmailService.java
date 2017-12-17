@@ -15,34 +15,16 @@ import java.util.Properties;
 @Service
 public class EmailService {
 
-    /*@Value("${email.username}")*/
-    protected String username = "dzialpomocy.pwsztar@gmail.com";
-    /*@Value("${email.password}")*/
-    protected String password = "1qazxsw23edc";
-   /* @Value("${email.username}")*/
-    protected String mailEmailFrom = "dzialpomocy.pwsztar@gmail.com";
+    @Value("${email.username}")
+    protected String username;
+    @Value("${email.password}")
+    protected String password;
+    @Value("${email.username}")
+    protected String mailEmailFrom;
     protected String mailSmtpAuth = "true";
     protected String mailSmtpHost = "smtp.gmail.com";
     protected String mailSmtpPort = "587";
     protected String mailSmtpStarttlsEnable = "true";
-
-    /*public static void main(String[] args) {
-        EmailService emailService = new EmailService();
-    *//*    emailService.sendEmail("tom-chr@wp.pl","Temat maila2", "Tresc miala2");
-        String text1 = "Gratulacje. Udało Ci się zarezerwować termin spotkania. psychoterapeutą. Czekamy na Ciebie dnia" +
-                "<br>Teraz prosimy o potwierdzenie swojej obecności. <br> ";
-        String text2 = "Oto Twój kod potwierdzenia: ";
-        String text3 = "Aby potwierdzić swoją obecność przejdź na ";
-        String confirmPageUrl = "http://localhost:8080/confirm-reservation";
-        String text4 = " i wprowadź swój kod rezerwacji. W przeciwnym razie Twoja rezerwacja zostanie automatycznie usunięta.";
-        String confirmationLinkName = "stronę potwierdzenia";
-        emailService.sendHtmlEmail("tom-chr@wp.pl", "Potwierdź swoją rezerwację",text1,text2,text3,
-                confirmPageUrl,text4,confirmationLinkName, "key");
-        emailService.sendHtmlEmail2("tom.chr22@gmail.com","elo witam");*//*
-
-        emailService.sendHtmlEmail2(reservation,"tom.chr22@gmail.com",'n',"localhost:8080/");
-
-    }*/
 
     public void sendHtmlEmail(Reservation reservation, String recipientEmail, Character messageType, String confirmationUrl) {
 
@@ -99,7 +81,7 @@ public class EmailService {
                 footer = "<br>W każdym momencie możesz podglądnąć szczegóły swojej rezerwacji klikając w przycisk powyżej ↑ ↑ ↑";
                 footer2 = "UWAGA! Jeśli nie potwierdzisz swojej rezerwacji w przeciągu 10 minut od momentu otrzymania " +
                         "niniejszej wiadomości, to Twoja rezerwacja zostanie automatycznie usunięta, a wybrany przez " +
-                        "Ciebie termin znów pojawi się jako dostępny.Jeśli zrezygnujesz z wzięcia udziału w spotkaniu," +
+                        "Ciebie termin znów pojawi się jako dostępny. Jeśli zrezygnujesz z wzięcia udziału w spotkaniu," +
                         " prosimy o anulację rezerwacji na stronie szczegółów rezerwacji (kliknij w przycisk " +
                         ",,Potwierdź / Zobacz rezerwację'' a następnie anuluj rezerwację.)";
                 break;
@@ -497,7 +479,7 @@ public class EmailService {
         }
     }
 
-    public boolean sendEmail(String recipientEmail, String subject, String content) {
+    public void sendEmail(String recipientEmail, String subject, String content) {
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", mailSmtpAuth);
@@ -521,12 +503,11 @@ public class EmailService {
             message.setText(content);
 
             Transport.send(message);
-            return true;
+
         } catch (MessagingException e) {
             e.printStackTrace();
         }
 
-        return false;
     }
 
     public void resetPasswordEmail(String recipientEmail, String subject, String token, String emailToken) {

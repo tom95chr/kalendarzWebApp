@@ -211,10 +211,10 @@
                         DANE KONTAKTOWE
                     </h2>
                     <h3 class="mbr-section-subtitle align-center mbr-light pb-3 mbr-fonts-style display-5">
-                        Aby się zapisać na wybrany termin wystarczy, że podasz swój adres email. Upewnij się, podany
-                        email
-                        jest prawidłowy. Zostanie na niego wysłany kod potwierdzenia. Opcjonalnie możesz też dodać
-                        numer telefonu co ułatwi nam kontakt w razie ewentualnych zmian.
+                        Aby się zapisać na wybrany termin wystarczy, że podasz swój adres email i numer telefonu.
+                        Upewnij się, podany email jest prawidłowy. Zostanie na niego wysłany kod potwierdzenia. Nie
+                        przechowujemy Twoich danych, a dostęp do danych kontaktowych ma tylko i wyłącznie terapeuta do
+                        którego zapiszesz się na spotkanie.
                     </h3>
                 </div>
             </div>
