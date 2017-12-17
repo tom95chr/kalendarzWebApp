@@ -206,7 +206,7 @@
                                             <div class="form-group ${status.error ? 'has-error' : ''}">
                                                 <form:input type="date" path="startDate" class="form-control"
                                                             placeholder="Data"></form:input>
-                                                <form:errors path="startDate"></form:errors>
+                                                <form:errors path="startDate" cssStyle="color: red"></form:errors>
                                             </div>
                                         </spring:bind>
                                     </div>
@@ -219,7 +219,7 @@
                                             <div class="form-group ${status.error ? 'has-error' : ''}">
                                                 <form:input type="time" path="startTime" class="form-control"
                                                             placeholder="Godzina"></form:input>
-                                                <form:errors path="startTime"></form:errors>
+                                                <form:errors path="startTime" cssStyle="color: red"></form:errors>
                                             </div>
                                         </spring:bind>
                                     </div>

@@ -134,60 +134,62 @@
         </div>
     </div>
 </div>
-</section><section class="countdown2 cid-qzc7TOs7aU" id="countdown2-1b" data-rv-view="863">
 
-<br>
+
+<section class="section-table cid-qz9pczK0Ee mbr-parallax-background countdown2 cid-qzc7TOs7aU" id="table1-t" data-rv-view="89">
+
     <div class="container">
-
+        <br>
         <c:if test="${events.size()>0}">
-            <h2 class="align-center pb-2 mbr-fonts-style display-2">
-                Nie czekaj aż ktoś inny Cię wyprzedzi. <br>Najbliższe spotkanie już za:
-            </h2>
+        <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-2"
+            style="color: white; background-color:rgba(0, 0, 0, 0.8)">
+            ${therapist.firstName} ${therapist.lastName} - dostępne terminy spotkań
+        </h2>
+        </c:if>
+        <c:if test="${events.size()>0}">
+            <h3 class="mbr-section-subtitle mbr-fonts-style align-center pb-5 mbr-light display-5"
+                style="font-weight: bold; color: black">
+                <br>Nie czekaj aż ktoś inny Cię wyprzedzi. Zarezerwuj termin już teraz.
+            </h3>
         </c:if>
         <c:if test="${events.size()==0}">
-            <h2 class="align-center pb-2 mbr-fonts-style display-2">
-                Aktualnie brak wolnych terminów u tego specjalisty. Przepraszamy.
+            <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-2"
+                style="color: red; background-color:rgba(0, 0, 0, 0.8); font-weight: 500">
+                    Aktualnie brak wolnych terminów spotkań u tego specjalisty.
             </h2>
         </c:if>
 
     </div>
     <c:if test="${events.size()>0}">
-    <div class="container pt-5 mt-2">
-        <div class=" countdown-cont align-center p-4">
-            <div class="event-name align-left mbr-white ">
-                <h4 class="mbr-fonts-style display-5"></h4>
-            </div>
-            <div class="countdown align-center py-2" data-due-date="${events[0].startDateTime.year}/${events[0].startDateTime.monthValue}/${events[0].startDateTime.dayOfMonth}/${events[0].startDateTime.hour}:${events[0].startDateTime.minute}">
-            </div>
-            <div class="daysCountdown" title="Dzień/Dni"></div>
-            <div class="hoursCountdown" title="Godzin/y"></div>
-            <div class="minutesCountdown" title="Minut/y"></div>
-            <div class="secondsCountdown" title="Sekund/y"></div>
-            <div class="event-date align-left mbr-white">
-                <h5 class="mbr-fonts-style display-7" style="color: black;">${events[0].startDateTime.year}/${events[0].startDateTime.monthValue}/${events[0].startDateTime.dayOfMonth} godz. ${events[0].startDateTime.toLocalTime()}</h5>
+        <div class="container pt-5 mt-2">
+            <div class=" countdown-cont align-center p-4">
+                <div class="event-name align-left mbr-white ">
+                    <h4 class="mbr-fonts-style display-5" style="color: black">Do najbliższego spotkania pozostało:</h4>
+                </div>
+                <div class="countdown align-center py-2" data-due-date="${events[0].startDateTime.year}/${events[0].startDateTime.monthValue}/${events[0].startDateTime.dayOfMonth}/${events[0].startDateTime.hour}:${events[0].startDateTime.minute}">
+                </div>
+                <div class="daysCountdown" title="Dzień/Dni"></div>
+                <div class="hoursCountdown" title="Godzin/y"></div>
+                <div class="minutesCountdown" title="Minut/y"></div>
+                <div class="secondsCountdown" title="Sekund/y"></div>
+                <div class="event-date align-left mbr-white">
+                    <h5 class="mbr-fonts-style display-7" style="color: black;">${events[0].startDateTime.year}/${events[0].startDateTime.monthValue}/${events[0].startDateTime.dayOfMonth} godz. ${events[0].startDateTime.toLocalTime()}</h5>
+                </div>
             </div>
         </div>
-    </div>
     </c:if>
-</section>
-
-<c:if test="${events.size()>0}">
-<section class="section-table cid-qz9pczK0Ee mbr-parallax-background" id="table1-t" data-rv-view="89">
-
-
+    <c:if test="${events.size()>0}">
     <div class="container">
         <div class="row">
 
             <div class="card col-sm-12">
                 <div class="container container-table">
-                    <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-2">
-                        Dostępne terminy
-                    </h2>
-                    <h3 class="mbr-section-subtitle mbr-fonts-style align-center pb-5 mbr-light display-5" style="color: black">
-                        Wyszukuj, sortuj, znajdź interesujący Cię termin.
-                    </h3>
                     <div class="table-wrapper">
                         <div class="container">
+                            <h3 class="mbr-section-subtitle mbr-fonts-style align-center pb-5 mbr-light display-5"
+                                style="font-weight: bold; color: black; padding-bottom: 10px ">
+                                <br><br>Wyszukuj, sortuj, znajdź interesujący Cię termin spotkania.
+                            </h3>
                             <div class="row search">
                                 <div class="col-sm-6"></div>
                                 <div class="col-sm-6">
