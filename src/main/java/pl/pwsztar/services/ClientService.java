@@ -86,11 +86,16 @@ public class ClientService {
         //removing events where nr. of participants >= free seats
         Iterator<Event> it = events.iterator();
         LocalDateTime now = LocalDateTime.now();
+        //10 minutes added for lazy students :>
+        // (when he will by late to event and want to check event details)
+        now = now.plusMinutes(10);
+        //time before eventStart when clients are not allowed to make reservation
+        LocalDateTime nowPlus = now.plusHours(24);
         //deleting events older than "now"
         //!!!! ONLY PERFORMED EVENTS ARE STORED IN event_history !!!
         while (it.hasNext()) {
             Event e = it.next();
-            if (e.getFree() != Boolean.TRUE || e.getStartDateTime().isBefore(now)) {
+            if (e.getFree() != Boolean.TRUE || e.getStartDateTime().isBefore(nowPlus)) {
                 //remove from view list
                 it.remove();
             }
