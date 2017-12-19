@@ -26,6 +26,9 @@ public class EmailService {
     protected String mailSmtpPort = "587";
     protected String mailSmtpStarttlsEnable = "true";
 
+    @Value("${site.url}")
+    String siteUrl;
+
     public void sendHtmlEmail(Reservation reservation, String recipientEmail, Character messageType, String confirmationUrl) {
 
         Properties props = new Properties();
@@ -419,7 +422,7 @@ public class EmailService {
                             "          <div class=\"content\">\n" +
                             "\n" +
                             "            <!-- START CENTERED WHITE CONTAINER -->\n" +
-                            "            <span class=\"preheader\">Kod rezerwacji: "+code+"</span>\n" +
+                            "            <span class=\"preheader\">Witaj. Oto unikalny kod Twojej rezerwacji: "+code+"</span>\n" +
                             "            <table class=\"main\">\n" +
                             "\n" +
                             "              <!-- START MAIN CONTENT AREA -->\n" +
@@ -542,7 +545,7 @@ public class EmailService {
             message.setSubject(subject);
 
             // Send the actual HTML message, as big as you like
-            message.setContent("<head></head><body><a href=http://localhost:8080/reset-"+token+"-"+emailToken+">" +
+            message.setContent("<head></head><body><a href="+siteUrl+"reset-"+token+"-"+emailToken+">" +
                             "Kliknij tutaj aby zresetować hasło</a><br><p>Zostaniesz przekierowany do " +
                             "formularza odzyskiwania hasła.</p>",
                     "text/html; charset=utf-8");

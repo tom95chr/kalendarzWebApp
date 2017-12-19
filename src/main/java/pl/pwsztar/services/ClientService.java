@@ -1,6 +1,7 @@
 package pl.pwsztar.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -69,6 +70,9 @@ public class ClientService {
 
     @Autowired
     EventService eventService;
+
+    @Value("${site.url}")
+    String siteUrl;
 
     public ModelAndView therapistsList(HttpSession session) {
         ModelAndView model = new ModelAndView("home");
@@ -167,7 +171,7 @@ public class ClientService {
             rr.setConfirmationCode(key);
             reservationDAO.save(rr);
             //send confirmation email to client
-            String confirmPageUrl = "http://localhost:8080/confirm-"+key;
+            String confirmPageUrl = siteUrl+"confirm-"+key;
             emailService.sendHtmlEmail(rr, client.getEmail(), 'n', confirmPageUrl);
 
         }
