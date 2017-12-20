@@ -69,41 +69,34 @@
                         class="mbri-plus mbr-iconfont mbr-iconfont-btn"></span>
                     Utwórz spotkanie</a></li>
                 <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
-                    <li class="nav-item"><a class="nav-link link text-white display-4" href="/therapist-events"><span
-                            class="mbri-smile-face mbr-iconfont mbr-iconfont-btn"></span>Terapeuta</a></li>
-                </sec:authorize>
-                <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
                     <li class="nav-item"><a class="nav-link link text-white display-4" href="/edit-profile"><span
                             class="mbri-contact-form mbr-iconfont mbr-iconfont-btn"></span>Edytuj profil</a></li>
+                </sec:authorize>
+                <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
+                    <li class="nav-item"><a class="nav-link link text-white display-4" href="/therapist-events"><span
+                            class="mbri-smile-face mbr-iconfont mbr-iconfont-btn"></span>Terapeuta</a></li>
                 </sec:authorize>
                 <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
                     <li class="nav-item"><a class="nav-link link text-white display-4" href="/admin"><span
                             class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>Admin</a></li>
                 </sec:authorize>
             </ul>
-            <!-- login button -->
-            <%
-                if (session.getAttribute("loggedUser")=="anonymousUser" || session.getAttribute("loggedUser")==null){
-            %>
-            <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
-                                                           href="/login"><span
-                    class="mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>
+            <!-- not logged -->
+            <sec:authorize access="isAnonymous()">
 
-                Login
-            </a></div>
-            <%
-            } else {
-            %>
-            <div class="navbar-buttons mbr-section-btn"><a class=" btn btn-primary display-7" data-toggle="modal"
-                                                           data-target="#loginModal"><span
-                    class="mbri-lock mbr-iconfont mbr-iconfont-btn"></span>
-                <%= session.getAttribute("loggedUser")%>
-                <%
-                    }
-                %>
-                <!-- login button -->
-
-            </a></div>
+                <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
+                                                               href="/login"><span
+                        class="mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>
+                    Login
+                </a></div>
+            </sec:authorize>
+            <!--logged-->
+            <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
+                <div class="navbar-buttons mbr-section-btn"><a class=" btn btn-primary display-7" data-toggle="modal" data-target="#loginModal"><span
+                        class="mbri-lock mbr-iconfont mbr-iconfont-btn"></span>
+                    <sec:authentication property="principal.username" />
+                </a></div>
+            </sec:authorize>
         </div>
     </nav>
 </section>
@@ -121,7 +114,10 @@
 
             <!-- Modal body -->
             <div class="modal-body align-center">
-                <h5 class="modal-title" style="color: black; font-weight: bold"><%= session.getAttribute("loggedUser")%>
+                <h5 class="modal-title" style="color: black; font-weight: bold">
+                    <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
+                        <sec:authentication property="principal.username" />
+                    </sec:authorize>
                 </h5>
                 <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
                                                                href="/logout"><span
@@ -363,7 +359,7 @@
             <div class="media-container-row mbr-white">
                 <div class="col-sm-6 copyright">
                     <p class="mbr-text mbr-fonts-style display-7">
-                        © Copyright 2017</p>
+                        © Copyright 2018</p>
                 </div>
                 <div class="col-md-6">
 
