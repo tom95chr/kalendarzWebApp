@@ -154,13 +154,13 @@
 
         <%--<h5>${info1}</h5>
             <p>${info2} swoją rezerwację, proszę podać kod rezerwacji.</p>--%>
-        <div class="row py-2 justify-content-center">
-            <div class="col-12 col-lg-8  col-md-8 " data-form-type="formoid">
+        <div class="row py-2 align center justify-content-center">
+            <div class="col-12 col-lg-8 col-md-8 " data-form-type="formoid">
 
                 <form:form class="form-group" method="POST" modelAttribute="confirmationCode">
                 <div class="row row-sm-offset">
                     <spring:bind path="code">
-                        <div class="form-group col-md-10 multi-horizontal" data-for="code ${status.error ? 'has-error' : ''}">
+                        <div class="form-group col-md-12 multi-horizontal" data-for="code ${status.error ? 'has-error' : ''}">
                             <form:input type="text" path="code" class="form-control" placeholder="Kod"></form:input>
                             <form:errors path="code" cssStyle="color: red"></form:errors>
                         </div>
@@ -168,9 +168,8 @@
 
 
                     <p style="color: red">${confirmationFailed}</p>
-
                     <spring:bind path="recaptchaResponse">
-                        <div class="form-group col-md-6 multi-horizontal" data-for="recaptchaResponse ${status.error ? 'has-error' : ''}">
+                        <div class="form-group col-md-8 multi-horizontal" data-for="recaptchaResponse ${status.error ? 'has-error' : ''}">
                             <div id="g-recaptcha"></div>
                             <form:hidden path="recaptchaResponse"/>
                             <script type="text/javascript">
@@ -193,7 +192,6 @@
                             <form:errors path="recaptchaResponse" cssStyle="color: red"></form:errors>
                         </div>
                     </spring:bind>
-
                     <span class="form-group col-md-4 multi-horizontal" data-for="recaptchaResponse input-group-btn ">
                         <button id="submitButton" disabled type="submit" class="btn btn-primary display-4 justify-content-center">Zatwierdź</button>
                     </span>

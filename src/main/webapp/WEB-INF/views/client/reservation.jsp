@@ -240,10 +240,9 @@
                                 <form:errors path="telephone" cssStyle="color: red"></form:errors>
                             </div>
                         </spring:bind>
-                            <div class="form-group col-md-3 multi-horizontal">
-                            </div>
+
                             <spring:bind path="recaptchaResponse">
-                                <div class="form-group col-md-4 multi-horizontal" data-for="recaptchaResponse ${status.error ? 'has-error' : ''}">
+                                <div class="form-group col-md-4 multi-horizontal justify-content-end" data-for="recaptchaResponse ${status.error ? 'has-error' : ''}">
                                     <div id="g-recaptcha"></div>
                                     <form:hidden path="recaptchaResponse"/>
                                     <script type="text/javascript">
@@ -269,8 +268,6 @@
                             <span class="form-group col-md-4 multi-horizontal" data-for="recaptchaResponse input-group-btn ">
                                 <button id="submitButton" disabled type="submit" class="btn btn-primary display-4 justify-content-center">Zatwierdź</button>
                             </span>
-                            <div class="form-group col-md-1 multi-horizontal">
-                            </div>
                         </div>
                     </form:form>
         </div>
