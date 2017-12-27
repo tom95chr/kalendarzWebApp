@@ -78,28 +78,22 @@
                             class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>Admin</a></li>
                 </sec:authorize>
             </ul>
-            <!-- login button -->
-            <%
-                if (session.getAttribute("loggedUser")=="anonymousUser" || session.getAttribute("loggedUser")==null){
-                    %>
-            <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
-                                                           href="/login"><span
-                    class="mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>
+            <!-- not logged -->
+            <sec:authorize access="isAnonymous()">
 
-                Login
-            </a></div>
-            <%
-            } else{
-            %>
-            <div class="navbar-buttons mbr-section-btn"><a class=" btn btn-primary display-7" data-toggle="modal" data-target="#loginModal"><span
-                    class="mbri-lock mbr-iconfont mbr-iconfont-btn"></span>
-                <%= session.getAttribute("loggedUser")%>
-                <%
-                    }
-                %>
-                <!-- login button -->
-
-            </a></div>
+                <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
+                                                               href="/login"><span
+                        class="mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>
+                    Login
+                </a></div>
+            </sec:authorize>
+            <!--logged-->
+            <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
+                <div class="navbar-buttons mbr-section-btn"><a class=" btn btn-primary display-7" data-toggle="modal" data-target="#loginModal"><span
+                        class="mbri-lock mbr-iconfont mbr-iconfont-btn"></span>
+                    <sec:authentication property="principal.username" />
+                </a></div>
+            </sec:authorize>
         </div>
     </nav>
 </section>
@@ -117,7 +111,11 @@
 
             <!-- Modal body -->
             <div class="modal-body align-center">
-                <h5 class="modal-title" style="color: black; font-weight: bold"><%= session.getAttribute("loggedUser")%></h5>
+                <h5 class="modal-title" style="color: black; font-weight: bold">
+                    <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
+                        <sec:authentication property="principal.username" />
+                    </sec:authorize>
+                </h5>
                 <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
                                                                href="/logout"><span
                         class="mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>
@@ -134,59 +132,64 @@
         </div>
     </div>
 </div>
-</section><section class="countdown2 cid-qzc7TOs7aU" id="countdown2-1b" data-rv-view="863">
 
-<br>
+
+<section class="section-table cid-qz9pczK0Ee mbr-parallax-background countdown2 cid-qzc7TOs7aU" id="table1-t" data-rv-view="89">
+
     <div class="container">
-
+        <br>
         <c:if test="${events.size()>0}">
-            <h2 class="align-center pb-2 mbr-fonts-style display-2">
-                Nie czekaj aż ktoś inny Cię wyprzedzi. <br>Najbliższe spotkanie już za
-            </h2>
+        <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-2"
+            style="color: white; background-color:rgba(0, 0, 0, 0.8)">
+            ${therapist.firstName} ${therapist.lastName} - dostępne terminy spotkań
+        </h2>
+        </c:if>
+        <c:if test="${events.size()>0}">
+            <h3 class="mbr-section-subtitle mbr-fonts-style align-center pb-5 mbr-light display-5"
+                style="font-weight: bold; color: black">
+                <br>Nie czekaj aż ktoś inny Cię wyprzedzi. Zarezerwuj termin już teraz. Możliwość zapisu zostanie
+                wyłączona 24 godziny przed rozpoczęciem spotkania.
+            </h3>
         </c:if>
         <c:if test="${events.size()==0}">
-            <h2 class="align-center pb-2 mbr-fonts-style display-2">
-                Aktualnie brak wolnych terminów u tego specjalisty. Przepraszamy
+            <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-2"
+                style="color: red; background-color:rgba(0, 0, 0, 0.8); font-weight: 500">
+                    Aktualnie brak wolnych terminów spotkań u tego specjalisty.
             </h2>
+            <br><br><br><br><br><br><br>
         </c:if>
 
     </div>
     <c:if test="${events.size()>0}">
-    <div class="container pt-5 mt-2">
-        <div class=" countdown-cont align-center p-4">
-            <div class="event-name align-left mbr-white ">
-                <h4 class="mbr-fonts-style display-5"></h4>
-            </div>
-            <div class="countdown align-center py-2" data-due-date="${events[0].startDateTime.year}/${events[0].startDateTime.monthValue}/${events[0].startDateTime.dayOfMonth}/${events[0].startDateTime.hour}:${events[0].startDateTime.minute}">
-            </div>
-            <div class="daysCountdown" title="Dzień/Dni"></div>
-            <div class="hoursCountdown" title="Godzin/y"></div>
-            <div class="minutesCountdown" title="Minut/y"></div>
-            <div class="secondsCountdown" title="Sekund/y"></div>
-            <div class="event-date align-left mbr-white">
-                <h5 class="mbr-fonts-style display-7" style="color: black;">${events[0].startDateTime.year}/${events[0].startDateTime.monthValue}/${events[0].startDateTime.dayOfMonth} godz. ${events[0].startDateTime.toLocalTime()}</h5>
+        <div class="container pt-5 mt-2">
+            <div class=" countdown-cont align-center p-4">
+                <div class="event-name align-left mbr-white ">
+                    <h4 class="mbr-fonts-style display-5" style="color: black">Do najbliższego spotkania pozostało:</h4>
+                </div>
+                <div class="countdown align-center py-2" data-due-date="${events[0].startDateTime.year}/${events[0].startDateTime.monthValue}/${events[0].startDateTime.dayOfMonth}/${events[0].startDateTime.hour}:${events[0].startDateTime.minute}">
+                </div>
+                <div class="daysCountdown" title="Dzień/Dni"></div>
+                <div class="hoursCountdown" title="Godzin/y"></div>
+                <div class="minutesCountdown" title="Minut/y"></div>
+                <div class="secondsCountdown" title="Sekund/y"></div>
+                <div class="event-date align-left mbr-white">
+                    <h5 class="mbr-fonts-style display-7" style="color: black;">${events[0].startDateTime.year}/${events[0].startDateTime.monthValue}/${events[0].startDateTime.dayOfMonth} godz. ${events[0].startDateTime.toLocalTime()}</h5>
+                </div>
             </div>
         </div>
-    </div>
     </c:if>
-</section>
-
-<section class="section-table cid-qz9pczK0Ee mbr-parallax-background" id="table1-t" data-rv-view="89">
-
-
+    <c:if test="${events.size()>0}">
     <div class="container">
         <div class="row">
 
-            <div class="card col-sm-6">
+            <div class="card col-sm-12">
                 <div class="container container-table">
-                    <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-2">
-                        Dostępne terminy
-                    </h2>
-                    <h3 class="mbr-section-subtitle mbr-fonts-style align-center pb-5 mbr-light display-5" style="color: black">
-                        Wyszukuj, sortuj, znajdź interesujący Cię termin.
-                    </h3>
                     <div class="table-wrapper">
                         <div class="container">
+                            <h3 class="mbr-section-subtitle mbr-fonts-style align-center pb-5 mbr-light display-5"
+                                style="font-weight: bold; color: black; padding-bottom: 10px ">
+                                <br><br>Wyszukuj, sortuj, znajdź interesujący Cię termin spotkania.
+                            </h3>
                             <div class="row search">
                                 <div class="col-sm-6"></div>
                                 <div class="col-sm-6">
@@ -202,20 +205,23 @@
                             <table class="table isSearch" cellspacing="0">
                                 <thead>
                                 <tr class="table-heads ">
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
-                                        Wybierz
+                                    <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
+                                        Typ spotkania
                                     </th>
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
-                                        Typ
-                                    </th>
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
+                                    <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
                                         Data
                                     </th>
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
-                                        Godz.
+                                    <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
+                                        Godzina
                                     </th>
-                                    <th class="head-item mbr-fonts-style display-7" style="font-size: small">
-                                        Trwa
+                                    <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
+                                        Czas trwania
+                                    </th>
+                                    <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
+                                        Wolne miejsca:
+                                    </th>
+                                    <th class="head-item mbr-fonts-style display-7 align-center" style="font-size: small">
+                                        Wybierz
                                     </th>
                                 </tr>
                                 </thead>
@@ -224,13 +230,14 @@
 
                                 <c:forEach items="${events}" var="event" varStatus="status">
                                     <tr>
+                                        <td class="body-item mbr-fonts-style display-7 align-center" style="font-size: small">${event.eventType.eventTypeId}</td>
+                                        <td class="body-item mbr-fonts-style display-7 align-center" style="font-size: small">${event.startDateTime.dayOfMonth}-${event.startDateTime.monthValue}-${event.startDateTime.year}</td>
+                                        <td class="body-item mbr-fonts-style display-7 align-center" style="font-size: small">${event.startDateTime.toLocalTime()}</td>
+                                        <td class="body-item mbr-fonts-style display-7 align-center" style="font-size: small">${event.calculateDuration()}min.</td>
+                                        <td class="body-item mbr-fonts-style display-7 align-center" style="font-size: small">${event.eventType.seats-event.nrOfParticipants()}</td>
                                         <td class="body-item bg-success align-center" style="font-size: medium">
                                             <a href="/therapist-event-${event.eventId}">wybierz</a>
                                         </td>
-                                        <td class="body-item mbr-fonts-style display-7" style="font-size: small">${event.eventType.eventTypeId}</td>
-                                        <td class="body-item mbr-fonts-style display-7 align-right" style="font-size: small">${event.startDateTime.dayOfMonth}-${event.startDateTime.monthValue}-${event.startDateTime.year}</td>
-                                        <td class="body-item mbr-fonts-style display-7" style="font-size: small">${event.startDateTime.toLocalTime()}</td>
-                                        <td class="body-item mbr-fonts-style display-7" style="font-size: small">${event.calculateDuration()}min.</td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -254,14 +261,10 @@
                     </div>
                 </div>
             </div>
-            <div class="card col-sm-6 col-md-6">
-                <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showPrint=0&amp;showTabs=0&amp;
-            showCalendars=1&amp;showTz=0&amp;mode=WEEK&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=${therapist.googleCalendarId}&amp;color=%235229A3&amp;ctz=Europe%2FWarsaw"
-                        style="border-width:0" width="500" height="600" frameborder="0" scrolling="no"></iframe>
-            </div>
         </div>
     </div>
 </section>
+</c:if>
 
 <!-- footer -->
 
@@ -280,16 +283,15 @@
             <div class="col-12 col-md-3 mbr-fonts-style display-7">
                 <h5 class="pb-3">
                     Adres</h5>
-                <p class="mbr-text">Poradnia Terapeutyczna<br>PWSZ Tarnów<br>ul. Mickiewicza 8,<br> 33-100 Tarnów<br>
+                <p class="mbr-text">Uczelniane Centrum Wsparcia<br>PWSZ Tarnów<br>ul. Mickiewicza 8,<br> 33-100 Tarnów<br>
                 </p>
             </div>
             <div class="col-12 col-md-3 mbr-fonts-style display-7">
                 <h5 class="pb-3">Linki</h5>
                 <p class="mbr-text">
-                    <a class="text-primary" href="https://mobirise.com/">Website builder</a>
-                    <br><a class="text-primary" href="https://mobirise.com/mobirise-free-win.zip">Download for
-                    Windows</a>
-                    <br><a class="text-primary" href="https://mobirise.com/mobirise-free-mac.zip">Download for Mac</a>
+                    <a class="text-primary" href="https://pwsztar.edu.pl/">PWSZ w Tarnowie</a>
+                    <br><a class="text-primary" href=""></a>
+                    <br><a class="text-primary" href=""></a>
                 </p>
             </div>
             <div class="col-12 col-md-3 mbr-fonts-style display-7">
@@ -335,7 +337,7 @@
             <div class="media-container-row mbr-white">
                 <div class="col-sm-6 copyright">
                     <p class="mbr-text mbr-fonts-style display-7">
-                        © Copyright 2017</p>
+                        © Copyright 2018</p>
                 </div>
                 <div class="col-md-6">
 

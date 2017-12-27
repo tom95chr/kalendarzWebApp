@@ -15,8 +15,6 @@ public class RegistrationDTO {
     private String password;
     private String passwordConfirm;
     private String userRole;
-    //google
-    private String colour;
 
     public String getFirstName() {
         return firstName;
@@ -64,14 +62,6 @@ public class RegistrationDTO {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
-    }
-
-    public String getColour() {
-        return colour;
-    }
-
-    public void setColour(String colour) {
-        this.colour = colour;
     }
 
     public String getPassword() {

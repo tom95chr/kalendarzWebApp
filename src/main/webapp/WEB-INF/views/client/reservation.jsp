@@ -77,29 +77,22 @@
                             class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>Admin</a></li>
                 </sec:authorize>
             </ul>
-            <!-- login button -->
-            <%
-                if (session.getAttribute("loggedUser") == "anonymousUser" || session.getAttribute("loggedUser") == null) {
-            %>
-            <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
-                                                           href="/login"><span
-                    class="mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>
+            <!-- not logged -->
+            <sec:authorize access="isAnonymous()">
 
-                Login
-            </a></div>
-            <%
-            } else {
-            %>
-            <div class="navbar-buttons mbr-section-btn"><a class=" btn btn-primary display-7" data-toggle="modal"
-                                                           data-target="#loginModal"><span
-                    class="mbri-lock mbr-iconfont mbr-iconfont-btn"></span>
-                <%= session.getAttribute("loggedUser")%>
-                <%
-                    }
-                %>
-                <!-- login button -->
-
-            </a></div>
+                <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
+                                                               href="/login"><span
+                        class="mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>
+                    Login
+                </a></div>
+            </sec:authorize>
+            <!--logged-->
+            <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
+                <div class="navbar-buttons mbr-section-btn"><a class=" btn btn-primary display-7" data-toggle="modal" data-target="#loginModal"><span
+                        class="mbri-lock mbr-iconfont mbr-iconfont-btn"></span>
+                    <sec:authentication property="principal.username" />
+                </a></div>
+            </sec:authorize>
         </div>
     </nav>
 </section>
@@ -117,7 +110,10 @@
 
             <!-- Modal body -->
             <div class="modal-body align-center">
-                <h5 class="modal-title" style="color: black; font-weight: bold"><%= session.getAttribute("loggedUser")%>
+                <h5 class="modal-title" style="color: black; font-weight: bold">
+                    <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
+                        <sec:authentication property="principal.username" />
+                    </sec:authorize>
                 </h5>
                 <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
                                                                href="/logout"><span
@@ -155,7 +151,10 @@
                             </h4>
                             <p class="mbr-content-text mbr-fonts-style display-7">
                                 email: ${therapist.email}<br>
-                                tel. ${therapist.telephone}
+                                tel. <c:if test="${therapist.telephone.length()==0}">
+                                        brak
+                                      </c:if>
+                                    ${therapist.telephone}
                             </p>
                         </div>
                     </div>
@@ -208,10 +207,10 @@
                         DANE KONTAKTOWE
                     </h2>
                     <h3 class="mbr-section-subtitle align-center mbr-light pb-3 mbr-fonts-style display-5">
-                        Aby się zapisać na wybrany termin wystarczy, że podasz swój adres email. Upewnij się, podany
-                        email
-                        jest prawidłowy. Zostanie na niego wysłany kod potwierdzenia. Opcjonalnie możesz też dodać
-                        numer telefonu co ułatwi nam kontakt w razie ewentualnych zmian.
+                        Aby się zapisać na wybrany termin wystarczy, że podasz swój adres email i numer telefonu.
+                        Upewnij się, podany email jest prawidłowy. Zostanie na niego wysłany kod potwierdzenia. Nie
+                        przechowujemy Twoich danych, a dostęp do danych kontaktowych ma tylko i wyłącznie terapeuta do
+                        którego zapiszesz się na spotkanie.
                     </h3>
                 </div>
             </div>
@@ -223,28 +222,27 @@
                             <div class="form-group col-md-4 multi-horizontal" data-for="email ${status.error ? 'has-error' : ''}">
                                 <form:input type="text" path="email" class="form-control"
                                             placeholder="Adres email"></form:input>
-                                <form:errors path="email"></form:errors>
+                                <form:errors path="email" cssStyle="color: red"></form:errors>
                             </div>
                         </spring:bind>
                         <spring:bind path="emailConfirm">
                             <div class="form-group col-md-4 multi-horizontal" data-for="emailConfirm ${status.error ? 'has-error' : ''}">
                                 <form:input type="email" path="emailConfirm" class="form-control"
                                             placeholder="Podaj email jeszcze raz"></form:input>
-                                <form:errors path="emailConfirm"></form:errors>
+                                <form:errors path="emailConfirm" cssStyle="color: red"></form:errors>
                             </div>
                         </spring:bind>
 
                         <spring:bind path="telephone">
                             <div class="form-group col-md-4 multi-horizontal" data-for="telephone ${status.error ? 'has-error' : ''}">
-                                <form:input type="text" path="telephone" class="form-control"
-                                            placeholder="Telefon (opcjonalnie)"></form:input>
-                                <form:errors path="telephone"></form:errors>
+                                <form:input type="tel" path="telephone" class="form-control"
+                                            placeholder="Telefon"></form:input>
+                                <form:errors path="telephone" cssStyle="color: red"></form:errors>
                             </div>
                         </spring:bind>
-                            <div class="form-group col-md-3 multi-horizontal">
-                            </div>
+
                             <spring:bind path="recaptchaResponse">
-                                <div class="form-group col-md-4 multi-horizontal" data-for="recaptchaResponse ${status.error ? 'has-error' : ''}">
+                                <div class="form-group col-md-4 multi-horizontal justify-content-end" data-for="recaptchaResponse ${status.error ? 'has-error' : ''}">
                                     <div id="g-recaptcha"></div>
                                     <form:hidden path="recaptchaResponse"/>
                                     <script type="text/javascript">
@@ -270,8 +268,6 @@
                             <span class="form-group col-md-4 multi-horizontal" data-for="recaptchaResponse input-group-btn ">
                                 <button id="submitButton" disabled type="submit" class="btn btn-primary display-4 justify-content-center">Zatwierdź</button>
                             </span>
-                            <div class="form-group col-md-1 multi-horizontal">
-                            </div>
                         </div>
                     </form:form>
         </div>
@@ -294,16 +290,15 @@
             <div class="col-12 col-md-3 mbr-fonts-style display-7">
                 <h5 class="pb-3">
                     Adres</h5>
-                <p class="mbr-text">Poradnia Terapeutyczna<br>PWSZ Tarnów<br>ul. Mickiewicza 8,<br> 33-100 Tarnów<br>
+                <p class="mbr-text">Uczelniane Centrum Wsparcia<br>PWSZ Tarnów<br>ul. Mickiewicza 8,<br> 33-100 Tarnów<br>
                 </p>
             </div>
             <div class="col-12 col-md-3 mbr-fonts-style display-7">
                 <h5 class="pb-3">Linki</h5>
                 <p class="mbr-text">
-                    <a class="text-primary" href="https://mobirise.com/">Website builder</a>
-                    <br><a class="text-primary" href="https://mobirise.com/mobirise-free-win.zip">Download for
-                    Windows</a>
-                    <br><a class="text-primary" href="https://mobirise.com/mobirise-free-mac.zip">Download for Mac</a>
+                    <a class="text-primary" href="https://pwsztar.edu.pl/">PWSZ w Tarnowie</a>
+                    <br><a class="text-primary" href=""></a>
+                    <br><a class="text-primary" href=""></a>
                 </p>
             </div>
             <div class="col-12 col-md-3 mbr-fonts-style display-7">
@@ -349,7 +344,7 @@
             <div class="media-container-row mbr-white">
                 <div class="col-sm-6 copyright">
                     <p class="mbr-text mbr-fonts-style display-7">
-                        © Copyright 2017</p>
+                        © Copyright 2018</p>
                 </div>
 
             </div>

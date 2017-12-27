@@ -19,6 +19,7 @@ public class ClientValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty");
 
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "telephone", "NotEmpty");
         if (!c.getEmailConfirm().equals(c.getEmail())) {
             errors.rejectValue("emailConfirm", "Diff.client.emailConfirm");
         }

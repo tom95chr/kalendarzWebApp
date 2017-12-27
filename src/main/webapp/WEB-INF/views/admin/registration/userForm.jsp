@@ -71,29 +71,22 @@
                             class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>Admin</a></li>
                 </sec:authorize>
             </ul>
-            <!-- login button -->
-            <%
-                if (session.getAttribute("loggedUser")=="anonymousUser" || session.getAttribute("loggedUser")==null){
-            %>
-            <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
-                                                           href="/login"><span
-                    class="mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>
+            <!-- not logged -->
+            <sec:authorize access="isAnonymous()">
 
-                Login
-            </a></div>
-            <%
-            } else {
-            %>
-            <div class="navbar-buttons mbr-section-btn"><a class=" btn btn-primary display-7" data-toggle="modal"
-                                                           data-target="#loginModal"><span
-                    class="mbri-lock mbr-iconfont mbr-iconfont-btn"></span>
-                <%= session.getAttribute("loggedUser")%>
-                <%
-                    }
-                %>
-                <!-- login button -->
-
-            </a></div>
+                <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
+                                                               href="/login"><span
+                        class="mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>
+                    Login
+                </a></div>
+            </sec:authorize>
+            <!--logged-->
+            <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
+                <div class="navbar-buttons mbr-section-btn"><a class=" btn btn-primary display-7" data-toggle="modal" data-target="#loginModal"><span
+                        class="mbri-lock mbr-iconfont mbr-iconfont-btn"></span>
+                    <sec:authentication property="principal.username" />
+                </a></div>
+            </sec:authorize>
         </div>
     </nav>
 </section>
@@ -111,7 +104,10 @@
 
             <!-- Modal body -->
             <div class="modal-body align-center">
-                <h5 class="modal-title" style="color: black; font-weight: bold"><%= session.getAttribute("loggedUser")%>
+                <h5 class="modal-title" style="color: black; font-weight: bold">
+                    <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
+                        <sec:authentication property="principal.username" />
+                    </sec:authorize>
                 </h5>
                 <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
                                                                href="/logout"><span
@@ -158,7 +154,7 @@
                                            for="firstName-form1-1n">Imię</label>
                                     <form:input type="text" path="firstName" class="form-control" placeholder="Imię"
                                                 id="firstName-form1-1n" maxlength="50"></form:input>
-                                    <form:errors path="firstName"></form:errors>
+                                    <form:errors path="firstName" cssStyle="color: red"></form:errors>
                                 </div>
                             </spring:bind>
                         </div>
@@ -169,7 +165,7 @@
                                     <label class="form-control-label mbr-fonts-style display-7" for="lastName-form1-1n">Nazwisko</label>
                                     <form:input type="text" path="lastName" class="form-control" placeholder="Nazwisko"
                                                 id="lastName-form1-1n" maxlength="50"></form:input>
-                                    <form:errors path="lastName"></form:errors>
+                                    <form:errors path="lastName" cssStyle="color: red"></form:errors>
                                 </div>
                             </spring:bind>
                         </div>
@@ -182,7 +178,7 @@
                                     <form:input type="text" path="specialization" class="form-control"
                                                 placeholder="Specjalizacja"
                                                 id="specialization-form1-1n" maxlength="50"></form:input>
-                                    <form:errors path="specialization"></form:errors>
+                                    <form:errors path="specialization" cssStyle="color: red"></form:errors>
                                 </div>
                             </spring:bind>
                         </div>
@@ -194,7 +190,7 @@
                                         email</label>
                                     <form:input type="email" path="email" class="form-control" placeholder="Email"
                                                 id="email-form1-1n" maxlength="50"></form:input>
-                                    <form:errors path="email"></form:errors>
+                                    <form:errors path="email" cssStyle="color: red"></form:errors>
                                 </div>
                             </spring:bind>
                         </div>
@@ -206,7 +202,7 @@
                                            for="telephone-form1-1n">Telefon</label>
                                     <form:input type="tel" path="telephone" class="form-control" placeholder="Telefon"
                                                 id="telephone-form1-1n" maxlength="20"></form:input>
-                                    <form:errors path="telephone"></form:errors>
+                                    <form:errors path="telephone" cssStyle="color: red"></form:errors>
                                 </div>
                             </spring:bind>
                         </div>
@@ -217,7 +213,7 @@
                                     <label class="form-control-label mbr-fonts-style display-7" for="password-form1-1n">Hasło</label>
                                     <form:input type="password" path="password" class="form-control" placeholder="Hasło"
                                                 id="password-form1-1n" maxlength="50"></form:input>
-                                    <form:errors path="password"></form:errors>
+                                    <form:errors path="password" cssStyle="color: red"></form:errors>
                                 </div>
                             </spring:bind>
                         </div>
@@ -230,29 +226,16 @@
                                     <form:input type="password" path="passwordConfirm" class="form-control"
                                                 placeholder="Powtórz hasło"
                                                 id="passwordConfirm-form1-1n" maxlength="50"></form:input>
-                                    <form:errors path="passwordConfirm"></form:errors>
+                                    <form:errors path="passwordConfirm" cssStyle="color: red"></form:errors>
                                 </div>
                             </spring:bind>
                         </div>
 
-                        <div class="col-md-6 multi-horizontal" data-for="colour">
-                            <spring:bind path="colour">
-                                <div class="form-group ${status.error ? 'has-error' : ''}">
-                                    <label class="form-control-label mbr-fonts-style display-7" for="colour-form1-1n">Wybierz
-                                        kolor</label>
-                                    <form:select class="form-control" id="colour-form1-1n" name="colour" path="colour">
-                                        <c:forEach items="${colours}" var="colour" varStatus="status">
-                                            <option value="${colour.colourCode}">${colour.colourId}</option>
-                                        </c:forEach>
-                                    </form:select>
-                                </div>
-                            </spring:bind>
-                        </div>
                         <div class="col-md-6 multi-horizontal" data-for="userRole">
                             <spring:bind path="userRole">
                                 <div class="form-group ${status.error ? 'has-error' : ''}">
                                     <label class="form-control-label mbr-fonts-style display-7" for="userRole-form1-1n">Wybierz
-                                        rolę</label>
+                                        rolę użytkownika</label>
                                     <form:select class="form-control" id="userRole-form1-1n" name="userRole"
                                                  path="userRole">
                                         <option value="ROLE_DBA">Terapeuta</option>
@@ -260,6 +243,8 @@
                                     </form:select>
                                 </div>
                             </spring:bind>
+                        </div>
+                        <div class="col-md-6 multi-horizontal" data-for="whiteSpace">
                         </div>
 
                     </div>
@@ -302,16 +287,15 @@
             <div class="col-12 col-md-3 mbr-fonts-style display-7">
                 <h5 class="pb-3">
                     Adres</h5>
-                <p class="mbr-text">Poradnia Terapeutyczna<br>PWSZ Tarnów<br>ul. Mickiewicza 8,<br> 33-100 Tarnów<br>
+                <p class="mbr-text">Uczelniane Centrum Wsparcia<br>PWSZ Tarnów<br>ul. Mickiewicza 8,<br> 33-100 Tarnów<br>
                 </p>
             </div>
             <div class="col-12 col-md-3 mbr-fonts-style display-7">
                 <h5 class="pb-3">Linki</h5>
                 <p class="mbr-text">
-                    <a class="text-primary" href="https://mobirise.com/">Website builder</a>
-                    <br><a class="text-primary" href="https://mobirise.com/mobirise-free-win.zip">Download for
-                    Windows</a>
-                    <br><a class="text-primary" href="https://mobirise.com/mobirise-free-mac.zip">Download for Mac</a>
+                    <a class="text-primary" href="https://pwsztar.edu.pl/">PWSZ w Tarnowie</a>
+                    <br><a class="text-primary" href=""></a>
+                    <br><a class="text-primary" href=""></a>
                 </p>
             </div>
             <div class="col-12 col-md-3 mbr-fonts-style display-7">
@@ -357,7 +341,7 @@
             <div class="media-container-row mbr-white">
                 <div class="col-sm-6 copyright">
                     <p class="mbr-text mbr-fonts-style display-7">
-                        © Copyright 2017</p>
+                        © Copyright 2018</p>
                 </div>
                 <div class="col-md-6">
 
