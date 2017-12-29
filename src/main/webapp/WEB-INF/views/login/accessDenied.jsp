@@ -74,29 +74,22 @@
 							class="mbri-star mbr-iconfont mbr-iconfont-btn"></span>Admin</a></li>
 				</sec:authorize>
 			</ul>
-			<!-- login button -->
-			<%
-				if (session.getAttribute("loggedUser")=="anonymousUser" || session.getAttribute("loggedUser")==null){
-			%>
-			<div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
-														   href="/login"><span
-					class="mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>
+			<!-- not logged -->
+			<sec:authorize access="isAnonymous()">
 
-				Login
-			</a></div>
-			<%
-			} else {
-			%>
-			<div class="navbar-buttons mbr-section-btn"><a class=" btn btn-primary display-7" data-toggle="modal"
-														   data-target="#loginModal"><span
-					class="mbri-lock mbr-iconfont mbr-iconfont-btn"></span>
-				<%= session.getAttribute("loggedUser")%>
-				<%
-					}
-				%>
-				<!-- login button -->
-
-			</a></div>
+				<div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
+															   href="/login"><span
+						class="mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>
+					Login
+				</a></div>
+			</sec:authorize>
+			<!--logged-->
+			<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
+				<div class="navbar-buttons mbr-section-btn"><a class=" btn btn-primary display-7" data-toggle="modal" data-target="#loginModal"><span
+						class="mbri-lock mbr-iconfont mbr-iconfont-btn"></span>
+					<sec:authentication property="principal.username" />
+				</a></div>
+			</sec:authorize>
 		</div>
 	</nav>
 </section>
@@ -114,7 +107,10 @@
 
 			<!-- Modal body -->
 			<div class="modal-body align-center">
-				<h5 class="modal-title" style="color: black; font-weight: bold"><%= session.getAttribute("loggedUser")%>
+				<h5 class="modal-title" style="color: black; font-weight: bold">
+					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DBA')">
+						<sec:authentication property="principal.username" />
+					</sec:authorize>
 				</h5>
 				<div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-7"
 															   href="/logout"><span
@@ -159,16 +155,15 @@
 			<div class="col-12 col-md-3 mbr-fonts-style display-7">
 				<h5 class="pb-3">
 					Adres</h5>
-				<p class="mbr-text">Poradnia Terapeutyczna<br>PWSZ Tarnów<br>ul. Mickiewicza 8,<br> 33-100 Tarnów<br>
+				<p class="mbr-text">Uczelniane Centrum Wsparcia<br>PWSZ Tarnów<br>ul. Mickiewicza 8,<br> 33-100 Tarnów<br>
 				</p>
 			</div>
 			<div class="col-12 col-md-3 mbr-fonts-style display-7">
 				<h5 class="pb-3">Linki</h5>
 				<p class="mbr-text">
-					<a class="text-primary" href="https://mobirise.com/">Website builder</a>
-					<br><a class="text-primary" href="https://mobirise.com/mobirise-free-win.zip">Download for
-					Windows</a>
-					<br><a class="text-primary" href="https://mobirise.com/mobirise-free-mac.zip">Download for Mac</a>
+					<a class="text-primary" href="https://pwsztar.edu.pl/">PWSZ w Tarnowie</a>
+					<br><a class="text-primary" href=""></a>
+					<br><a class="text-primary" href=""></a>
 				</p>
 			</div>
 			<div class="col-12 col-md-3 mbr-fonts-style display-7">
@@ -214,7 +209,7 @@
 			<div class="media-container-row mbr-white">
 				<div class="col-sm-6 copyright">
 					<p class="mbr-text mbr-fonts-style display-7">
-						© Copyright 2017</p>
+						© Copyright 2018</p>
 				</div>
 				<div class="col-md-6">
 

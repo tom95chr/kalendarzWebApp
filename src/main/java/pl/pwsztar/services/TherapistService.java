@@ -31,9 +31,6 @@ public class TherapistService {
     TherapistDAO therapistDAO;
 
     @Autowired
-    GoogleCalendar googleCalendar;
-
-    @Autowired
     LoginDetailsDAO loginDetailsDAO;
 
     @Autowired
@@ -76,7 +73,6 @@ public class TherapistService {
         List<Event> events = eventDAO.findByTherapist_EmailOrderByStartDateTime(
                 loginService.getPrincipal());
         model.addObject("events", events);
-        model.addObject("therapists", therapistDAO.findAll());
 
         LocalDateTime now = LocalDateTime.now();
         //move to history and create participant list
@@ -95,7 +91,7 @@ public class TherapistService {
     public ModelAndView createEventGet() {
         ModelAndView modelAndView = new ModelAndView("therapist/createEvent");
         modelAndView.addObject("eventTypes", eventTypeDAO.findAll());
-        modelAndView.addObject("therapists", therapistDAO.findAll());
+        modelAndView.addObject("events", eventDAO.findByTherapist_EmailOrderByStartDateTime(loginService.getPrincipal()));
         modelAndView.addObject("eventDTO", new EventDTO());
         return modelAndView;
     }
@@ -107,7 +103,7 @@ public class TherapistService {
 
         if (bindingResult.hasErrors()) {
             model.addObject("eventTypes", eventTypeDAO.findAll());
-            model.addObject("therapists", therapistDAO.findAll());
+            model.addObject("events", eventDAO.findByTherapist_EmailOrderByStartDateTime(loginService.getPrincipal()));
             return model;
         }
         //endDateTime = startdate + startTime + duration
@@ -115,29 +111,25 @@ public class TherapistService {
         LocalDateTime startPlusMins = eventDTO.getStartDateTime().plusMinutes(eventDTO.getDuration());
         eventDTO.setEndDateTime(startPlusMins);
 
-        //date format changed for google
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         //cyclic events creation
         Integer nr = eventDTO.getNumberOfRepetitions();
         if (nr == null) nr = 0;
 
         for (int i = 0; i <= nr; i++) {
-
-            String startDate = eventDTO.getStartDateTime().format(formatter);
-            String endDate = eventDTO.getEndDateTime().format(formatter);
-            System.out.println(startDate);
             Event collidedEvent = therapistService.detectCollisionsByTherapist(eventDTO, "");
 
             if (collidedEvent != null) {
                 model.addObject("collidedEvent", collidedEvent);
                 model.addObject("eventTypes", eventTypeDAO.findAll());
-                model.addObject("therapists", therapistDAO.findAll());
+                model.addObject("events", eventDAO.findByTherapist_EmailOrderByStartDateTime(loginService.getPrincipal()));
                 return model;
             } else {
                 try {
-                    String eventId = googleCalendar.createEvent(therapistDAO.findByEmail(loginService.getPrincipal()).getGoogleCalendarId(),
-                            "wolny", "free", startDate + ":00.000+01:00",
-                            endDate + ":00.000+01:00");
+                    //eventId = datetime + s +room
+                    String eventId = eventDTO.getStartDateTime().toString()+"s"+eventDTO.getRoom();
+                    //remove special signs from eventId
+                    String eventId2 = eventId.replaceAll("-","");
+                    eventId = eventId2.replaceAll(":","");
 
                     Event event = new Event();
                     event.setEventId(eventId);
@@ -152,9 +144,6 @@ public class TherapistService {
                     eventDTO = therapistService.addOneWeek(eventDTO);
                     //just for form view
                     model.addObject("successInfo", "Nowe spotkanie / spotkania zostały utworzone pomyślnie");
-                } catch (IOException e) {
-                    model.addObject("info", "NIEPRZEWIDZIANY BŁĄD NIE UTWORZONO SPOTAKANIA");
-                    e.printStackTrace();
                 } catch (Exception e) {
                     model.addObject("info", "NIEPRZEWIDZIANY BŁĄD NIE UTWORZONO SPOTAKANIA");
                     e.printStackTrace();
@@ -163,7 +152,7 @@ public class TherapistService {
         }
 
         model.addObject("eventTypes", eventTypeDAO.findAll());
-        model.addObject("therapists", therapistDAO.findAll());
+        model.addObject("events", eventDAO.findByTherapist_EmailOrderByStartDateTime(loginService.getPrincipal()));
         return model;
 
     }
@@ -173,13 +162,14 @@ public class TherapistService {
         ModelAndView model = new ModelAndView("redirect:/therapist-events");
         List<Reservation> listOfParticipants = reservationDAO.findAllByEvent(eventDAO.findByEventId(eventId));
         //c = cancellation
-        emailService.sendMultiple(listOfParticipants, 'c');
+        for (Reservation reservation : listOfParticipants) {
+            emailService.sendHtmlEmail(reservation,reservation.getClient().getEmail(),'c',"");
+        }
         try {
             reservationDAO.deleteReservationsByEvent_EventId(eventId);
-            googleCalendar.deleteEvent(eventDAO.findByEventId(eventId).getTherapist().getGoogleCalendarId(), eventId);
             eventDAO.deleteByEventId(eventId);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return model;
@@ -233,7 +223,8 @@ public class TherapistService {
         model.addObject("event", eventDAO.findByEventId(eventId));
         model.addObject("eventDTO", new EventDTO());
         model.addObject("types", getEventTypesId(eventTypeDAO.findAll(), eventId));
-        model.addObject("therapists",therapistDAO.findAll());
+        model.addObject("events", eventDAO.findByTherapist_EmailOrderByStartDateTime(loginService.getPrincipal()));
+
         return model;
     }
 
@@ -271,7 +262,7 @@ public class TherapistService {
             m2.addObject("event", eventDAO.findByEventId(eventId));
             m2.addObject("eventDTO", new EventDTO());
             m2.addObject("types", getEventTypesId(eventTypeDAO.findAll(), eventId));
-            model.addObject("therapists",therapistDAO.findAll());
+            m2.addObject("events", eventDAO.findByTherapist_EmailOrderByStartDateTime(loginService.getPrincipal()));
             m2.addObject("editError", "Nic nie zmieniono");
             return m2;
         }
@@ -284,7 +275,7 @@ public class TherapistService {
                 m2.addObject("event", eventDAO.findByEventId(eventId));
                 m2.addObject("eventDTO", new EventDTO());
                 m2.addObject("types", getEventTypesId(eventTypeDAO.findAll(), eventId));
-                model.addObject("therapists",therapistDAO.findAll());
+                m2.addObject("events", eventDAO.findByTherapist_EmailOrderByStartDateTime(loginService.getPrincipal()));
                 m2.addObject("editError", "Nie można zmienić typu spotkania, ponieważ " +
                         "ilość zapisanych osób jest większa niż ilość wolnych miejsc.");
                 return m2;
@@ -314,7 +305,7 @@ public class TherapistService {
                 m2.addObject("event", eventDAO.findByEventId(eventId));
                 m2.addObject("eventDTO", new EventDTO());
                 m2.addObject("types", getEventTypesId(eventTypeDAO.findAll(), eventId));
-                model.addObject("therapists",therapistDAO.findAll());
+                m2.addObject("events", eventDAO.findByTherapist_EmailOrderByStartDateTime(loginService.getPrincipal()));
                 m2.addObject("collidedEvent", collidedEvent);
                 return m2;
             }
@@ -326,28 +317,8 @@ public class TherapistService {
             String endDate = eventDTO.getEndDateTime().format(formatter);
 
             String therapistEmail = loginService.getPrincipal();
-            try {
-                Boolean isUpdated = googleCalendar.editEvent(therapistEmail, eventId, startDate +
-                        ":59.000+01:00", endDate + ":59.000+01:00", availability);
-
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
         }
-        //when time/date not changed
-        else {
-            try {
-                String therapistEmail = loginService.getPrincipal();
-                Boolean isUpdated = googleCalendar.editEvent(therapistEmail, eventId, availability);
 
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-        }
         if (!e.getRoom().equals(eventDTO.getRoom()))
             e.setRoom(eventDTO.getRoom());
         //save
@@ -356,20 +327,25 @@ public class TherapistService {
         List<Reservation> r = reservationDAO.findAllByEvent(e);
         if (r.size() > 0) {
             //e = edited
-            emailService.sendMultiple(r, 'e');
+            for (Reservation reservation : r) {
+                emailService.sendHtmlEmail(reservation,reservation.getClient().getEmail(),'e',"");
+            }
         }
-
         return model;
     }
 
     public ModelAndView dropParticipant(String confirmationCode){
         Reservation reservation = reservationDAO.findByConfirmationCode(confirmationCode);
         String eventId = reservationDAO.findByConfirmationCode(confirmationCode).getEvent().getEventId();
-        ModelAndView modelAndView = new ModelAndView("redirect:/therapist-events-event-"+eventId+"-participants");
+        ModelAndView modelAndView = new ModelAndView("redirect:/event-"+eventId+"-participants");
         Event event = eventDAO.findByEventId(eventId);
+        //set event - free, when nr of participants < free seats
         if (event.nrOfParticipants() - 1 < event.getEventType().getSeats()){
             event.setFree(Boolean.TRUE);
         }
+        //inform participant
+        emailService.sendHtmlEmail(reservation,reservation.getClient().getEmail(),'c',"");
+        //delete reservation
         reservationDAO.delete(reservation);
         return modelAndView;
     }

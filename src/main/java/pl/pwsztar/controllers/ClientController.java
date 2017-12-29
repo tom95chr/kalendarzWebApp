@@ -90,4 +90,9 @@ public class ClientController {
     public ModelAndView cancelReservation(@PathVariable("confirmationCode") String confirmationCode){
         return clientService.cancelReservation(confirmationCode);
     }
+
+    @RequestMapping(value = "/confirm-{confirmationCode}", method = RequestMethod.GET)
+    public ModelAndView confirmReservationByLink(@PathVariable("confirmationCode") String confirmationCode){
+        return clientService.confirmReservationByLink(confirmationCode);
+    }
 }
